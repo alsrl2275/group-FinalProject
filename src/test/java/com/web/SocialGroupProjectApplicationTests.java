@@ -8,7 +8,7 @@ class SocialGroupProjectApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("ㅎㅇ");
+		System.out.println("33333");
 	}
 
 }
