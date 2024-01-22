@@ -10,9 +10,16 @@ tmp/
 *.swp
 *~.nib
 local.properties
+
 .settings/
 .loadpath
 .recommenders
+
+# pom.properties추가 (잦은 충돌)
+/pom.properties
+
+# classpath 추가
+.classpath
 
 # Ignore node_modules directory
 node_modules/
