@@ -1,0 +1,40 @@
+/* styles.css */
+
+.Selected {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    height: 30px; /* 높이 조절 */
+}
+
+.Inputed {
+    width: 500px;
+    display: flex;
+}
+
+.Inputed2 {
+    background-color: yellow;
+    color: red;
+    border: none;
+    height: 30px; /* 높이 조절 */
+}
+
+/* 600px 이하일 때의 반응형 스타일 */
+@media (max-width: 600px) {
+    .Selected {
+        /* 원하는 반응형 스타일 추가 */
+        height: 30px; /* 예시: 높이를 20px로 조절 */
+    }
+
+    .Inputed {
+        /* 원하는 반응형 스타일 추가 */
+        width: 100%; /* 예시: 너비를 100%로 조절 */
+    }
+
+    .Inputed2 {
+        /* 원하는 반응형 스타일 추가 */
+        height: 30px; /* 예시: 높이를 20px로 조절 */
+    }
+}

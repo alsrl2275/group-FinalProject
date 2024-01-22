@@ -1,0 +1,71 @@
+/* Header.styles.css */
+
+.header-container {
+    background-color: skyblue;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-link {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.home-link:hover {
+    text-decoration: underline;
+}
+
+.nav-links-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    margin: 0 10px; /* 링크 간격 추가 */
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .home-link {
+        font-size: 16px;
+        order: 1;
+        margin-bottom: 0;
+        align-self: flex-start; /* 수정: 홈 링크를 왼쪽으로 정렬 */
+    }
+
+    .nav-links-container {
+        flex-direction: column;
+        align-items: flex-start; /* 수정: 왼쪽으로 정렬 */
+        justify-content: center;
+        margin-top: 10px;
+        order: 3;
+    }
+
+    .nav-link {
+        font-size: 16px;
+        margin: 5px 0; /* 세로 정렬 간격 조정 */
+    }
+
+    .dropdown-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end; /* 수정: 드롭다운을 화면 오른쪽으로 정렬 */
+        margin-top: 10px;
+        order: 2;
+    }
+}
