@@ -1,27 +1,11 @@
-import styled from "styled-components";
+import "../../css/Select.css"; // CSS 파일 불러오기
 
-const Selected = styled.div`
-justify-content: center;
-align-items: center;
-display: flex;
-margin: 0 auto;
-margin-bottom: 20px;
 
-`;
-const Inputed = styled.input`
-    width: 500px;
-    display: flex;
-`;
-const Inputed2 = styled.input`
-    background-color: yellow;
-    color: red;
-    border: none;
-`;
 
 
 const Select = () => {
     return(
-        <Selected>
+        <div className="Selected">
             <select>
                 <option key="all" value="all">선택하세요</option>
                 <option key="tour" value="tour">여행</option>
@@ -31,9 +15,9 @@ const Select = () => {
                 <option key="language " value="language ">어학</option>
                 <option key="employment" value="employment">취업</option>
             </select>
-            <Inputed type="text"/>
-            <Inputed2 type="submit" value="검색"/>
-        </Selected>
+            <input className="Inputed" type="text"/>
+            <input className="Inputed2" type="submit" value="검색"/>
+        </div>
     );
 
 
