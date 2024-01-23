@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/Header.css"; // CSS 파일 불러오기
 
 const Header = () => {
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Header = () => {
       {isMobile ? (
         <>
           <NavLink className="home-link" to="/">
-            홈
+            로고자리
           </NavLink>
           <div className="dropdown-container">
             <Dropdown>
@@ -43,7 +44,7 @@ const Header = () => {
                 <Dropdown.Item as={NavLink} to="/group">
                   그룹 개설
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/join">
+                <Dropdown.Item as={NavLink} to="/GroupJoin">
                   그룹 참가하기
                 </Dropdown.Item>
                 <Dropdown.Item as={NavLink} to="/schedule">
@@ -59,13 +60,13 @@ const Header = () => {
       ) : (
         <>
           <NavLink className="home-link" to="/">
-            홈
+            로고자리
           </NavLink>
           <div className="nav-links-container">
             <NavLink className="nav-link" to="/group">
               그룹 개설
             </NavLink>
-            <NavLink className="nav-link" to="/join">
+            <NavLink className="nav-link" to="/GroupJoin">
               그룹 참가하기
             </NavLink>
             <NavLink className="nav-link" to="/schedule">
@@ -81,10 +82,10 @@ const Header = () => {
                 계정
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/Login">
+                <Dropdown.Item as={NavLink} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item href="/insert">
+                <Dropdown.Item as={NavLink} to="/signup">
                   회원가입
                 </Dropdown.Item>
               </Dropdown.Menu>

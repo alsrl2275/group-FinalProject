@@ -1,7 +1,7 @@
 // Category.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../../css/Category.css"; // CSS 파일 불러오기
+import "../../css/HomeCategory.css"; // CSS 파일 불러오기
 
 const Category = () => {
   return (

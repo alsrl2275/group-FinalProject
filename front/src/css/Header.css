@@ -1,17 +1,24 @@
 /* Header.styles.css */
-
+@font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
 .header-container {
     background-color: skyblue;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: 'CookieRun-Regular';
 }
 
 .home-link {
+    margin-left: 10px;
     text-decoration: none;
     color: black;
-    font-size: 18px;
+    font-size: 24px;
     margin-bottom: 10px;
 }
 
@@ -27,7 +34,7 @@
 .nav-link {
     text-decoration: none;
     color: black;
-    font-size: 16px;
+    font-size: 24px;
     margin: 0 10px; /* 링크 간격 추가 */
     &:hover {
         text-decoration: underline;
