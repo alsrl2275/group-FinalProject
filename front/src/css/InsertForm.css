@@ -26,13 +26,13 @@
   margin-bottom: 20px;
 }
 
-label {
+.insertLabel {
   width: auto;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-input {
+.insertInput {
   width: 200%;
   margin-bottom: 15px;
   padding: 10px;
@@ -41,18 +41,21 @@ input {
   border-radius: 4px;
 }
 
-input[type="radio"] {
+.inputRadio {
   width: auto;
   margin-right: 5px;
 }
 
-input[type="date"] {
-  width: 40%;
+.inputDate {
+  width: 45%;
   padding: 10px;
-
+  margin-bottom: 15px;
+  box-sizing: border-box; /* padding을 포함한 크기 지정 */
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-input[type="submit"] {
+.inputSubmit {
   width: 100%;
   padding: 10px;
   background-color: #3498db;
@@ -62,7 +65,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
+.inputSubmit:hover {
   background-color: #2980b9;
 }
 
@@ -76,7 +79,11 @@ input[type="submit"]:hover {
     margin-top: 100px;
   }
 
-  input[type="submit"] {
+  .inputSubmit {
+    width: 100%;
+  }
+
+  .insertInput {
     width: 100%;
   }
 
@@ -84,7 +91,5 @@ input[type="submit"]:hover {
     margin-top: 30px;
   }
 
-  input {
-    width: 100%;
-  }
+
 }
