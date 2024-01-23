@@ -1,11 +1,19 @@
 import { useEffect } from "react";
 import "../../css/GroupCategory.css";
 import GroupList from "./GroupList";
+import axios from "axios";
 
 const GroupCategory = () => {
-    const handleGroup = (category) => {
+
+    const handleGroup = async(category) => {
         console.log(`Group clicked: ${category}`);
-        
+        try {
+            const response = await axios.post("/api/test", category);
+            console.log(response);
+            // useEffect();
+          } catch (error) {
+            console.error('Error submitting data:', error);
+          }
     };
 
     const handleCategory = (category) => {
