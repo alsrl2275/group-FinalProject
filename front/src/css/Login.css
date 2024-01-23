@@ -1,0 +1,16 @@
+
+
+/* Login.styles.css*/
+
+.first {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+}
+
+.second {
+    display: flex;
+    flex-direction: column;
+}
