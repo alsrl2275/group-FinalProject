@@ -1,44 +1,90 @@
 
+import KakaoMap from '../KakaoMap';
 import Header from '../components/Home/header';
 import '../css/InsertForm.css'
+import axios from 'axios';
+import { useState } from 'react';
+// import { useState } from 'react';
 
 function InsertForm() {
+  const [formData, setFormData] = useState({
+    meetingNumber: '',
+    userId: '',
+    meetingTitle: '',
+    faceToFace: '',
+    Face: '',
+    Program: '',
+    capacity: '',
+    meetingDateStart: '',
+    meetingDateEnd: '',
+    meetingLocation: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('/groupInsert', formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error submitting data:', error);
+    }
+  };
+  
   return (
     <>
       <Header/>
       
-      <div className="insert-form-container">
-      
-      <form className="insert-form">
+      <div className="insert-form-container">     
+      <form className="insert-form" onSubmit={handleSubmit}>
       <h2>그룹 개설</h2>
+      <table>
+        <tbody>
+          <tr>
         <label>
-          모임 순번: &nbsp;
-          <input
+         <td>모임 순번 :&nbsp;</td> 
+         <td> <input
             type="text"
             name="meetingNumber"
-          />
+            value={formData.meetingNumber}
+            onChange={handleChange}
+          /></td>
         </label>
-        <br />
-        <br />
+          </tr> 
+          <tr>
         <label>
-          아이디: &nbsp;
-          <input
+          <td>아이디 :&nbsp;</td> 
+          <td><input
             type="text"
             name="userId"
-          />
+            value={formData.userId}
+            onChange={handleChange}
+          /></td>
         </label>
-        <br />
-        <br />
+        </tr>
+        <tr>
         <label>
-          모임 제목: &nbsp;
-          <input
+          <td>모임명 :&nbsp;</td>
+          <td><input
             type="text"
-            name="meetingTitle" 
-          />
+            name="meetingTitle"
+            value={formData.meetingTitle} 
+            onChange={handleChange}
+          /></td>
         </label>
-        <br />
-        <br />
-          카테고리: &nbsp;
+        </tr>
+        <tr>
+          <td colSpan="2">
+          모임종류 : &nbsp;<br/>
+          <div className='radio-label'>
           <label htmlfor="sports">
           운동
           <input
@@ -59,14 +105,12 @@ function InsertForm() {
             </label>
             <label htmlfor="travel">
             &nbsp;&nbsp;여행
-            <label for="FaceToFace">
             <input
               type="radio"
               name="faceToFace"
               value="여행"
               id="travel"
             />
-            </label>
             </label>
             <label htmlfor="employment">
             &nbsp;&nbsp;취업
@@ -95,10 +139,13 @@ function InsertForm() {
               id="coding"
             />
             </label>
-        <br />
-        <br />
-          대면/비대면: &nbsp;
-          
+            </div>
+            </td>
+            </tr>
+            <br/>
+          모임방식 :<br/>
+          <tr>
+          <div className='radio-label'>
           <label htmlfor="Facetoface">
           대면
           <input
@@ -116,11 +163,15 @@ function InsertForm() {
             id="noFace"
           />
          </label>
+         </div>
+         </tr>
         <br />
-        <br />
-        공유 프로그램 : 
+        <tr>
+        공유 프로그램 : <br/>
+        <div className='radio-label'>
+          
         <label htmlfor="Zoom">
-            &nbsp;&nbsp;Zoom
+            Zoom
             <input
               type="radio"
               name="Program"
@@ -148,68 +199,53 @@ function InsertForm() {
           id="Discord"
         />
         </label>
-        <br />
-        <br />
+        </div>
+        </tr>
+        <tr>
         <label>
-          인원: &nbsp;
-          <input
-            type="text"
+          <td>인원 :&nbsp;</td> 
+          <td><input
+            type="number"
             name="capacity"
-          />
+            min="0"
+            value={formData.capacity}
+            onChange={handleChange}
+          /></td>
         </label>
-        <br />
-        <br />
-        <label>
-          성별: &nbsp;
-        <label htmlfor="All">
-        &nbsp;&nbsp;모두
-        <input
-          type="radio"
-          name="gender"
-          value="All"
-          id="All"
-        />
-        </label>
-        <label htmlfor="Male">
-        &nbsp;&nbsp;남
-        <input
-          type="radio"
-          name="gender"
-          value="Male"
-          id="Male"
-        />
-        </label>
-        <label htmlfor="Female">
-        &nbsp;&nbsp;여
-        <input
-          type="radio"
-          name="gender"
-          value="Female"
-          id="Female"
-        />
-        </label>
-
-        <br />
-        <br />
-          모임 날짜: &nbsp;
-          <input
+        </tr>
+        <tr>
+        <label className='Datelabel'>
+         <td>모임날짜 :&nbsp;</td>
+          <td><input
             type="date"
-            name="meetingDate"
-          />
+            name="meetingDateStart"
+            value={formData.meetingDateStart}
+            onChange={handleChange}
+          /> &nbsp;-&nbsp;&nbsp;
+            <input
+            type="date"
+            name="meetingDateEnd"
+            value={FormData.meetingDateEnd}
+            onChange={handleChange}
+          /></td>
         </label>
-        <br />
-        <br />
+        </tr>
+        <tr>
         <label>
-          모임 장소: &nbsp;
-          <input
+          <td>장소 :&nbsp;</td> 
+          <td><input
             type="text"
             name="meetingLocation"
-          />
+            value={FormData.meetingLocation}
+            onChange={handleChange}
+          /></td>
         </label>
+        </tr>
+        </tbody>
+        </table>
+        <KakaoMap/>
         <br />
-        <br />
-
-        <button type="submit">참가하기</button>
+        <input type="submit" value="그룹개설"/>
       </form>
     </div>
     </>
