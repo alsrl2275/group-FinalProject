@@ -3,7 +3,7 @@ import axios from 'axios';
 import Header from "../components/Home/header";
 import Footer from "../components/Home/Footer";
 import { useNavigate } from 'react-router-dom';
-
+import { NavLink } from "react-router-dom";
 function Login() {
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
@@ -28,27 +28,15 @@ function Login() {
         // dispatchEvent(login(body));
     }
 
-    const navigate = useNavigate();
-
-    const onClickJoin = () => { // 클릭시 이동할 경로 저장
-        const join = '/JoinForm';
-    
-        navigate(join);
-     };
-        
-    const onClickFind = () => {
-        const find = '/FindForm';
-
-        navigate(find);
-    }
+    // const navigate = useNavigate();
 
 
-    useEffect(() => {
-        axios.get('/user_inform/login')
-        .then(res => console.log(res))
-        .catch()
-    },
-    [])
+    // useEffect(() => {
+    //     axios.get('/user_inform/login')
+    //     .then(res => console.log(res))
+    //     .catch()
+    // },
+    // [])
 
     return(
         <>
@@ -67,8 +55,8 @@ function Login() {
                 <label>PW</label>
                 <input type="password" name="input_pw" value={inputPw} onChange={handleInputPw}/>
                 <div>
-                    <span id="join_ip" onClick={onClickJoin}>회원가입</span>&nbsp;&nbsp;
-                    <span id="find_ip" onClick={onClickFind}>아이디/비밀번호 찾기</span>
+                    <NavLink to="/joinFrom">회원가입</NavLink>&nbsp;&nbsp;
+                    <NavLink to="/signup">아이디/비밀번호 찾기</NavLink>
                 </div>
                 <br />
                 <button type="button" onClick={onClickLogin}>Login</button>
