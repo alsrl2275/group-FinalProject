@@ -6,7 +6,7 @@ import "../../css/Select.css"; // CSS 파일 불러오기
 const Select = () => {
     return(
         <div className="Selected">
-            <select>
+            <select className="Selected2">
                 <option key="all" value="all">선택하세요</option>
                 <option key="tour" value="tour">여행</option>
                 <option key="life" value="life">라이프 스타일</option>
