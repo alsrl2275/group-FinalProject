@@ -26,32 +26,26 @@ function JoinForm() {
 	const AgreeClick = () => {
 		setModalVisible(false);
 	};
-
+	
 	const CancelCilck = () => {
 		setModalVisible(false);
 	};
+	//---------------------------------------------------------------------- 핸드폰 번호
 
-	const [modal, setModal] = useState(false);
     const [emailVerified, setEmailVerified] = useState(false);
     const [formData, setFormData] = useState({
-        loginId: '',
+		loginId: '',
         loginPw: '',
         loginPwConfirm: '',
-        name: '',
-        birthYear: '',
-        birthMonth: '',
-        birthDay: '',
-        address1: '',
-        address2: '',
-        address3: '',
-        address4: '',
-        tel: '',
-        mail: '',
+        loginName: '',
+        loginEmail: '',
+        loginPhone: '',
+        loginBirthYear: '',
+        loginBirthMonth: '',
+        loginBirthDay: '',
         domain: 'none',
-        umail: '',
-        number: '',
-        Confirm: ''
     });
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,10 +55,6 @@ function JoinForm() {
     const handleSelectChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-    };
-
-    const checkAddress = () => {
-        // 주소 검색 기능 추가
     };
 
     const sendNumber = () => {
@@ -92,79 +82,9 @@ function JoinForm() {
 		<div className="qwe">
         <h2>회원가입</h2>
 			<div>
-				<button onClick = { () => { setModal(!modal)}}>약관동의</button>
-				{modal && <Modal />}
+				<button onClick={() => setModalVisible(true)}>약관동의</button>
 			</div>
-            <form
-                id="memberjoinForm"
-                action="memberJoinResult"
-                method="post"
-                style={{ textAlign: 'left' }}
-            >
-                {/* ... (기존 HTML 내용 유지) */}
-
-                {/* React에서의 input 엘리먼트 */}
-                <input
-                    type="text"
-                    placeholder="아이디"
-                    id="loginId"
-                    name="loginId"
-                    maxLength="20"
-                    value={formData.loginId}
-                    onChange={handleInputChange}
-                />
-				<br/>
-                <input
-                    type="button"
-                    value="우편번호 찾기"
-                    style={{ height: '38px', marginLeft: '30px' }}
-                    onClick={checkAddress}
-                />
-                
-                {/* ... (기존 HTML 내용 유지) */}
-
-                {/* React에서의 select 엘리먼트 */}
-                <select
-                    className="domain"
-                    id="domain"
-                    name="domain"
-                    value={formData.domain}
-                    onChange={handleSelectChange}
-                >
-                    <option value="none">---이메일---</option>
-                    <option value="naver.com">naver.com</option>
-                    <option value="gmail.com">gmail.com</option>
-                    <option value="daum.net">daum.net</option>
-                    <option value="nate.com">nate.com</option>
-                </select>
-                
-                {/* ... (기존 HTML 내용 유지) */}
-				<br/>
-                <input
-                    type="button"
-                    id="sendBtn"
-                    onClick={sendNumber}
-                    value="인증번호"
-                    style={{ height: '38px', marginLeft: '30px' }}
-                />
-                
-                {/* ... (기존 HTML 내용 유지) */}
-				<br/>
-                {/* React에서의 버튼 및 이벤트 처리 */}
-                <input
-                    type="button"
-                    value="회원가입"
-                    style={{ margin: '0 50%' }}
-                    onClick={memberJoinFormCheck}
-                />
-            </form>
-        </div>
-   		 <Footer/>
-   		 </>
-    );
-
-		function Modal() {
-			return(
+			{ modalVisible && (
 				<div className="modal">
 				<div className="modal-content">
 				<h3>약관 동의</h3>
@@ -718,20 +638,12 @@ function JoinForm() {
                                     </ol>
                                 </li>
                                 <li>또는 개인정보침해에 대한 신고나 상담이 필요하신 경우에는 아래 기관에 문의하시기 바랍니다.
-                                    <ol>
-                                        <li>개인정보 침해신고센터(한국인터넷진흥원 운영) : (국번없이) 118 (<p
-                                            href="https://privacy.kisa.or.kr" target="_blank">privacy.kisa.or.kr</p>)
-                                        </li>
-                                        <li>개인정보 분쟁조정위원회(국번없이) : 1833-6972 (<p
-                                            href="https://www.kopico.go.kr" target="_blank">www.kopico.go.kr</p>)
-                                        </li>
-                                        <li>대검찰청 사이버범죄수사단 : 02-3480-3573 (<p
-                                            href="https://www.spo.go.kr" target="_blank">www.spo.go.kr</p>)
-                                        </li>
-                                        <li>경찰청 사이버안전국 : (국번없이) 182 (<p
-                                            href="https://cyberbureau.police.go.kr" target="_blank">cyberbureau.police.go.kr</p>)
-                                        </li>
-                                    </ol>
+								<ol>
+									<li>개인정보 침해신고센터(한국인터넷진흥원 운영) : (국번없이) 118 (<a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a>)</li>
+									<li>개인정보 분쟁조정위원회(국번없이) : 1833-6972 (<a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a>)</li>
+									<li>대검찰청 사이버범죄수사단 : 02-3480-3573 (<a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a>)</li>
+									<li>경찰청 사이버안전국 : (국번없이) 182 (<a href="https://cyberbureau.police.go.kr" target="_blank" rel="noopener noreferrer">cyberbureau.police.go.kr</a>)</li>
+								</ol>
                                 </li>
                             </ol>
 
@@ -751,9 +663,68 @@ function JoinForm() {
 					<button className="cancelModal" onClick={CancelCilck}>취소</button>
 				</div>
 			</div>
-		</div>
-			)
-		}
+			</div>
+			)}
+            <form>
+                <input
+                    type="text"
+                    placeholder="아이디"
+                    id="loginId"
+                    name="loginId"
+                    maxLength="20"
+                    value={formData.loginId}
+                    onChange={handleInputChange}
+                />
+				<br/>
+				<input
+                    type="password"
+                    placeholder="비밀번호"
+                    id="loginPw"
+                    name="loginPw"
+                    value={formData.loginPw}
+                    onChange={handleInputChange}
+                />
+				<br/>
+				<input
+                    type="text"
+                    placeholder="이름"
+                    id="loginName"
+                    name="loginName"
+                    value={formData.loginName}
+                    onChange={handleInputChange}
+                />
+				<br/>
+                <select
+                    className="domain"
+                    id="domain"
+                    name="domain"
+                    value={formData.domain}
+                    onChange={handleSelectChange}
+                >
+                    <option value="none">---이메일---</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="nate.com">nate.com</option>
+                </select>
+				<br/>
+                <input
+                    type="button"
+                    id="sendBtn"
+                    onClick={sendNumber}
+                    value="인증번호"
+                />
+				<br/>
+                <input
+                    type="button"
+                    value="회원가입"
+                    onClick={memberJoinFormCheck}
+                />
+            </form>
+        </div>
+   		 <Footer/>
+   		 </>
+    );
 
 }
 

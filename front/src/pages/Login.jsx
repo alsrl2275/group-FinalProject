@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
 import Header from "../components/Home/header";
 import Footer from "../components/Home/Footer";
-import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 function Login() {
     const [inputId, setInputId] = useState("");
@@ -55,8 +53,8 @@ function Login() {
                 <label>PW</label>
                 <input type="password" name="input_pw" value={inputPw} onChange={handleInputPw}/>
                 <div>
-                    <NavLink to="/joinFrom">회원가입</NavLink>&nbsp;&nbsp;
-                    <NavLink to="/signup">아이디/비밀번호 찾기</NavLink>
+                    <NavLink to="/JoinForm">회원가입</NavLink>&nbsp;&nbsp;
+                    <NavLink to="/findip">아이디/비밀번호 찾기</NavLink>
                 </div>
                 <br />
                 <button type="button" onClick={onClickLogin}>Login</button>
@@ -65,7 +63,7 @@ function Login() {
         </div>
         <Footer/>
         </>
-    )
-}
+    );
+};
 
 export default Login;
