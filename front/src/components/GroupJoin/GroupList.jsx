@@ -46,6 +46,7 @@ const GroupList = () => {
   };
 
 
+
   return (
     <div className="group-container">
       {group.map((c,index) => (
