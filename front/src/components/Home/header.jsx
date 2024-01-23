@@ -38,10 +38,10 @@ const Header = () => {
                 <Dropdown.Item as={NavLink} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/signup">
+                <Dropdown.Item as={NavLink} to="/JoinForm">
                   회원가입
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/group">
+                <Dropdown.Item as={NavLink} to="/insert">
                   그룹 개설
                 </Dropdown.Item>
                 <Dropdown.Item as={NavLink} to="/GroupJoin">
@@ -63,7 +63,7 @@ const Header = () => {
             로고자리
           </NavLink>
           <div className="nav-links-container">
-            <NavLink className="nav-link" to="/group">
+            <NavLink className="nav-link" to="/insert">
               그룹 개설
             </NavLink>
             <NavLink className="nav-link" to="/GroupJoin">
@@ -85,7 +85,7 @@ const Header = () => {
                 <Dropdown.Item as={NavLink} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/signup">
+                <Dropdown.Item as={NavLink} to="/JoinForm">
                   회원가입
                 </Dropdown.Item>
               </Dropdown.Menu>
