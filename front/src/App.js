@@ -5,6 +5,7 @@ import Test from "./pages/Test";
 
 import Login from "./pages/Login";
 import InsertForm from "./pages/InsertForm";
+import KakaoMap from "./KakaoMap";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/test" element={<Test/>}/>
       <Route path="/insert" element={<InsertForm/>}/>
       <Route path="/Login" element={<Login/>}/>
+      <Route path="/KakaoMap" element={<KakaoMap/>}/>
     </Routes>
   );
 }
