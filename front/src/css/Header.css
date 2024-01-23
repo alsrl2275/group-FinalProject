@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'CookieRun-Regular';
+    font-family: 'CookieRun-Regular'; /*여기만 수정*/
 }
 
 .home-link {
@@ -20,10 +20,12 @@
     color: black;
     font-size: 24px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .home-link:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .nav-links-container {
@@ -36,8 +38,10 @@
     color: black;
     font-size: 24px;
     margin: 0 10px; /* 링크 간격 추가 */
+    cursor: pointer;
     &:hover {
         text-decoration: underline;
+        cursor: pointer;
     }
 }
 
