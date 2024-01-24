@@ -1,20 +1,19 @@
-
+import Button from 'react-bootstrap/Button';
 import KakaoMap from '../KakaoMap';
 import Header from '../components/Home/header';
 import '../css/InsertForm.css'
 import axios from 'axios';
 import { useState } from 'react';
-// import { useState } from 'react';
 
 function InsertForm() {
   const [formData, setFormData] = useState({
     meetingNumber: '',
     userId: '',
     meetingTitle: '',
+    category: '',
     faceToFace: '',
-    Face: '',
-    Program: '',
-    capacity: '',
+    program: '',
+    peopleNum: '',
     meetingDateStart: '',
     meetingDateEnd: '',
     meetingLocation: '',
@@ -36,22 +35,42 @@ function InsertForm() {
     });
   };
 
+  const handleRadioChange2 = (e) => {
+    const { name, value } = e.target;
+    console.log('Radio Change 2:', name, value); // 콘솔에 출력
+    const programValue = value === '대면' ? '' : formData.program;
+    setFormData({
+      ...formData,
+      [name]: value,
+      program: programValue,
+    });
+  };
+  
+  const handleRadioChange3 = (e) => {
+    const { name, value } = e.target;
+    console.log('Radio Change 3:', name, value); // 콘솔에 출력
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post('/groupInsert', {
         ...formData,
-        meetingNumber: formData.meetingNumber,
-        userId: formData.userId,
-        meetingTitle: formData.meetingTitle,
-        faceToFace: formData.faceToFace,
-        Face: formData.Face,
-        Program: formData.Program,
-        capacity: formData.capacity,
-        meetingDateStart: formData.meetingDateStart,
-        meetingDateEnd: formData.meetingDateEnd,
-        meetingLocation: formData.meetingLocation
+        // meetingNumber: formData.meetingNumber,
+        // userId: formData.userId,
+        // meetingTitle: formData.meetingTitle,
+        // faceToFace: formData.faceToFace,
+        // Face: formData.Face,
+        // Program: formData.Program,
+        // capacity: formData.capacity,
+        // meetingDateStart: formData.meetingDateStart,
+        // meetingDateEnd: formData.meetingDateEnd,
+        // meetingLocation: formData.meetingLocation
       });
       console.log(response.data);
     } catch (error) {
@@ -107,71 +126,71 @@ function InsertForm() {
           <td colSpan="2">
           모임종류 : &nbsp;<br/>
           <div className='radio-label'>
-          <label htmlfor="sports" className='insertLabel'>
+          <label htmlFor="sports" className='insertLabel'>
           운동
           <input className='inputRadio'
               type="radio"
-              name="faceToFace"
+              name="category"
               value="운동"
               id="sports"
               onChange={handleRadioChange}
-              checked={formData.faceToFace === '운동'}
+              checked={formData.category === '운동'}
             />
             </label>
-            <label htmlfor="hobby" className='insertLabel'>
+            <label htmlFor="hobby" className='insertLabel'>
             &nbsp;&nbsp;라이프 스타일
             <input className='inputRadio'
               type="radio"
-              name="faceToFace"
+              name="category"
               value="라이프 스타일"
               id="hobby"
               onChange={handleRadioChange}
-              checked={formData.faceToFace === '라이프 스타일'}
+              checked={formData.category === '라이프 스타일'}
             />
             </label>
-            <label htmlfor="travel" className='insertLabel'>
+            <label htmlFor="travel" className='insertLabel'>
             &nbsp;&nbsp;여행
             <input className='inputRadio'
               type="radio"
-              name="faceToFace"
+              name="category"
               value="여행"
               id="travel"
               onChange={handleRadioChange}
-              checked={formData.faceToFace === '여행'}
+              checked={formData.category === '여행'}
             />
             </label>
-            <label htmlfor="employment" className='insertLabel'>
+            <label htmlFor="employment" className='insertLabel'>
             &nbsp;&nbsp;취업
             <input className='inputRadio'
               type="radio"
-              name="faceToFace"
+              name="category"
               value="취업"
               id="employment"
               onChange={handleRadioChange}
-              checked={formData.faceToFace === '취업'}
+              checked={formData.category === '취업'}
 
             />
             </label>
-            <label htmlfor="language" className='insertLabel'>
+            <label htmlFor="language" className='insertLabel'>
             &nbsp;&nbsp;어학
             <input className='inputRadio'
               type="radio"
-              name="faceToFace"
+              name="category"
               value="어학"
               id="language"
               onChange={handleRadioChange}
-              checked={formData.faceToFace === '어학'}
+              checked={formData.category === '어학'}
             />
             </label>
-            <label htmlfor="coding" className='insertLabel'>
+            <label htmlFor="coding" className='insertLabel'>
             &nbsp;&nbsp;코딩
             <input className='inputRadio'
               type="radio"
-              name="faceToFace"
+              name="category"
               value="코딩"
               id="coding"
               onChange={handleRadioChange}
-              checked={formData.faceToFace === '코딩'}
+              checked={formData.category === '코딩'}
             />
             </label>
             </div>
@@ -181,27 +200,27 @@ function InsertForm() {
           모임방식 :<br/>
           <tr>
           <div className='radio-label'>
-          <label htmlfor="Yface" className='insertLabel'>
+          <label htmlFor="Yface" className='insertLabel'>
           대면
           <input className='inputRadio'
             type="radio"
-            name="Face"
+            name="faceToFace"
             id="Yface"
             value="대면"
-            onChange={handleRadioChange}
-            checked={formData.Face === '대면'}
+            onChange={handleRadioChange2}
+            checked={formData.faceToFace === '대면'}
           />
           </label>
           &nbsp;&nbsp;
-          <label htmlfor="noFace" className='insertLabel'>
+          <label htmlFor="noFace" className='insertLabel'>
           비대면
           <input className='inputRadio'
             type="radio"
-            name="Face"
+            name="faceToFace"
             id="noFace"
             value="비대면"
-            onChange={handleRadioChange}
-            checked={formData.Face === '비대면'}
+            onChange={handleRadioChange2}
+            checked={formData.faceToFace === '비대면'}
           />
          </label>
          </div>
@@ -211,52 +230,55 @@ function InsertForm() {
         공유 프로그램 : <br/>
         <div className='radio-label'>
           
-        <label htmlfor="Zoom" className='insertLabel'>
+        <label htmlFor="Zoom" className='insertLabel'>
             Zoom
             <input className='inputRadio'
               type="radio"
-              name="Program"
+              name="program"
               value="줌"
               id="Zoom"
-              onChange={handleRadioChange}
-              checked={formData.Program === '줌'}
+              onChange={handleRadioChange3}
+              checked={formData.program === '줌'}
+              disabled={formData.faceToFace === '대면'}
             />
             </label>
             &nbsp;&nbsp;
-          <label htmlfor="Skype" className='insertLabel'>
+          <label htmlFor="Skype" className='insertLabel'>
           &nbsp;&nbsp;Skype
           <input className='inputRadio'
             type="radio"
-            name="Program"
+            name="program"
             value="스카이프"
             id="Skype"
-            onChange={handleRadioChange}
-            checked={formData.Program === '스카이프'}
+            onChange={handleRadioChange3}
+            checked={formData.program === '스카이프'}
+            disabled={formData.faceToFace === '대면'}
           />
           </label>
           &nbsp;&nbsp;
-        <label htmlfor="Discord" className='insertLabel'>
+        <label htmlFor="Discord" className='insertLabel'>
         &nbsp;&nbsp;Discord
         <input className='inputRadio'
           type="radio"
-          name="Program"
+          name="program"
           value="디스코드"
           id="Discord"
-          onChange={handleRadioChange}
-          checked={formData.Program === '디스코드'}
+          onChange={handleRadioChange3}
+          checked={formData.program === '디스코드'}
+          disabled={formData.faceToFace === '대면'}
         />
         </label>
         </div>
         </tr>
         <tr>
-        <label htmlfor="capacity" className='insertLabel'>
+        <label htmlFor="capacity" className='insertLabel'>
           <td>인원 :&nbsp;</td> 
           <td><input className='insertInput'
             type="number"
-            name="capacity"
+            name="peopleNum"
             id="capacity"
             min="0"
-            value={formData.capacity}
+            value={formData.peopleNum}
             onChange={handleChange}
           /></td>
         </label>
@@ -278,17 +300,30 @@ function InsertForm() {
           /></td>
         </label>
         </tr>
-        <tr>
+        <tr className='insertLabel'>
         <label className='insertLabel'>
-          <td>장소 :&nbsp;</td> 
-          <td><input className='insertInput'
+          <td>장소 :&nbsp;</td>
+        
+          <td>
+            <input className='insertInput'
+            type="text"
+            name="meetingLocation"
+            value={formData.meetingLocation}
+            onChange={handleChange}
+          />
+          <Button variant="outline-info">검색</Button>     
+          </td>
+        </label>
+        </tr>
+        
+        <label className='insertLabel'>
+        <td><input className='insertLocation2'
             type="text"
             name="meetingLocation"
             value={formData.meetingLocation}
             onChange={handleChange}
           /></td>
-        </label>
-        </tr>
+          </label>
         </tbody>
         </table>
         <KakaoMap/>
