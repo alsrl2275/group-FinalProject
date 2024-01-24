@@ -1,15 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../../css/GroupCategory.css";
 import GroupList from "./GroupList";
 import axios from "axios";
 
 const GroupCategory = () => {
 
+const [props, setProps] = useState(null); // 초기값을 null로 설정
+      
     const handleGroup = async(category) => {
         console.log(`Group clicked: ${category}`);
         try {
-            const response = await axios.post("/api/test", category);
-            console.log(response);
+            
+            const response = await axios.post("/test", {category});
+            setProps(response.data); // 상태 업데이트를 통해 값 설정
+            console.log("확인용")
+            console.log(props);
             // useEffect();
           } catch (error) {
             console.error('Error submitting data:', error);
@@ -34,7 +39,7 @@ const GroupCategory = () => {
                 <div onClick={() => handleCategory('tour')}>여행</div>
                 <div onClick={() => handleCategory('work')}>취업</div>
             </div>
-            <GroupList/>
+            <GroupList props={props}/>
         </>
     );
 };
