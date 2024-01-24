@@ -11,10 +11,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-@EnableWebSecurity
-public class WebSecurityConfig {
-	
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -26,18 +25,10 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-    
-    @Configuration
-    public static class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-        @Autowired
-        private CorsFilter corsFilter;
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);   
-        }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable() // CSRF 토큰 비활성화
+            .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
-    
-

@@ -53,7 +53,7 @@ function Login() {
                 <label>PW</label>
                 <input type="password" name="input_pw" value={inputPw} onChange={handleInputPw}/>
                 <div>
-                    <NavLink to="/JoinForm">회원가입</NavLink>&nbsp;&nbsp;
+                    <NavLink to="/SignUp">회원가입</NavLink>&nbsp;&nbsp;
                     <NavLink to="/findip">아이디/비밀번호 찾기</NavLink>
                 </div>
                 <br />
