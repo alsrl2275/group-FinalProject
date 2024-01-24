@@ -40,9 +40,12 @@ const group = [
     category: "java, 부트",
   },
 ];
-const GroupList = () => {
+const GroupList = (props) => {
+  console.log("확인용22222");
+  console.log(props.data);
   const handleGroup = (c) => {
     console.log(c.title);
+
   };
 
 
