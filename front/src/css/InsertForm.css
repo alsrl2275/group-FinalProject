@@ -55,6 +55,16 @@
   border-radius: 4px;
 }
 
+.insertLocation2 {
+  width: 275%;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box; /* padding을 포함한 크기 지정 */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 47px;
+}
+
 .inputSubmit {
   width: 100%;
   padding: 10px;
@@ -90,6 +100,9 @@
   .insert-form-container {
     margin-top: 30px;
   }
+  .insertLocation2 {
+    width: 150%;
 
+  }
 
 }
