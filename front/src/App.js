@@ -6,8 +6,8 @@ import Test from "./pages/Test";
 import Login from "./pages/Login";
 import InsertForm from "./pages/InsertForm";
 import KakaoMap from "./KakaoMap";
-import JoinForm from "./pages/JoinForm";
 import GroupJoin from "./pages/GroupJoin";
+import SignUp from "./pages/SignUp";
 
 export default function App() {
   return (
@@ -17,7 +17,7 @@ export default function App() {
       <Route path="/insert" element={<InsertForm/>}/>
       <Route path="/Login" element={<Login/>}/>
       <Route path="/KakaoMap" element={<KakaoMap/>}/>
-      <Route path="/JoinForm" element={<JoinForm/>}/>
+      <Route path="/SignUp" element={<SignUp/>}/>
       <Route path="/GroupJoin" element={<GroupJoin/>}/>
     </Routes>
   );
