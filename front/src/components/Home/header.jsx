@@ -38,7 +38,7 @@ const Header = () => {
                 <Dropdown.Item as={NavLink} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/JoinForm">
+                <Dropdown.Item as={NavLink} to="/SignUp">
                   회원가입
                 </Dropdown.Item>
                 <Dropdown.Item as={NavLink} to="/insert">
@@ -85,7 +85,7 @@ const Header = () => {
                 <Dropdown.Item as={NavLink} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/JoinForm">
+                <Dropdown.Item as={NavLink} to="/SignUp">
                   회원가입
                 </Dropdown.Item>
               </Dropdown.Menu>
