@@ -1,18 +1,14 @@
 
 
 /* JoinForm.styles.css */
-.qwe{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* 화면 높이에 따라 조절 */
-    border: 1px solid black;
-    border-radius: 0, 0, 20%, 20%;
+.container{
+  margin-top: 30px;
 }
+
 h2, h3{
     text-align: center;
 }
+
 .textForm input {
     height: 38px;
     margin-bottom: 10px;
@@ -34,56 +30,101 @@ span{
 .frspan{
     align-items: center;
 }
+
+.scrollable-box {
+  width: 100%;
+	max-height: 300px;
+	margin: auto;
+	overflow-y: scroll;
+	background: #f1f1f1;
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+
+li{
+  list-style-type: none;
+}
+.signup-form-container {
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 16px;
+  border: 1px solid #ccc;
+}
+
+.input-cell {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  padding: 12px;
+  margin-right: 8px;
+}
+
+button {
+  padding: 12px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+select {
+  padding: 13px;
+  margin-right: 7px;
+}
+.submit{
+  margin-right: 0;
+}
 .modal {
     display: flex;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.4);
-	padding-top: 60px;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
 }
 
 .modal-content {
     background-color: #fefefe;
-	margin: 5% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
     text-align: center;
 }
 
 .close-btn {
     color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .close-btn:hover, .close-btn:focus {
     color: black;
-	text-decoration: none;
-	cursor: pointer;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .modal-footer {
     text-align: right;
 }
 
-/* 스크롤이 가능한 박스를 설정합니다 */
-.scrollable-box {
-    width: 100%; /* 또는 고정된 너비를 사용할 수 있습니다 */
-	max-height: 300px; /* 필요에 따라 높이 조절 */
-	margin: auto;
-	overflow-y: scroll; /* 세로 스크롤바를 추가합니다 */
-	background: #f1f1f1; /* 배경색 설정 */
-	border: 1px solid #ddd; /* 테두리 설정 */
-	padding: 10px; /* 안쪽 여백 설정 */
-}
-li{
-    list-style-type: none;
+input[type="password"]{
+  padding: 10px;
+  font-size: 16px;
 }
