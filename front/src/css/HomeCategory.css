@@ -27,14 +27,14 @@
   box-sizing: border-box; /* border를 포함한 크기 설정 */
 }
 
-.CardStyle p,
-.CardStyle h4 {
+.CardStyle-p,
+.CardStyle-h4 {
   word-wrap: break-word;
   color: black;
   text-decoration: none;
   margin: 10px; /* 여백 설정 */
 }
 
-.CardStyle img {
+.CardStyle-img {
   width: 100%;
 }

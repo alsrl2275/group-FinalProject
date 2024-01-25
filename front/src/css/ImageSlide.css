@@ -1,0 +1,16 @@
+/* ImageSlide.css */
+.slide-item {
+    width: 100%; /* 가로폭을 화면 전체로 설정 */
+    height: 400px; /* 세로폭을 200px로 고정 */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* 이미지에 스타일을 적용하려면 */
+  .slide-item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    align-items: center;
+  }
