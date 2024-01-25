@@ -1,9 +1,10 @@
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import KakaoMap from '../KakaoMap';
 import Header from '../components/Home/header';
 import '../css/InsertForm.css'
 import axios from 'axios';
 import { useState } from 'react';
+import DaumPost from '../DaumPost';
 
 function InsertForm() {
   const [formData, setFormData] = useState({
@@ -17,8 +18,48 @@ function InsertForm() {
     meetingDateStart: '',
     meetingDateEnd: '',
     meetingLocation: '',
+    meetingLocation2:''
+  });
+  const [showDaumPost, setShowDaumPost] = useState(false);
+
+  const [addressObj, setAddressObj] = useState({
+    areaAddress: '',
+    townAddress: ''
+  });
+  const [mapCenter, setMapCenter] = useState({
+    lat: 37.50006335700178,
+    lng: 127.03558085159663
   });
 
+
+
+  
+
+  const handleAddressChange = (newAddressObj) => {
+    setAddressObj(newAddressObj); 
+    
+
+    // 주소가 변경되면 중심 좌표 업데이트
+    setMapCenter({
+      lat: newAddressObj.lat,
+      lng: newAddressObj.lng
+    })
+    // 주소가 변경되면 meetingLocation을 업데이트
+    setFormData({
+      ...formData,
+      meetingLocation: `${newAddressObj.areaAddress} ${newAddressObj.townAddress}`,
+    });
+    console.log(newAddressObj)
+  };
+
+  
+
+  const handleDaumPostClick = () => {
+    setShowDaumPost(true);
+
+    
+  };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -58,21 +99,15 @@ function InsertForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const updatedFormData = {
+      ...formData,
+      meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`
+    };
+
     try {
-      const response = await axios.post('/groupInsert', {
-        ...formData,
-        // meetingNumber: formData.meetingNumber,
-        // userId: formData.userId,
-        // meetingTitle: formData.meetingTitle,
-        // faceToFace: formData.faceToFace,
-        // Face: formData.Face,
-        // Program: formData.Program,
-        // capacity: formData.capacity,
-        // meetingDateStart: formData.meetingDateStart,
-        // meetingDateEnd: formData.meetingDateEnd,
-        // meetingLocation: formData.meetingLocation
-      });
+      const response = await axios.post('/groupInsert',updatedFormData);
       console.log(response.data);
+      console.log('Updated meetingLocation:', updatedFormData.meetingLocation);
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -121,8 +156,7 @@ function InsertForm() {
           /></td>
         </label>
         </tr>
-        <tr>
-          
+        <tr>    
           <td colSpan="2">
           모임종류 : &nbsp;<br/>
           <div className='radio-label'>
@@ -276,7 +310,7 @@ function InsertForm() {
           <td><input className='insertInput'
             type="number"
             name="peopleNum"
-            id="capacity"
+            id="capacity"         
             min="0"
             value={formData.peopleNum}
             onChange={handleChange}
@@ -310,23 +344,26 @@ function InsertForm() {
             name="meetingLocation"
             value={formData.meetingLocation}
             onChange={handleChange}
+            onClick={handleDaumPostClick}
+            readOnly
           />
-          <Button variant="outline-info">검색</Button>     
+          {showDaumPost && <DaumPost setAddressObj={handleAddressChange} setMapCenter={setMapCenter}/>}
           </td>
         </label>
-        </tr>
-        
+        </tr>   
         <label className='insertLabel'>
         <td><input className='insertLocation2'
             type="text"
-            name="meetingLocation"
-            value={formData.meetingLocation}
+            name="meetingLocation2"
+            value={formData.meetingLocation2}
             onChange={handleChange}
           /></td>
           </label>
         </tbody>
+        
         </table>
-        <KakaoMap/>
+        <KakaoMap center={mapCenter}/>
+        
         <br />
         <input className='inputSubmit' type="submit" value="그룹개설"/>
       </form>
