@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/Home/header";
 import Footer from "../components/Home/Footer";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ko from 'date-fns/locale/ko';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../css/SignUp.css";
@@ -24,56 +22,74 @@ const SignUp = () => {
 		return Object.values(checkbox).every((value) => value === true);
 	};
 	
-	//---------------------------------------------------------------------- 동의버튼과 취소버튼
+    
 	const [modalVisible, setModalVisible] = useState(false);
 	const AgreeClick = () => {
-		setModalVisible(false);
+        setModalVisible(false);
 	};
 	
 	const CancelCilck = () => {
-		setModalVisible(false);
+        setModalVisible(false);
 	};
+    //---------------------------------------------------------------------- 동의버튼과 취소버튼
 
     const navigate = useNavigate();
     
-    const [member, setMember] = useState({
-        memberName: "",
-        username: "",
-        password: "",
-        email: "",
+    const [user, setUser] = useState({
+        userName: "",
+        userId: "",
+        userPassword: "",
+        userEmail: "",
         domain: "@naver.com",
         phoneNum: "",
+        userDate:null,
     });
 
     const [userPasswordCheck, setUserPasswordCheck] = useState("");
-    const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(true);
+    
+    const [checkpw, setcheckpw] = useState('');
+    
+    const handlepw = (field, value) => {
+        setUser((prevUser) => ({
+            ...prevUser,
+            [field]: value,
+        }));
+    };
+    const [showPassword, setShowPassword] = useState(false);
+    
+    const PasswordVisibilty = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+    
     const [isNameValid, setIsNameValid] = useState(true);
-
-    const handleChange = (field, value) => {
+    const [Username, setUsername] = useState(true); // 유저이름
+    const handleName = (field, value) => {
         if (field === 'username') {
             const usernameRegex = /^[a-zA-Z0-9]{6,12}$/;
             const isInputValid = value.trim() !== '' && usernameRegex.test(value); // 빈 값이 아닌지와 정규식을 통한 유효성 검사
-            setIsUsernameValid(isInputValid);
-        }
-        if (field === 'password') {
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
-            setIsPasswordValid(passwordRegex.test(value));
+            setUsername(isInputValid);
         }
         if (field === 'memberName') {
             // 이름은 한글로만 이루어지고, 2~5글자
             const nameRegex = /^[가-힣]{2,5}$/;
             setIsNameValid(nameRegex.test(value));
         }
-
-        setMember({ ...member, [field]: value });
+    }
+    const handleChange = (field, value) => {
+        if (field === 'password') {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
+            setIsPasswordValid(passwordRegex.test(value));
+        }
+        
+        setUser({ ...user, [field]: value });
     };
-
+    
     const handleDomainChange = (event) => {
         const selectedDomain = event.target.value;
-        setMember({ ...member, domain: selectedDomain });
+        setUser({ ...user, domain: selectedDomain });
     };
-
+    
     const formatPhoneNumber = (phoneNumber) => {
         // 전화번호 형식 변환 (000-0000-0000)
         return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
@@ -85,7 +101,7 @@ const SignUp = () => {
         // 최대 11자리까지만 받음
         const truncatedValue = newValue.slice(0, 11);
         // 형식 적용하여 state 업데이트
-        setMember({ ...member, phoneNum: formatPhoneNumber(truncatedValue) });
+        setUser({ ...user, phoneNum: formatPhoneNumber(truncatedValue) });
     };
 
     const handleSubmit = async (event) => {
@@ -100,7 +116,7 @@ const SignUp = () => {
             return;
         }
         // 비밀번호 일치 여부 확인
-        if (member.password !== userPasswordCheck) {
+        if (user.password !== userPasswordCheck) {
             alert("비밀번호가 일치하지 않습니다.");
             return; 
         }
@@ -109,20 +125,20 @@ const SignUp = () => {
             alert("비밀번호는 최소 8자리, 대문자1, 소문자1, 숫자1로 이루어져야 합니다. (!@#$%^&* 만 가능)");
             return;
         }
-        if (!member.memberName || !member.username || !member.password || !member.email || !member.phoneNum) {
-            alert("모든 필드를 채워주세요.");
+        if (!user.memberName || !user.username || !user.password || !user.email || !user.phoneNum) {
+            alert("모든 항목을 적어주세요.");
             return;
         }
         
         // 전화번호 유효성 검사
         const phoneRegex = /^(010|011)\d{8}$/;
-        if (!phoneRegex.test(member.phoneNum.replace(/-/g, ''))) {
+        if (!phoneRegex.test(user.phoneNum.replace(/-/g, ''))) {
             alert("올바른 전화번호 형식이 아닙니다.");
             return;
         }
         try {
             // axios를 사용하여 서버로 데이터 전송
-            const response = await axios.post("/join", member);
+            const response = await axios.post("/join", user);
             console.log(response.data);
             // 추가적으로 서버로부터의 응답을 처리하거나 상태를 업데이트할 수 있음
             if (response.data === "ok") {
@@ -137,19 +153,19 @@ const SignUp = () => {
         } catch (error) {
             console.log("Error sending data: ", error);
         }
-        console.log("폼 제출됨:", member);
+        console.log("폼 제출됨:", user);
     };
     const [isCheckButtonDisabled, setIsCheckButtonDisabled] = useState(false);
     const checkId = async (event) => {
         event.preventDefault();
         // 아이디 유효성 검사
-        if (!isUsernameValid) {
+        if (!Username) {
             alert("아이디는 영문과 숫자로 이루어진 6~12글자여야 합니다.");
             return;
         }
         try {
             // axios를 사용하여 서버로 데이터 전송
-            const response = await axios.post("/checkId", member);
+            const response = await axios.post("/checkId", user);
             console.log(response.data);
             // 추가적으로 서버로부터의 응답을 처리하거나 상태를 업데이트할 수 있음
             if (response.data === "Exist") {
@@ -167,24 +183,165 @@ const SignUp = () => {
             console.log("Error sending data: ", error);
         } 
     }
-    const handleReset = () => {
-        setMember((prevMember) => ({
-            ...prevMember,
-            username: "",
-        }));
-        setUserPasswordCheck("");
-        setIsUsernameValid(false);
-        setIsCheckButtonDisabled(false); // reset 버튼 클릭 시 CheckId 버튼 활성화
-    };
     
     return (
         <>
         <Header/>
-        <div className="qwe">
-            <h2>회원 가입</h2>
-            <div className="ak">
+        <div className="container">
+            <h2>회원가입</h2>
+            <form onSubmit={handleSubmit}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>아이디</td>
+                            <td style={{ display: 'flex', alignItems: 'center' }}>
+                                <input
+                                    type="text"
+                                    onChange={(event) =>
+                                        handleChange("username", event.target.value)
+                                    }
+                                    value={user.username}
+                                />
+                               <button
+                                    className="checkId"
+                                    onClick={checkId}
+                                    disabled={isCheckButtonDisabled}
+                                >
+                                    중복체크
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호</td>
+                            <td>
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    onChange={(event) =>
+                                        handleChange("password", event.target.value)
+                                    }
+                                    value={user.password}
+                                />
+                                <button
+                                    className="show-password"
+                                    onClick={PasswordVisibilty}
+                                    >
+                                        {showPassword ? 'hide' : 'show'}
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호 확인</td>
+                            <td>
+                                <input
+                                    type="password"
+                                    onChange={(event) => setUserPasswordCheck(event.target.value)}
+                                    value={userPasswordCheck}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>이름</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    onChange={(event) =>
+                                        handleChange("memberName", event.target.value)
+                                    }
+                                    value={user.memberName}
+                                />
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    onChange={(event) =>
+                                        handleChange("email", event.target.value)
+                                    }
+                                    value={user.userEmail}
+                                />
+                                <select
+                                    name="domain"
+                                    onChange={handleDomainChange}
+                                    value={user.domain}
+                                >
+                                    <option value="@naver.com">naver.com</option>
+                                    <option value="@google.com">google.com</option>
+                                    <option value="@daum.net">daum.net</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>전화번호</td>
+                            <td>
+                                <input
+                                    type="text"
+                                    onChange={handlePhoneNumChange}
+                                    value={user.phoneNum}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>생년월일</td>
+                            <td>
+                                <input type="text" maxLength={4} placeholder="년(4자)"/>
+                                <select>
+                                    <option>월</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <select>
+                                    <option>일</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
 				<button onClick={() => setModalVisible(true)}>약관동의</button>
-			</div>
 			{ modalVisible && (
 				<div className="modal">
 				<div className="modal-content">
@@ -766,102 +923,7 @@ const SignUp = () => {
 			</div>
 			</div>
 			)}
-            <form onSubmit={handleSubmit}>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Name</td>
-                            <td>
-                                <input
-                                    type="text"
-                                    onChange={(event) =>
-                                        handleChange("memberName", event.target.value)
-                                    }
-                                    value={member.memberName}
-                                />
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>ID</td>
-                            <td style={{ display: 'flex', alignItems: 'center' }}> {/* 아이디 입력란과 중복체크 버튼을 가로로 정렬 */}
-                                <input
-                                    type="text"
-                                    onChange={(event) =>
-                                        handleChange("username", event.target.value)
-                                    }
-                                    value={member.username}
-                                    disabled={isCheckButtonDisabled} // 중복 확인 버튼이 활성화되면 ID 입력란 비활성화
-                                    style={{
-                                        backgroundColor: isCheckButtonDisabled ? "#ddd" : "white",
-                                    }} // 중복 확인 버튼이 활성화되면 배경색을 회색으로 변경
-                                />
-                               <button
-                                    onClick={checkId}
-                                    disabled={isCheckButtonDisabled}
-                                >
-                                    CheckId
-                                </button>
-                                <button type="button" onClick={handleReset}>reset</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td>
-                                <input
-                                    type="password"
-                                    onChange={(event) =>
-                                        handleChange("password", event.target.value)
-                                    }
-                                    value={member.password}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Password Check</td>
-                            <td>
-                                <input
-                                    type="password"
-                                    onChange={(event) => setUserPasswordCheck(event.target.value)}
-                                    value={userPasswordCheck}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>E-mail</td>
-                            <td>
-                                <input
-                                    type="text"
-                                    onChange={(event) =>
-                                        handleChange("email", event.target.value)
-                                    }
-                                    value={member.email}
-                                />
-                                <select
-                                    name="domain"
-                                    onChange={handleDomainChange}
-                                    value={member.domain}
-                                >
-                                    <option value="@naver.com">naver.com</option>
-                                    <option value="@google.com">google.com</option>
-                                    <option value="@daum.net">daum.net</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Phone</td>
-                            <td>
-                                <input
-                                    type="text"
-                                    onChange={handlePhoneNumChange}
-                                    value={member.phoneNum}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <button type="submit" value="submit">완료</button>
+                <button className="submit" type="submit" value="submit">가입하기</button>
             </form>
             </div>
         <Footer/>
