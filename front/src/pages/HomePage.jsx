@@ -1,33 +1,40 @@
-import * as React from 'react';
-
+// HomePage.jsx
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Home/Footer';
 import Header from '../components/Home/header';
 import ImageSlide from '../components/Home/ImageSlide';
 import Category from '../components/Home/HomeCategory';
 import Select from '../components/Home/Select';
 
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-
 const HomePage = () => {
-  
+
+  const navigate = useNavigate();
+
+
+
+  const handleSearch = (hsearch, hselected) => {
+    console.log("확인용1")
+    navigate(`/GroupJoin/${hsearch}/${hselected}`);
+  };
 
   return (
     <>
       {/* header */}
-      <Header/>
+      <Header />
       {/* End header */}
       {/* Main */}
-      <ImageSlide/>
-      <Select/>
-      <Category/>
+      <ImageSlide />
+
+      {/* Select 컴포넌트에 상태 및 함수 전달 */}
+      <Select onSearch={handleSearch} />
+      <Category />
       {/* End Main */}
       {/* Footer */}
-      <Footer/>
+      <Footer />
       {/* End footer */}
-      </>
+    </>
   );
-}
+};
 
 export default HomePage;
