@@ -19,6 +19,8 @@ export default function App() {
       <Route path="/KakaoMap" element={<KakaoMap/>}/>
       <Route path="/SignUp" element={<SignUp/>}/>
       <Route path="/GroupJoin" element={<GroupJoin/>}/>
+
+
     </Routes>
   );
 }
