@@ -12,7 +12,7 @@
     margin: 0 auto; /* 가운데 정렬을 위해 */
   }
   
-  .Group > div {
+  .Group-div {
     font-size: 3vw; /* 반응형 폰트 크기 설정 */
     cursor: pointer;
     text-align: center;
@@ -31,7 +31,7 @@
   
   }
   
-  .category > div {
+  .category-div {
     font-size: 1.5vw; /* 반응형 폰트 크기 설정 */
     cursor: pointer;
     text-align: center;
