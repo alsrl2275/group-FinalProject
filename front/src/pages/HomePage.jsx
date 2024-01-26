@@ -14,7 +14,7 @@ const HomePage = () => {
 
 
   const handleSearch = (hsearch, hselected) => {
-    console.log("확인용1")
+
     navigate(`/GroupJoin/${hsearch}/${hselected}`);
   };
 

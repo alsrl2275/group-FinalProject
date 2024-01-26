@@ -49,11 +49,11 @@
   
   /* 미디어 쿼리를 사용하여 화면 크기에 따라 스타일을 조절 */
   @media (max-width: 768px) {
-    .Group > div {
+    .Group-div {
       font-size: 5vw; /* 작은 화면일 때 폰트 크기 조절 */
     }
   
-    .category > div {
+    .category-div {
       font-size: 3vw; /* 작은 화면일 때 폰트 크기 조절 */
       padding-top: 5vw; /* 작은 화면일 때 간격 조절 */
     }
