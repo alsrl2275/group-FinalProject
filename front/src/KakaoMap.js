@@ -15,7 +15,7 @@ function KakaoMap({ center }) {
       const kakao = window.kakao;
       kakao.maps.load(() => {
         const mapContainer = document.getElementById('map');
-        const initialCenter = center || { lat: 37.50006335700178, lng: 127.03558085159663 };
+        const initialCenter = center;
         const options = {
           center: new kakao.maps.LatLng(initialCenter.lat, initialCenter.lng),
           level: 3,
