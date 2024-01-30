@@ -23,7 +23,7 @@ export default class ImageSlide extends Component {
           <div className="slide-item">
             <img
               className="slide-item-img"
-              src="/Image/hobby.jpg"
+              src="/Image/silder/hobby.jpg"
               alt="Hobby"
             />
           </div>
@@ -32,7 +32,7 @@ export default class ImageSlide extends Component {
           <div className="slide-item">
             <img
               className="slide-item-img"
-              src="/Image/language.jpg"
+              src="/Image/silder/language.jpg"
               alt="Language"
             />
           </div>
@@ -41,24 +41,24 @@ export default class ImageSlide extends Component {
           <div className="slide-item">
             <img
               className="slide-item-img"
-              src="/Image/sports.jpg"
+              src="/Image/silder/sports.jpg"
               alt="Sports"
             />
           </div>
           </NavLink>
           <NavLink to='/test'>
           <div className="slide-item">
-            <img className="slide-item-img" src="/Image/tour.jpg" alt="Tour" />
+            <img className="slide-item-img" src="/Image/silder/tour.jpg" alt="Tour" />
           </div>
           </NavLink>
           <NavLink to='/test'>
           <div className="slide-item">
-            <img className="slide-item-img" src="/Image/work.jpg" alt="Work" />
+            <img className="slide-item-img" src="/Image/silder/work.jpg" alt="Work" />
           </div>
           </NavLink>
           <NavLink to='/test'>
           <div className="slide-item">
-            <img className="slide-item-img" src="/Image/IT2.jpg" alt="IT" />
+            <img className="slide-item-img" src="/Image/silder/IT2.jpg" alt="IT" />
           </div>
           </NavLink>
         </Slider>

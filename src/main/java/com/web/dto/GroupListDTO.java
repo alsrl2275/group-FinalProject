@@ -1,4 +1,4 @@
-package com.web.dto;
+ package com.web.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

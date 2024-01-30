@@ -19,11 +19,11 @@ public class GroupTest {
 	public void add () {
 		try {
 			GroupListDTO dto = new GroupListDTO();
-			dto.setCategory("운동");
+			dto.setCategory("life");
 			dto.setFace("대면");
 			dto.setMembers(6);
 			dto.setProgram("디코");
-			dto.setTitle("운동하실분");
+			dto.setTitle("language합시다다다다다다다다다ㅏ다다ㅏ다ㅏ다다ㅏ다ㅏ다ㅏ다다ㅏ다다ㅏ다다ㅏ다다ㅏ다다ㅏ다다ㅏ다다ㅏ다다ㅏ다다");
 			Grepo.save(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
