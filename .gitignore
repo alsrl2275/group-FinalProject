@@ -16,7 +16,7 @@ local.properties
 .recommenders
 
 # pom.properties추가 (잦은 충돌)
-/pom.properties
+pom.properties
 
 # classpath 추가
 .classpath
