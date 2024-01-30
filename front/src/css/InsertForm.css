@@ -41,6 +41,29 @@
   border-radius: 4px;
 }
 
+.insertLocation1 {
+  width: 200%;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box; /* padding을 포함한 크기 지정 */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 30px;
+}
+
+.insertLocation2 {
+  width: 275%;
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box; /* padding을 포함한 크기 지정 */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.findLocation {
+  margin-left: 30px;
+}
 .inputRadio {
   width: auto;
   margin-right: 5px;
@@ -55,15 +78,7 @@
   border-radius: 4px;
 }
 
-.insertLocation2 {
-  width: 275%;
-  margin-bottom: 15px;
-  padding: 10px;
-  box-sizing: border-box; /* padding을 포함한 크기 지정 */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-left: 47px;
-}
+
 
 .inputSubmit {
   width: 100%;
@@ -99,6 +114,10 @@
 
   .insert-form-container {
     margin-top: 30px;
+  }
+
+  .insertLocation1 {
+    width: 150%;
   }
   .insertLocation2 {
     width: 150%;

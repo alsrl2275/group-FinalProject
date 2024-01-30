@@ -21,6 +21,7 @@ function DaumPost({ setAddressObj, setMapCenter }) {
       if (data.buildingName !== '') {
         extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
       }
+
       fullAddress = fullAddress.replace(localAddress, '');
 
       setAddressObj({
@@ -45,7 +46,22 @@ function DaumPost({ setAddressObj, setMapCenter }) {
     } catch (error) {
       console.error('좌표 변환 오류:', error);
     }
-    } else if (data.addressType === 'J') { // 지번 주소일 경우
+    } else if (data.addressType === 'J') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      }
+
+      fullAddress = fullAddress.replace(localAddress, '');
+
+      setAddressObj({
+        areaAddress: localAddress,
+        townAddress: fullAddress += (extraAddress !== '' ? `(${extraAddress})` : '')
+      }); 
+
+      // 지번 주소일 경우
       try {
         const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(data.jibunAddress)}`, {
           headers: {
@@ -60,6 +76,8 @@ function DaumPost({ setAddressObj, setMapCenter }) {
           lat: parseFloat(coordinates.y),
           lng: parseFloat(coordinates.x)
         });
+
+
       } catch (error) {
         console.error('좌표 변환 오류:', error);
       }
