@@ -1,18 +1,18 @@
 // Header.js
 
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/Header.css"; // CSS 파일 불러오기
 
 const Header = () => {
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+  const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 600);
+      setIsMobile(window.innerWidth <= 1000);
     };
 
     window.addEventListener("resize", handleResize);

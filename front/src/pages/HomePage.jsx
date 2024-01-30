@@ -7,6 +7,7 @@ import ImageSlide from '../components/Home/ImageSlide';
 import Category from '../components/Home/HomeCategory';
 import Select from '../components/Home/Select';
 
+
 const HomePage = () => {
 
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ const HomePage = () => {
 
 
   const handleSearch = (hsearch, hselected) => {
-
     navigate(`/GroupJoin/${hsearch}/${hselected}`);
   };
 

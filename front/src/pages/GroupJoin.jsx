@@ -9,39 +9,59 @@ import GroupList from "../components/GroupJoin/GroupList";
 import axios from "axios";
 
 const GroupJoin = () => {
-  const { hsearch, hselected } = useParams();
-  const { search, selected, categoryProps, groupprops } = useParams();
+  let { hsearch, hselected } = useParams();
+  if(hsearch=="null"){
+    hsearch=null;
+  }
+  if(hselected=="null"){
+    hselected=null;
+  }
+  
+  const { search, selected, categoryProps, groupprops, category } = useParams();
   const [searchValue, setSearchValue] = useState(search || hsearch);
   const [selectedValue, setSelectedValue] = useState(selected || hselected);
-  const [categoryValue, setCategoryValue] = useState(categoryProps);
+  const [categoryValue, setCategoryValue] = useState(categoryProps || category);
   const [groupValue, setGroupValue] = useState(groupprops);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-  const handleSearch = (search, selected, categoryProps, groupprops) => {
+  const handleSearch = (search, selected, category, group) => {
+
     setSearchValue(search);
     setSelectedValue(selected);
-    setCategoryValue(categoryProps);
-    setGroupValue(groupprops);
+    setCategoryValue(category);
+    if (group) {
+      setGroupValue(group);
+    }
     setIsSelectOpen(true); // 검색 시 Select 컴포넌트 열기
+    
   };
   const [print, setPrint] = useState();
-  useEffect(() => {
-    const fetchDataAndResetValues = async () => {
+    // fetchDataAndResetValues 함수 정의
+    const fetchData = async () => {
       try {
+        // axios를 사용하여 데이터 가져오기
         const response = await axios.post("/api/test", {
           groupValue, categoryValue, searchValue, selectedValue
         });
-        console.log(response.data)
-        setPrint(response)
+        // 데이터 출력
+        setPrint(response.data);
 
       } catch (error) {
         console.log(error);
       }
     };
-  
-    fetchDataAndResetValues();
-  }, [groupValue, categoryValue, searchValue, selectedValue]);
 
+  useEffect(() => {
+    // fetchDataAndResetValues 함수 실행
+    fetchData();
+  }, [searchValue, selectedValue, categoryValue, groupValue]);
+  const fetchDataAndResetValues = () =>{
+    fetchData();
+
+    // 다음 로직 수행 후 상태값 초기화
+    setSearchValue(null);
+    setSelectedValue(null);
+  }
   return (
     <>
       {/* header */}
