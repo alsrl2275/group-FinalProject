@@ -1,4 +1,3 @@
-
 // import Button from 'react-bootstrap/Button';
 import KakaoMap from '../KakaoMap';
 import Header from '../components/Home/header';
@@ -7,19 +6,32 @@ import axios from 'axios';
 import { useState } from 'react';
 import DaumPost from '../DaumPost';
 
-function InsertForm() {
+function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1;
+    month = month < 10 ? `0${month}` : month;
+    let day = currentDate.getDate();
+    day = day < 10 ? `0${day}` : day;
+    return `${year}-${month}-${day}`;
+  };
   const [formData, setFormData] = useState({
-    meetingNumber: '',
+    // meetingNumber: '',
     userId: '',
     meetingTitle: '',
     category: '',
     faceToFace: '',
     program: '',
     peopleNum: '',
+    recruitments: getCurrentDate(),
+    recruitmentd: '',
     meetingDateStart: '',
     meetingDateEnd: '',
     meetingLocation: '',
-    meetingLocation2:''
+    meetingLocation2:'',
+    customProgram: '',
+    meetingcost: ''
   });
   const [showDaumPost, setShowDaumPost] = useState(false);
 
@@ -56,6 +68,7 @@ function InsertForm() {
   
 
   const handleDaumPostClick = () => {
+    alert("주소찾기 버튼을 이용해주세요.")
     setShowDaumPost(true);
 
     
@@ -69,7 +82,7 @@ function InsertForm() {
     });
   };
 
-  const handleRadioChange = (e) => {
+  const handleRadioChange = (e) => { // category
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -77,10 +90,10 @@ function InsertForm() {
     });
   };
 
-  const handleRadioChange2 = (e) => {
+  const handleRadioChange2 = (e) => { // 대면 OR 비대면 (faceToFace)
     const { name, value } = e.target;
     console.log('Radio Change 2:', name, value); // 콘솔에 출력
-    const programValue = value === '대면' ? '' : formData.program;
+    const programValue = value === '대면' ? 'X' : formData.program;
     setFormData({
       ...formData,
       [name]: value,
@@ -88,30 +101,91 @@ function InsertForm() {
     });
   };
   
-  const handleRadioChange3 = (e) => {
+  const handleRadioChange3 = (e) => { // program
     const { name, value } = e.target;
     console.log('Radio Change 3:', name, value); // 콘솔에 출력
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+
+    if(value === 'other') {
+      setFormData({
+        ...formData,
+        [name]: value,
+        customProgram: '',
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+    }
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const updatedFormData = {
       ...formData,
-      meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`
+      meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`,
+      program: formData.program === 'other' ? formData.customProgram : formData.program, // 추가된 부분
     };
-
-    try {
-      const response = await axios.post('/groupInsert',updatedFormData);
-      console.log(response.data);
-      console.log('Updated meetingLocation:', updatedFormData.meetingLocation);
-    } catch (error) {
-      console.error('Error submitting data:', error);
+    const currentDate = new Date();
+    if (formData.userId.trim() === '') {
+      alert("아이디를 입력하세요."); // 알림 창 표시
+      const userId = document.getElementById("userId")
+      userId.scrollIntoView({ behavior: 'auto', block: 'center' });
+      setTimeout(() => {
+        userId.focus();
+      }, 100);
+    } else if (formData.meetingTitle.trim() === '') {
+      alert("모임명을 입력하세요."); // 알림 창 표시
+      const meetingTitle= document.getElementById("meetingTitle");
+      meetingTitle.scrollIntoView({ behavior: 'auto', block: 'center' });
+      setTimeout(() => {
+        meetingTitle.focus();
+      }, 100); 
+    } else if (formData.category.trim() === '') {
+      alert("모임종류를 선택해주세요."); // 알림 창 표시
+      document.getElementById("sports").focus();
+    } else if (formData.faceToFace.trim() === '') {
+      alert("모임방식을 선택해주세요."); // 알림 창 표시
+      document.getElementById("Yface").focus();
+    } else if (formData.faceToFace.trim() === '비대면' && formData.program.trim() === '') {
+      alert("공유프로그램을 선택해주세요."); // 알림 창 표시
+      document.getElementById("Zoom").focus();
+    }  else if (formData.peopleNum.trim() === '') {
+      alert("모집인원을 입력하세요."); // 알림 창 표시
+      const peopleNum= document.getElementById("peopleNum");
+      peopleNum.scrollIntoView({ behavior: 'auto', block: 'center' });
+      setTimeout(() => {
+        peopleNum.focus();
+      }, 100); 
+    } else if (formData.meetingDateStart.trim() === '' || new Date(formData.meetingDateStart) <= currentDate) {
+      alert("올바른 모임 시작 날짜를 입력하세요."); // 알림 창 표시
+      document.getElementById("meetingDateStart").focus();
+    } else if (formData.meetingDateEnd.trim() === '' || new Date(formData.meetingDateEnd) <= currentDate ) {
+      alert("올바른 모임 종료 날짜를 입력하세요."); // 알림 창 표시
+      document.getElementById("meetingDateEnd").focus();
+    } else if (new Date(formData.meetingDateEnd) <= new Date(formData.meetingDateStart)) {
+      alert("올바른 모임 종료 날짜를 입력하세요."); // 알림 창 표시
+      document.getElementById("meetingDateEnd").focus();
+    } else if (formData.meetingLocation.trim() === '') {
+      alert("모임장소를 입력해주세요."); // 알림 창 표시
+      document.getElementById("meetingLocation").focus();
+      handleDaumPostClick();
+    } else {
+      try {
+        const response = await axios.post('/groupInsert',updatedFormData);
+        console.log(response.data);
+        // setFormData(response.data)
+        console.log('Updated meetingLocation:', updatedFormData.meetingLocation);
+      } catch (error) {
+        console.error('Error submitting data:', error);
+      }
     }
+ 
   };
   
   return (
@@ -124,23 +198,46 @@ function InsertForm() {
       <table
       >
         <tbody>
-          <tr>
+          {/* <tr>
         <label className='insertLabel'>
          <td>모임 순번 :&nbsp;</td> 
          <td> <input className='insertInput'
             type="text"
             name="meetingNumber"
+            id="meetingNumber"
             value={formData.meetingNumber}
             onChange={handleChange}
           /></td>
         </label>
-          </tr> 
-          <tr>
+          </tr>  */}
+        <tr>
+        <label className='Datelabel'>
+         <td>모집기간 :&nbsp;</td>
+          <td><input className='inputDate'
+            type="date"
+            name="recruitments"
+            id="recruitments"
+            // value={formData.recruitments || getCurrentDate()} // 기본값을 오늘 날짜로 설정
+            value={formData.recruitments}
+            onChange={handleChange}
+            disabled
+          /> &nbsp;-&nbsp;&nbsp;
+            <input className='inputDate'
+            type="date"
+            name="recruitmentd"
+            id="recruitmentd"
+            value={formData.recruitmentd}
+            onChange={handleChange}
+          /></td>
+        </label>
+        </tr>
+        <tr>
         <label className='insertLabel'>
           <td>아이디 :&nbsp;</td> 
           <td><input className='insertInput'
             type="text"
             name="userId"
+            id="userId"
             value={formData.userId}
             onChange={handleChange}
           /></td>
@@ -152,6 +249,7 @@ function InsertForm() {
           <td><input className='insertInput'
             type="text"
             name="meetingTitle"
+            id="meetingTitle"
             value={formData.meetingTitle} 
             onChange={handleChange}
           /></td>
@@ -166,10 +264,10 @@ function InsertForm() {
           <input className='inputRadio'
               type="radio"
               name="category"
-              value="운동"
+              value="sport"
               id="sports"
               onChange={handleRadioChange}
-              checked={formData.category === '운동'}
+              checked={formData.category === 'sport'}
             />
             </label>
             <label htmlFor="hobby" className='insertLabel'>
@@ -177,10 +275,10 @@ function InsertForm() {
             <input className='inputRadio'
               type="radio"
               name="category"
-              value="라이프 스타일"
+              value="life"
               id="hobby"
               onChange={handleRadioChange}
-              checked={formData.category === '라이프 스타일'}
+              checked={formData.category === 'life'}
             />
             </label>
             <label htmlFor="travel" className='insertLabel'>
@@ -188,10 +286,10 @@ function InsertForm() {
             <input className='inputRadio'
               type="radio"
               name="category"
-              value="여행"
+              value="tour"
               id="travel"
               onChange={handleRadioChange}
-              checked={formData.category === '여행'}
+              checked={formData.category === 'tour'}
             />
             </label>
             <label htmlFor="employment" className='insertLabel'>
@@ -199,10 +297,10 @@ function InsertForm() {
             <input className='inputRadio'
               type="radio"
               name="category"
-              value="취업"
+              value="work"
               id="employment"
               onChange={handleRadioChange}
-              checked={formData.category === '취업'}
+              checked={formData.category === 'work'}
 
             />
             </label>
@@ -211,10 +309,10 @@ function InsertForm() {
             <input className='inputRadio'
               type="radio"
               name="category"
-              value="어학"
+              value="language"
               id="language"
               onChange={handleRadioChange}
-              checked={formData.category === '어학'}
+              checked={formData.category === 'language'}
             />
             </label>
             <label htmlFor="coding" className='insertLabel'>
@@ -222,10 +320,10 @@ function InsertForm() {
             <input className='inputRadio'
               type="radio"
               name="category"
-              value="코딩"
+              value="IT"
               id="coding"
               onChange={handleRadioChange}
-              checked={formData.category === '코딩'}
+              checked={formData.category === 'IT'}
             />
             </label>
             </div>
@@ -303,15 +401,41 @@ function InsertForm() {
           disabled={formData.faceToFace === '대면'}
         />
         </label>
+        <label htmlFor="other" className='insertLabel'>
+        &nbsp;&nbsp;etc(기타)
+        <input className='inputRadio'
+          type="radio"
+          name="program"
+          value="other"
+          id="other"
+          onChange={handleRadioChange3}
+          checked={formData.program === 'other'}
+          disabled={formData.faceToFace === '대면'}
+        />
+        </label>
+        {formData.program === 'other' && (  
+          <label htmlFor="customProgram" className='insertLabel'>
+
+          <input
+            className='inputRadio'
+            type="text"
+            name="customProgram"
+            id="customProgram"
+            value={formData.customProgram}
+            onChange={handleChange}
+            />
+          </label>    
+        )}
         </div>
+        <br/>
         </tr>
         <tr>
-        <label htmlFor="capacity" className='insertLabel'>
-          <td>인원 :&nbsp;</td> 
+        <label htmlFor="peopleNum" className='insertLabel'>
+          <td>모집인원 :&nbsp;</td> 
           <td><input className='insertInput'
             type="number"
             name="peopleNum"
-            id="capacity"         
+            id="peopleNum"         
             min="0"
             value={formData.peopleNum}
             onChange={handleChange}
@@ -319,17 +443,58 @@ function InsertForm() {
         </label>
         </tr>
         <tr>
+          모집비용 : <br/>
+          <div className='radio-label'>
+          <label htmlFor="meetingcost" className='insertLabel'>
+            무료
+            <input className='inputRadio'
+              type="radio"
+              name="meetingcost"
+              value="무료"
+              id="meetingcost"
+              onChange={handleRadioChange3}
+              checked={formData.meetingcost === '무료'}
+            />
+            </label>
+            &nbsp;&nbsp;
+            <label htmlFor="meetingcost" className='insertLabel'>
+            유료
+            <input className='inputRadio'
+              type="radio"
+              name="program"
+              value="유료"
+              id="meetingcost"
+              onChange={handleRadioChange3}
+              checked={formData.meetingcost === '유료'}
+            />
+            </label>
+            <label htmlFor="meetingcost" className='insertLabel'>
+
+            <input
+              className='inputRadio'
+              type="text"
+              name="meetingcost"
+              id="meetingcost"
+              value={formData.meetingcost}
+              onChange={handleChange}
+              />
+            </label>   
+          </div>
+        </tr>
+        <tr>
         <label className='Datelabel'>
          <td>모임날짜 :&nbsp;</td>
           <td><input className='inputDate'
             type="date"
             name="meetingDateStart"
+            id="meetingDateStart"
             value={formData.meetingDateStart}
             onChange={handleChange}
           /> &nbsp;-&nbsp;&nbsp;
             <input className='inputDate'
             type="date"
             name="meetingDateEnd"
+            id="meetingDateEnd"
             value={formData.meetingDateEnd}
             onChange={handleChange}
           /></td>
@@ -337,38 +502,43 @@ function InsertForm() {
         </tr>
         <tr className='insertLabel'>
         <label className='insertLabel'>
-          <td>장소 :&nbsp;</td>
+          <td>장소 :&nbsp;&nbsp;</td>
         
           <td>
-            <input className='insertInput'
+            <input className='insertLocation1'
             type="text"
             name="meetingLocation"
+            id="meetingLocation"
             value={formData.meetingLocation}
             onChange={handleChange}
             onClick={handleDaumPostClick}
             readOnly
+            
           />
+          <div className='findLocation'>
           {showDaumPost && <DaumPost setAddressObj={handleAddressChange} setMapCenter={setMapCenter}/>}
+          </div>
           </td>
         </label>
         </tr>   
         <label className='insertLabel'>
+        <td>상세주소 :</td>
         <td><input className='insertLocation2'
             type="text"
             name="meetingLocation2"
+            id="meetingLocation2"
             value={formData.meetingLocation2}
             onChange={handleChange}
           /></td>
           </label>
-        </tbody>
-        
+        </tbody>  
         </table>
         <KakaoMap center={mapCenter}/>
-        
         <br />
         <input className='inputSubmit' type="submit" value="그룹개설"/>
       </form>
     </div>
+
     </>
   );
 }
