@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+
 import "../../css/GroupCategory.css";
 import GroupList from "./GroupList";
 
 const GroupCategory = ({ onSearch }) => {
-
-
-  const handleGroup = (category) => {
-    onSearch(null, null, category); // 검색 시 Select 컴포넌트 열기
+  const handleGroup = (group) => {
+    onSearch(null, null, null, group); 
   };
 
   const handleCategory = (category) => {
-    onSearch(null, null, category); // 검색 시 Select 컴포넌트 열기
+    onSearch(null, null, category);
   };
 
   return (

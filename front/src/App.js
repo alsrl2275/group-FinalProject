@@ -9,6 +9,7 @@ import KakaoMap from "./KakaoMap";
 import GroupJoin from "./pages/GroupJoin";
 import SignUp from "./pages/SignUp";
 
+
 export default function App() {
   return (
     <Routes>
@@ -19,8 +20,9 @@ export default function App() {
       <Route path="/KakaoMap" element={<KakaoMap/>}/>
       <Route path="/SignUp" element={<SignUp/>}/>
       <Route path="/GroupJoin" element={<GroupJoin/>}/>
+      <Route path="/GroupJoin/:category" element={<GroupJoin/>}/>
+      <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
       <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
-
     </Routes>
   );
 }

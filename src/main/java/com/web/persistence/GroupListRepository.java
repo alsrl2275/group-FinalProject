@@ -11,4 +11,10 @@ public interface GroupListRepository extends CrudRepository<GroupListDTO, Long>{
 
 	List<GroupListDTO> findAllByCategory(String categoryValue);
 
+	List<GroupListDTO> findAllByCategoryAndTitle(String selectedValue, String searchValue);
+
+	List<GroupListDTO> findAllByTitleContaining(String searchValue);
+
+	List<GroupListDTO> findAllByCategoryContainingAndTitleContaining(String selectedValue, String searchValue);
+
 }

@@ -20,26 +20,7 @@ public class GroupListDTO2 {
 	private String groupValue;
 	private String searchValue;
 
-	public void categoryValue(String categoryValue) {
-		if(categoryValue == null) {
-			categoryValue="";
-		}
-	}
-	public void selectedValue(String selectedValue) {
-		if(selectedValue == null) {
-			selectedValue="";
-		}
-	}
-	public void groupValue(String groupValue) {
-		if(groupValue == null) {
-			groupValue="";
-		}
-	}
-	public void searchValue(String searchValue) {
-		if(searchValue == null) {
-			searchValue="";
-		}
-	}
+
 	
 	
 	

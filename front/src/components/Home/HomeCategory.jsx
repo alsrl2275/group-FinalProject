@@ -4,65 +4,29 @@ import { NavLink } from "react-router-dom";
 import "../../css/HomeCategory.css"; // CSS 파일 불러오기
 
 const Category = () => {
+  const categories = [
+    { id: "sport", title: "즐거운 운동" },
+    { id: "life", title: "즐거운 라이프 스타일" },
+    { id: "language", title: "즐거운 어학" },
+    { id: "IT", title: "즐거운 코딩/IT" },
+    { id: "tour", title: "즐거운 여행" },
+    { id: "work", title: "즐거운 취업" },
+  ];
+
   return (
     <div className="Body">
       <div className="Hy">
-        <NavLink to="/test" className="CardContainer">
-          <div className="CardStyle">
-            <img className="CardStyle-img" src="/Image/PT.jpg" alt="Card" />
-            <div>
-              <h4 className="CardStyle-h4">즐거운 운동</h4>
-              <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
+        {categories.map((category) => (
+          <NavLink key={category.id} to={`/GroupJoin/${category.id}`} className="CardContainer">
+            <div className="CardStyle">
+              <img className="CardStyle-img" src={`/Image/homecategory/${category.id}.jpg`} alt="Card" />
+              <div>
+                <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
+                <h4 className="CardStyle-h4">{category.title}</h4>
+              </div>
             </div>
-          </div>
-        </NavLink>
-        <NavLink to="/test" className="CardContainer">
-          <div className="CardStyle">
-            <img className="CardStyle-img" src="/Image/PT.jpg" alt="Card" />
-            <div>
-            <h4 className="CardStyle-h4">즐거운 라이프 스타일</h4>
-              <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
-            </div>
-          </div>
-        </NavLink>
-        <NavLink to="/test" className="CardContainer">
-          <div className="CardStyle">
-            <img className="CardStyle-img" src="/Image/PT.jpg" alt="Card" />
-            <div>
-            <h4 className="CardStyle-h4">즐거운 여행</h4>
-              <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
-            </div>
-          </div>
-        </NavLink>
-      </div>
-      <div className="Hy">
-        <NavLink to="/test" className="CardContainer">
-          <div className="CardStyle">
-            <img className="CardStyle-img" src="/Image/PT.jpg" alt="Card" />
-            <div>
-            <h4 className="CardStyle-h4">즐거운 운동</h4>
-              <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
-            </div>
-          </div>
-        </NavLink>
-        <NavLink to="/test" className="CardContainer">
-          <div className="CardStyle">
-            <img className="CardStyle-img" src="/Image/PT.jpg" alt="Card" />
-            <div>
-            <h4 className="CardStyle-h4">즐거운 라이프 스타일</h4>
-              <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
-            </div>
-          </div>
-        </NavLink>
-        <NavLink to="/test" className="CardContainer">
-          <div className="CardStyle">
-            <img className="CardStyle-img" src="/Image/PT.jpg" alt="Card" />
-            <div>
-            <h4 className="CardStyle-h4">즐거운 여행</h4>
-              <p className="CardStyle-p">아리따운 여성과 함께하실 남성분들 모집합니다</p>
-            </div>
-          </div>
-        </NavLink>
+          </NavLink>
+        ))}
       </div>
     </div>
   );
