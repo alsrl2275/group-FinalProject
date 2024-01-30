@@ -1,3 +1,4 @@
+/* 모달 내용 */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -10,7 +11,7 @@
     align-items: center;
   }
   
-  /* 모달 내용 */
+  
   .modal-content {
     background: #fff;
     padding: 20px;
