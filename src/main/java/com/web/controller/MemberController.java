@@ -22,20 +22,20 @@ public class MemberController {
 		System.out.println(category);
 		return "운동 ";
 	}
-//    
-//    @Autowired
-//    private MemberService msv;
-//    
-//    @PostMapping("/checkId")
-//    public String checkId(@RequestBody MemberDTO memberDTO) {
-//    	String res = msv.checkId(memberDTO.getId());
-//    	return res;
-//    }
-//    
-//    @PostMapping("SignUp")
-//    public String SignUp(@RequestBody MemberDTO memberDTO) {
-//    	String res = msv.signUp(memberDTO);
-//		return res;
-//    }
+    
+    @Autowired
+    private MemberService msv;
+    
+    @PostMapping("/checkId")
+    public String checkId(@RequestBody MemberDTO memberDTO) {
+    	String res = msv.checkId(memberDTO.getId());
+    	return res;
+    }
+    
+    @PostMapping("SignUp")
+    public String SignUp(@RequestBody MemberDTO memberDTO) {
+    	String res = msv.signUp(memberDTO);
+		return res;
+    }
 		
 }
