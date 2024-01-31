@@ -38,153 +38,80 @@ const SignUp = () => {
     const [user, setUser] = useState({
         id: "",
         pwd: "",
+        cpwd: "",
         name: "",
         email: "",
         domain: "",
-        phoneNum: "",
         phone: "",
         birth: "",
         bank: "",
         banknum: "",
         userDate:null,
     });
-    const [isCheckButtonDisabled, setIsCheckButtonDisabled] = useState(false);
-    const checkId = async (event) => {
-        event.preventDefault();
-        // 아이디 유효성 검사
-        if (!Username) {
-            alert("아이디는 영문과 숫자로 이루어진 6~12글자여야 합니다.");
-            return;
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUser((preUser) => ({
+          ...preUser,
+          [name]: value,
+        }));
+        if (name === 'id') {
+          lenid(value);
+          setcid(false);
         }
-        try {
-            // axios를 사용하여 서버로 데이터 전송
-            const response = await axios.post("/checkId", user);
-            console.log(response.data);
-            // 추가적으로 서버로부터의 응답을 처리하거나 상태를 업데이트할 수 있음
-            if (response.data === "Exist") {
-                console.log(response.data);
-                alert("이미 존재하는 아이디입니다.");
-            } else if(response.data === "Empty") {
-                console.log(response.data);
-                alert("아이디를 입력하세요.");
-            } else {
-                alert(response.data);
-                console.log(response.data);
-                setIsCheckButtonDisabled(true);
-            }
-        } catch (error) {
-            console.log("Error sending data: ", error);
-        } 
-    }
-    const [userPasswordCheck, setUserPasswordCheck] = useState("");
-    const [isPasswordValid, setIsPasswordValid] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
+      };
+
+
+    // 아이디 유효성 검사
+    const [iid, setIid] = useState(false);
+    const [cid, setcid] = useState(false);
     
-    const PasswordVisibilty = () => {
-        setShowPassword((prevShowPassword) => !prevShowPassword);
-    };
-
-    const handleChange = (field, value) => {
-        if (field === 'password') {
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
-            setIsPasswordValid(passwordRegex.test(value));
+      const lenid = (id) => {
+        const isValid = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(id);
+        setIid(isValid);
+      };
+    
+      const handleId = async () => {
+        const isDuplicate = await checked(user.id);
+    
+        if (isDuplicate) {
+          alert('이미 사용중인 아이디입니다.');
+        } else {
+          alert('사용 가능한 아이디입니다');
+          setIid(true);
+          setcid(true);
         }
-        
-        setUser({ ...user, [field]: value });
-    };
+      };
+    
+      const checked = async (id) => {
+        // 실제로는 서버로 중복 여부를 확인하는 로직을 구현해야 합니다.
+        // 여기서는 간단한 예시로 "test1" 아이디가 중복인 것으로 가정합니다.
+        return id === 'test1';
+      };
 
-    const handlepw = (field, value) => {
-        setUser((prevUser) => ({
-            ...prevUser,
-            [field]: value,
+//----------------------------------------------------------------
+
+    // 비밀번호
+    const [showpwd, setshowpwd] = useState(false);
+    const showpass = () => {
+        setshowpwd((showpassword) => !showpassword);
+    }
+
+//---------------------------------------------------------------
+
+    // 이메일
+    const domainChange = (e) => {
+        const selectdomain = e.target.value;
+        setUser((preUser) => ({
+            ...preUser,
+            domain: selectdomain === '직접입력' ? '' : selectdomain,
         }));
     };
-    
-    const [isNameValid, setIsNameValid] = useState(true);
-    const [Username, setUsername] = useState(true); // 유저이름
-    const handleName = (field, value) => {
-        if (field === 'username') {
-            const usernameRegex = /^[a-zA-Z0-9]{6,12}$/;
-            const isInputValid = value.trim() !== '' && usernameRegex.test(value); // 빈 값이 아닌지와 정규식을 통한 유효성 검사
-            setUsername(isInputValid);
-        }
-        if (field === 'memberName') {
-            // 이름은 한글로만 이루어지고, 2~5글자
-            const nameRegex = /^[가-힣]{2,5}$/;
-            setIsNameValid(nameRegex.test(value));
-        }
-    }
-    
-    const handleDomainChange = (event) => {
-        const selectedDomain = event.target.value;
-        setUser({ ...user, domain: selectedDomain });
-    };
-    
-    const formatPhoneNumber = (phoneNumber) => {
-        // 전화번호 형식 변환 (000-0000-0000)
-        return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-    };
-    
-    const handlePhoneNumChange = (event) => {
-        // 입력된 값에서 숫자만 추출
-        const newValue = event.target.value.replace(/[^0-9]/g, '');
-        // 최대 11자리까지만 받음
-        const truncatedValue = newValue.slice(0, 11);
-        // 형식 적용하여 state 업데이트
-        setUser({ ...user, phoneNum: formatPhoneNumber(truncatedValue) });
-    };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        // 이름 유효성 검사
-        if (!isNameValid) {
-            alert("이름은 한글로 2~5글자 사이여야 합니다.");
-            return;
-        }
-        if (!isCheckButtonDisabled) {
-            alert("ID 중복확인 해주세요.");
-            return;
-        }
-        // 비밀번호 일치 여부 확인
-        if (user.password !== userPasswordCheck) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return; 
-        }
-        
-        if (!isPasswordValid) {
-            alert("비밀번호는 최소 8자리, 대문자1, 소문자1, 숫자1로 이루어져야 합니다. (!@#$%^&* 만 가능)");
-            return;
-        }
-        if (!user.memberName || !user.username || !user.password || !user.email || !user.phoneNum) {
-            alert("모든 항목을 적어주세요.");
-            return;
-        }
-        
-        // 전화번호 유효성 검사
-        const phoneRegex = /^(010|011)\d{8}$/;
-        if (!phoneRegex.test(user.phoneNum.replace(/-/g, ''))) {
-            alert("올바른 전화번호 형식이 아닙니다.");
-            return;
-        }
-        try {
-            // axios를 사용하여 서버로 데이터 전송
-            const response = await axios.post("/join", user);
-            console.log(response.data);
-            // 추가적으로 서버로부터의 응답을 처리하거나 상태를 업데이트할 수 있음
-            if (response.data === "ok") {
-                console.log(response.data);
-                alert(response.data);
-                navigate("/");
-            } else {
-                alert(response.data);
-                console.log(response.data);
-                
-            }
-        } catch (error) {
-            console.log("Error sending data: ", error);
-        }
-        console.log("폼 제출됨:", user);
-    };
+//---------------------------------------------------------------
+
+    // 전화번호
+
     
     return (
         <>
@@ -775,7 +702,7 @@ const SignUp = () => {
 			</div>
 			)}
 
-            <form onSubmit={handleSubmit}>
+            <form>
                 <table className="fta">
                     <tbody>
                         <tr>
@@ -784,47 +711,41 @@ const SignUp = () => {
                                 <input
                                     className="fin"
                                     type="text"
-                                    onChange={(event) =>
-                                        handleChange("username", event.target.value)
-                                    }
-                                    value={user.username}
+                                    id="id"
+                                    name="id"
+                                    value={user.id}
+                                    onChange={handleChange}
+                                    placeholder="영문과 숫자 최소 6글자"
                                 />
-                               <button
-                                    className="checkId"
-                                    onClick={checkId}
-                                    disabled={isCheckButtonDisabled}
-                                >
-                                    중복체크
-                                </button>
+                                {!cid && <button  className="checkId" onClick={handleId} disabled={!iid}>중복체크</button>}
                             </td>
                         </tr>
                         <tr>
                             <td className="firtd">비밀번호</td>
-                            <td className="firtd">
+                            <td className="firtd" style={{ display: 'flex', alignItems: 'center' }}>
                                 <input
                                     className="fin"
-                                    type={showPassword ? 'text' : 'password'}
-                                    onChange={(event) =>
-                                        handleChange("password", event.target.value)
-                                    }
-                                    value={user.password}
+                                    type={showpwd ? 'text' : 'password'}
+                                    id="pwd"
+                                    name="pwd"
+                                    value={user.pwd}
+                                    onChange={handleChange}
                                 />
-                                <button
-                                    className="show-password"
-                                    onClick={PasswordVisibilty}
-                                    >
-                                        {showPassword ? 'hide' : 'show'}
+                                <button className="checkId" type="button" onClick={showpass}>
+                                    {showpwd ? 'hide' : 'show'}
                                 </button>
                             </td>
                         </tr>
                         <tr>
                             <td className="firtd">비밀번호 확인</td>
-                            <td className="firtd">
+                            <td className="firtd" style={{ display: 'flex', alignItems: 'center' }}>
                                 <input
                                     className="fin"
-                                    type="password"
-                                    onChange={(event) => setUserPasswordCheck(event.target.value)}
-                                    value={userPasswordCheck}
+                                    type={showpwd ? 'text' : 'password'}
+                                    id="cpwd"
+                                    name="cpwd"
+                                    value={user.cpwd}
+                                    onChange={handleChange}
                                 />
                             </td>
                         </tr>
@@ -833,13 +754,12 @@ const SignUp = () => {
                             <td className="firtd">
                                 <input
                                     className="fin"
-                                    type="text"
-                                    onChange={(event) =>
-                                        handleChange("memberName", event.target.value)
-                                    }
-                                    value={user.memberName}
+                                    type='text'
+                                    id="name"
+                                    name="name"
+                                    value={user.name}
+                                    onChange={handleChange}
                                 />
-                                
                             </td>
                         </tr>
                         <tr>
@@ -847,20 +767,26 @@ const SignUp = () => {
                             <td className="firtd">
                                 <input
                                     className="fin"
-                                    type="text"
-                                    onChange={(event) =>
-                                        handleChange("email", event.target.value)
-                                    }
-                                    value={user.userEmail}
-                                />@ 
-                                <select
-                                    className="fse"
-                                    onChange={handleDomainChange}
+                                    type='text'
+                                    id="email"
+                                    name="email"
+                                    value={user.email}
+                                    onChange={handleChange}
+                                />@
+                                <input
+                                    className="fin"
+                                    type='text'
+                                    id="domain"
+                                    name="domain"
                                     value={user.domain}
-                                >
-                                    <option value="@naver.com">naver.com</option>
-                                    <option value="@google.com">google.com</option>
-                                    <option value="@daum.net">daum.net</option>
+                                    onChange={handleChange}
+                                    placeholder="직접입력"
+                                />
+                                <select className="fse" onChange={domainChange} value={user.domain}>
+                                    <option>직접입력</option>
+                                    <option value="naver.com">naver.com</option>
+                                    <option value="google.com">google.com</option>
+                                    <option value="daum.net">daum.net</option>
                                 </select>
                             </td>
                         </tr>
@@ -870,8 +796,9 @@ const SignUp = () => {
                                 <input
                                     className="fin"
                                     type="text"
-                                    onChange={handlePhoneNumChange}
-                                    value={user.phoneNum}
+                                    value={user.phone}
+                                    onChange={handleChange}
+                                    placeholder="- 제외"
                                 />
                             </td>
                         </tr>
@@ -931,8 +858,9 @@ const SignUp = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <select>
+                            <td className="firtd">계좌번호</td>
+                            <td className="firtd">
+                                <select className="fse">
                                     <option>은행</option>
                                     <option value="한국은행">한국은행</option>
                                     <option value="KB국민은행">KB국민은행</option>
@@ -951,7 +879,15 @@ const SignUp = () => {
                                     <option value="제주은행">제주은행</option>
                                     <option value="새마을금고">새마을금고</option>
                                 </select>
-                                
+                                <input
+                                    className="fin"
+                                    type='text'
+                                    id="banknum"
+                                    name="banknum"
+                                    value={user.banknum}
+                                    onChange={handleChange}
+                                    placeholder="- 제외"
+                                />
                             </td>
                         </tr>
                     </tbody>
