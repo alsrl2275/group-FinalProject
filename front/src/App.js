@@ -7,6 +7,7 @@ import InsertForm from "./pages/InsertForm";
 import KakaoMap from "./KakaoMap";
 import GroupJoin from "./pages/GroupJoin";
 import SignUp from "./pages/SignUp";
+import Calendar from "./pages/Calendar"
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
       <Route path="/GroupJoin/:category" element={<GroupJoin/>}/>
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
       <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
+      <Route path="/schedule" element={<Calendar/>}/>
     </Routes>
   );
 }

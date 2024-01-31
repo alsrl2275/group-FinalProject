@@ -23,17 +23,18 @@ public class GroupInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INSERT_SEQ_GENERATOR")
-    private String meetingNumber;
-    private String userId;
-    private String meetingTitle;
-    private String category;
-    private String faceToFace;
-    private String program;
-    private int meetingcost;
-    private String peopleNum;
-    private String recruitments;
-    private String recruitmentd;
-    private String meetingDateStart;
-    private String meetingDateEnd;
-    private String meetingLocation;
+    private Long seq;			
+    private String userId;	// 아이디
+    private String meetingTitle; // 모임명
+    private String category; // 카테고리
+    private String faceToFace; // 대면 or 비대면
+    private String program; // 공유프로그램
+    private String meetingType; // 유료 or 무료
+    private int peopleNum; // 모임 인원수 
+    private int meetingCost; // 모임유지비용
+    private String recruitments; // 모집시작날짜
+    private String recruitmentd; // 모집종료날짜
+    private String meetingDateStart; // 모임시작날짜
+    private String meetingDateEnd; // 모임종료날짜
+    private String meetingLocation; // 모임장소
 }

@@ -14,6 +14,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     month = month < 10 ? `0${month}` : month;
     let day = currentDate.getDate();
     day = day < 10 ? `0${day}` : day;
+
     return `${year}-${month}-${day}`;
   };
   const [formData, setFormData] = useState({
@@ -31,7 +32,8 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     meetingLocation: '',
     meetingLocation2:'',
     customProgram: '',
-    meetingcost: ''
+    meetingType: '',                                   
+    meetingCost: 0
   });
   const [showDaumPost, setShowDaumPost] = useState(false);
 
@@ -43,10 +45,6 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     lat: 37.50006335700178,
     lng: 127.03558085159663
   });
-
-
-
-  
 
   const handleAddressChange = (newAddressObj) => {
     setAddressObj(newAddressObj); 
@@ -74,15 +72,8 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     
   };
   
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
-  const handleRadioChange = (e) => { // category
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -119,10 +110,6 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     };
     }
 
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -130,9 +117,20 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       ...formData,
       meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`,
       program: formData.program === 'other' ? formData.customProgram : formData.program, // 추가된 부분
+      meetingType: formData.meetingType,
     };
     const currentDate = new Date();
-    if (formData.userId.trim() === '') {
+    if(formData.meetingType.trim() === '') {
+      alert("모임타입을 설정해주세요."); // 알림 창 표시
+      document.getElementById("free").focus();
+    } else if(formData.recruitmentd.trim() === '' || new Date(formData.recruitmentd) <= currentDate) {
+      alert("올바른 모집 기간 날짜를 입력해주세요.")
+      const recruitmentd = document.getElementById("recruitmentd")
+      recruitmentd.scrollIntoView({ behavior: 'auto', block: 'center' });
+      setTimeout(() => {
+        recruitmentd.focus();
+      }, 100); 
+    } else if (formData.userId.trim() === '') {
       alert("아이디를 입력하세요."); // 알림 창 표시
       const userId = document.getElementById("userId")
       userId.scrollIntoView({ behavior: 'auto', block: 'center' });
@@ -198,18 +196,46 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       <table
       >
         <tbody>
-          {/* <tr>
+        <tr>
+        <div className='radio-label'>
+        <label htmlFor="free" className='insertLabel'>
+          무료
+            <input className='inputRadio'
+              type="radio"
+              name="meetingType"
+              value="무료"
+              id="free"
+              onChange={handleChange}
+              checked={formData.meetingType === '무료'}
+              
+        />
+            </label>
+            &nbsp;&nbsp;
+            <label htmlFor="nofree" className='insertLabel'>
+            유료
+            <input className='inputRadio'
+              type="radio"
+              name="meetingType"
+              value="유료"
+              id="nofree"
+              onChange={handleChange}
+              checked={formData.meetingType === '유료'}
+            />
+            </label>
+          </div>
+        </tr>
+        <tr>
         <label className='insertLabel'>
-         <td>모임 순번 :&nbsp;</td> 
-         <td> <input className='insertInput'
-            type="text"
-            name="meetingNumber"
-            id="meetingNumber"
-            value={formData.meetingNumber}
+          {/* <td>아이디 :&nbsp;</td>  */}
+          <td><input className='insertInput'
+            type="hidden"
+            name="meetingCost"
+            id="meetingCost"
+            value={formData.meetingCost}
             onChange={handleChange}
           /></td>
         </label>
-          </tr>  */}
+        </tr>
         <tr>
         <label className='Datelabel'>
          <td>모집기간 :&nbsp;</td>
@@ -217,7 +243,6 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             type="date"
             name="recruitments"
             id="recruitments"
-            // value={formData.recruitments || getCurrentDate()} // 기본값을 오늘 날짜로 설정
             value={formData.recruitments}
             onChange={handleChange}
             disabled
@@ -266,7 +291,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               name="category"
               value="sport"
               id="sports"
-              onChange={handleRadioChange}
+              onChange={handleChange}
               checked={formData.category === 'sport'}
             />
             </label>
@@ -277,7 +302,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               name="category"
               value="life"
               id="hobby"
-              onChange={handleRadioChange}
+              onChange={handleChange}
               checked={formData.category === 'life'}
             />
             </label>
@@ -288,7 +313,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               name="category"
               value="tour"
               id="travel"
-              onChange={handleRadioChange}
+              onChange={handleChange}
               checked={formData.category === 'tour'}
             />
             </label>
@@ -299,7 +324,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               name="category"
               value="work"
               id="employment"
-              onChange={handleRadioChange}
+              onChange={handleChange}
               checked={formData.category === 'work'}
 
             />
@@ -311,7 +336,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               name="category"
               value="language"
               id="language"
-              onChange={handleRadioChange}
+              onChange={handleChange}
               checked={formData.category === 'language'}
             />
             </label>
@@ -322,7 +347,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               name="category"
               value="IT"
               id="coding"
-              onChange={handleRadioChange}
+              onChange={handleChange}
               checked={formData.category === 'IT'}
             />
             </label>
@@ -415,14 +440,13 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         </label>
         {formData.program === 'other' && (  
           <label htmlFor="customProgram" className='insertLabel'>
-
           <input
             className='inputRadio'
             type="text"
             name="customProgram"
             id="customProgram"
             value={formData.customProgram}
-            onChange={handleChange}
+            onChange={handleRadioChange3}
             />
           </label>    
         )}
@@ -442,45 +466,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
           /></td>
         </label>
         </tr>
-        <tr>
-          모집비용 : <br/>
-          <div className='radio-label'>
-          <label htmlFor="meetingcost" className='insertLabel'>
-            무료
-            <input className='inputRadio'
-              type="radio"
-              name="meetingcost"
-              value="무료"
-              id="meetingcost"
-              onChange={handleRadioChange3}
-              checked={formData.meetingcost === '무료'}
-            />
-            </label>
-            &nbsp;&nbsp;
-            <label htmlFor="meetingcost" className='insertLabel'>
-            유료
-            <input className='inputRadio'
-              type="radio"
-              name="program"
-              value="유료"
-              id="meetingcost"
-              onChange={handleRadioChange3}
-              checked={formData.meetingcost === '유료'}
-            />
-            </label>
-            <label htmlFor="meetingcost" className='insertLabel'>
 
-            <input
-              className='inputRadio'
-              type="text"
-              name="meetingcost"
-              id="meetingcost"
-              value={formData.meetingcost}
-              onChange={handleChange}
-              />
-            </label>   
-          </div>
-        </tr>
         <tr>
         <label className='Datelabel'>
          <td>모임날짜 :&nbsp;</td>
@@ -538,7 +524,6 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         <input className='inputSubmit' type="submit" value="그룹개설"/>
       </form>
     </div>
-
     </>
   );
 }
