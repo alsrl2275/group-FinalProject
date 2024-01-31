@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import list from "../../JS/images";
 import Modal from "../../components/Modal"; // 모달 컴포넌트 import
+import Crolling from "../../components/GroupJoin/Crolling";
 
-const LifeGroup = ({ print }) => {
-
+const LifeGroup = ({ print, searchValue }) => {
   const [selectedData, setSelectedData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,24 +23,18 @@ const LifeGroup = ({ print }) => {
     return images[randomIndex];
   };
 
-
+  if (print === "life") {
     return (
       <div className="group-container">
-        <div className="group-item">
-          <a
-            href="https://www.frip.co.kr/"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <img
-              className="group-item-img"
-              src={"/Image/life.svg"}
-              alt="Card"
-            />
-            <h4 className="group-item-h4">라이프 스타일</h4>
-            <h4 className="group-item-h4">FRIP 취미 여가 사이트</h4>
-          </a>
-        </div>
+        {!searchValue && <Crolling print={print} />}
+      </div>
+    );
+  } else {
+    return (
+      <div className="group-container">
+        {!searchValue && <Crolling print={print} />}
         {print &&
+          print.length > 0 &&
           print.map((c, index) => (
             <div key={index} className="group-item">
               <div onClick={() => handleSeq(c)}>
@@ -54,10 +48,15 @@ const LifeGroup = ({ print }) => {
               </div>
             </div>
           ))}
-                {/* 모달 컴포넌트를 사용하여 모달을 렌더링 */}
-      <Modal isOpen={isModalOpen} handleClose={handleCloseModal} data={selectedData}/>
+        {/* 모달 컴포넌트를 사용하여 모달을 렌더링 */}
+        <Modal
+          isOpen={isModalOpen}
+          handleClose={handleCloseModal}
+          data={selectedData}
+        />
       </div>
     );
-  };
+  }
+};
 
-  export default LifeGroup;
+export default LifeGroup;

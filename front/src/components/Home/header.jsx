@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/Header.css"; // CSS 파일 불러오기
-
+import { Link } from 'react-router-dom';
 const Header = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
@@ -66,9 +66,9 @@ const Header = () => {
             <NavLink className="nav-link" to="/insert">
               그룹 개설
             </NavLink>
-            <NavLink className="nav-link" to="/GroupJoin">
-              그룹 참가하기
-            </NavLink>
+            <Link className="nav-link" to={{ pathname: '/GroupJoin', state: { categorys: 'sport' } }}>그룹 참가하기</Link>
+
+
             <NavLink className="nav-link" to="/schedule">
               일정 관리
             </NavLink>
