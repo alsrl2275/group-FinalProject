@@ -36,10 +36,7 @@ const GroupCategory = ({ onSearch }) => {
         <div className="category-div" onClick={() => handleCategory("life")}>
           라이프스타일
         </div>
-        <div
-          className="category-div"
-          onClick={() => handleCategory("language")}
-        >
+        <div className="category-div" onClick={() => handleCategory("language")}>
           어학
         </div>
         <div className="category-div" onClick={() => handleCategory("IT")}>
