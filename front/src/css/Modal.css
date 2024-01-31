@@ -11,7 +11,6 @@
     align-items: center;
   }
   
-  
   .modal-content {
     background: #fff;
     padding: 20px;
@@ -24,6 +23,13 @@
   }
   
 /* 닫기 버튼 스타일 (선택사항) */
+.modal-buttons {
+  display: flex;
+  gap: 1rem; /* 원하는 간격 설정 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+
 .modal-content-but {
     padding: 10px 20px;
     background: #007bff;
@@ -31,10 +37,7 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-  
-    /* 버튼을 수평, 수직으로 중앙에 정렬 */
-    margin: 0 auto;
+    cursor: pointer;   
     display: block;
   }
   

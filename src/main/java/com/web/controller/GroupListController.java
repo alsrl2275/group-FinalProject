@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.dto.GroupListDAO;
 import com.web.dto.GroupListDTO;
 import com.web.dto.GroupListDTO2;
 import com.web.persistence.GroupListRepository;
@@ -30,16 +31,23 @@ public class GroupListController {
 	public GroupListService Gservice;
 	
 	@PostMapping("/api/test")
-	public List<GroupListDTO> test2(@RequestBody GroupListDTO2 dto) {
-		
-		if(dto.getGroupValue() == null) {
-			dto.setGroupValue("무료");
+	public List<GroupListDTO> test2(@RequestBody GroupListDTO2 dto2) {
+		System.out.println("확인할래");
+		if(dto2.getGroupValue() == null) {
+			dto2.setGroupValue("무료");
 		}
 		
 		List<GroupListDTO> list = new ArrayList<>();
 
-		list = Gservice.ShowGroupList(dto);
-		
+		list = Gservice.ShowGroupList(dto2);
+
+		System.out.println(list);
 	    return list;
+	}
+	
+	@PostMapping("/api/content")
+	public void test(@RequestBody GroupListDAO dao) {
+		System.out.println("확이뇽ㅇ!!!");
+		System.out.println(dao);
 	}
 }
