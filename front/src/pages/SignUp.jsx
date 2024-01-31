@@ -51,6 +51,14 @@ const SignUp = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if(name === 'phone'){
+            const phnum = value.replace(/\D/g, '');
+            const phhypen = phonenum(phnum);
+            setUser((preUser) => ({
+                ...preUser,
+                [name]: phhypen,
+            }));
+        }else{
         setUser((preUser) => ({
           ...preUser,
           [name]: value,
@@ -59,7 +67,8 @@ const SignUp = () => {
           lenid(value);
           setcid(false);
         }
-      };
+    }
+    };
 
 
     // 아이디 유효성 검사
@@ -111,7 +120,15 @@ const SignUp = () => {
 //---------------------------------------------------------------
 
     // 전화번호
-
+    const phonenum = (phnum) => {
+        if(phnum.length < 4){
+            return phnum;
+        } else if(phnum.length < 7){
+            return `${phnum.slice(0,3)}-${phnum.slice(3)}`;
+        } else {
+            return `${phnum.slice(0,3)}-${phnum.slice(3,7)}-${phnum.slice(7)}`;
+        }
+    }
     
     return (
         <>
@@ -796,8 +813,11 @@ const SignUp = () => {
                                 <input
                                     className="fin"
                                     type="text"
+                                    id="phone"
+                                    name="phone"
                                     value={user.phone}
                                     onChange={handleChange}
+                                    maxLength={"13"}
                                     placeholder="- 제외"
                                 />
                             </td>
