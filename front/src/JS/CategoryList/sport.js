@@ -19,13 +19,22 @@ const SportGroup = ({ print, searchValue }) => {
   };
   const handleApply = async () => {
     try {
-      console.log(selectedData)
       const response = await axios.post("/api/content", selectedData);
+      console.log(response)
+      if(response.data === "기간"){
+        alert("모집기간이 지났습니다");
+      }else if(response.data === "인원"){
+        alert("모집인원이 다 찼습니다")
+      }
+      
     } catch (error) {
       
     }
     setSelectedData(null);
     setIsModalOpen(false);
+
+    window.location.reload();
+
   }
   const getImageByCategory = (category) => {
     const images = list[category] || [];
@@ -52,7 +61,7 @@ if(print === "sport"){
                 alt="Card"
               />
               <h4 className="group-item-h4">{c.category}</h4>
-              <h4 className="group-item-h4">{c.title}</h4>
+              <h4 className="group-item-h4">{c.meetingTitle}</h4>
             </div>
           </div>
         ))}

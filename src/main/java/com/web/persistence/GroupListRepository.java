@@ -5,16 +5,14 @@ import java.util.Map;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.web.dto.GroupListDTO;
+import com.web.dto.GroupInfo;
 
-public interface GroupListRepository extends CrudRepository<GroupListDTO, Long>{
+public interface GroupListRepository extends CrudRepository<GroupInfo, Long> {
 
-	List<GroupListDTO> findAllByCategory(String categoryValue);
+	List<GroupInfo> findAllByCategory(String string);
 
-	List<GroupListDTO> findAllByCategoryAndTitle(String selectedValue, String searchValue);
+	List<GroupInfo> findAllByCategoryContainingAndMeetingTitleContaining(String selectedValue, String searchValue);
 
-	List<GroupListDTO> findAllByTitleContaining(String searchValue);
-
-	List<GroupListDTO> findAllByCategoryContainingAndTitleContaining(String selectedValue, String searchValue);
+	List<GroupInfo> findAllByMeetingTitleContaining(String searchValue);
 
 }

@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
-import com.web.dto.GroupListDTO;
+import com.web.dto.GroupInfo;
 import com.web.persistence.GroupListRepository;
+import com.web.service.GroupInfoService;
 
 @SpringBootTest
 @Commit
@@ -14,17 +15,28 @@ public class GroupTest {
 	
 	@Autowired
 	private GroupListRepository Grepo;
-	
+	@Autowired
+	private GroupInfoService Inforepo;
 	@Test
-	public void add () {
+	public void add() {
 		try {
-			GroupListDTO dto = new GroupListDTO();
-			dto.setCategory("sport");
-			dto.setFace("대면");
-			dto.setMembers(6);
-			dto.setProgram("디코");
-			dto.setTitle("language하실분");
-			Grepo.save(dto);
+			GroupInfo groupinfo = new GroupInfo();
+			groupinfo.setCategory("sport");
+			groupinfo.setFaceToFace("대면");
+			groupinfo.setMeetingTitle("운동합시다");
+			groupinfo.setJoinPeople(3);
+			groupinfo.setMeetingCost(0);
+			groupinfo.setMeetingDateStart("2024-03-03");
+			groupinfo.setMeetingDateEnd("2024-03-04");
+			groupinfo.setRecruitments("2024-02-29");
+			groupinfo.setRecruitmentd("2024-02-30");
+			groupinfo.setMeetingLocation("관악구우리집");
+			groupinfo.setMeetingType("무료");
+			groupinfo.setPeopleNum(3);
+			groupinfo.setProgram("x");
+			groupinfo.setUserId("강남아파트");
+			Inforepo.insertGroup(groupinfo);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
