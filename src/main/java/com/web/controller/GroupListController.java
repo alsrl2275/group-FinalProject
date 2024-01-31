@@ -1,6 +1,10 @@
 package com.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.dto.GroupListDAO;
-import com.web.dto.GroupListDTO;
+import com.web.dto.GroupInfo;
+import com.web.dto.GroupInfoDAO;
 import com.web.dto.GroupListDTO2;
 import com.web.persistence.GroupListRepository;
+import com.web.service.GroupInfoService;
 import com.web.service.GroupListService;
 
 @RestController
@@ -30,14 +35,17 @@ public class GroupListController {
 	@Autowired
 	public GroupListService Gservice;
 	
+	@Autowired
+	public GroupInfoService InfoService;
+	
 	@PostMapping("/api/test")
-	public List<GroupListDTO> test2(@RequestBody GroupListDTO2 dto2) {
-		System.out.println("확인할래");
+	public List<GroupInfo> test2(@RequestBody GroupListDTO2 dto2) {
+		
 		if(dto2.getGroupValue() == null) {
 			dto2.setGroupValue("무료");
 		}
 		
-		List<GroupListDTO> list = new ArrayList<>();
+		List<GroupInfo> list = new ArrayList<>();
 
 		list = Gservice.ShowGroupList(dto2);
 
@@ -46,8 +54,60 @@ public class GroupListController {
 	}
 	
 	@PostMapping("/api/content")
-	public void test(@RequestBody GroupListDAO dao) {
-		System.out.println("확이뇽ㅇ!!!");
-		System.out.println(dao);
+	public String test(@RequestBody GroupInfo dao) {
+		LocalDate today = LocalDate.now();
+		if(dao.getJoinPeople() == dao.getPeopleNum()) {
+			System.out.println("확인용1");
+			return "인원";
+		}
+		try {
+			System.out.println("확인용2");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        LocalDate recruitmentDate = LocalDate.parse(dao.getRecruitmentd(), formatter);
+	        if (today.isAfter(recruitmentDate)) {
+	        	System.out.println("모집일 지남");
+	            return "기간";
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("확인용3");
+		}
+		
+		System.out.println("확인용4");
+		InfoService.updateGroup(dao);
+		System.out.println("완룡!");
+		return null;
+		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

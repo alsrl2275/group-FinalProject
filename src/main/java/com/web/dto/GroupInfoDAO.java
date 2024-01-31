@@ -13,16 +13,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity
-@TableGenerator(name="INSERT_SEQ_GENERATOR",
-table="ALL_SEQUENCE",
-pkColumnValue="METTING_NUMBER",
-initialValue = 0,
-allocationSize = 1)
-public class GroupInfo {
+public class GroupInfoDAO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INSERT_SEQ_GENERATOR")
+
     private Long seq;			
     private String userId;	// 아이디
     private String meetingTitle; // 모임명
@@ -30,7 +23,7 @@ public class GroupInfo {
     private String faceToFace; // 대면 or 비대면
     private String program; // 공유프로그램
     private String meetingType; // 유료 or 무료
-    private int peopleNum; // 모집 인원수 
+    private int peopleNum; // 모임 인원수 
     private int joinPeople; // 현재 인원수
     private int meetingCost; // 모임유지비용
     private String recruitments; // 모집시작날짜

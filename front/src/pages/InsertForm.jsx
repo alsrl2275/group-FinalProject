@@ -33,7 +33,8 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     meetingLocation2:'',
     customProgram: '',
     meetingType: '',                                   
-    meetingCost: 0
+    meetingCost: 0,
+    joinPeople: 1
   });
   const [showDaumPost, setShowDaumPost] = useState(false);
 
@@ -237,6 +238,17 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         </label>
         </tr>
         <tr>
+        <label className='insertLabel'>
+          <td><input className='insertInput'
+            type="hidden"
+            name="joinPeople"
+            id="joinPeople"
+            value={formData.joinPeople}
+            onChange={handleChange}
+          /></td>
+        </label>
+        </tr>
+        <tr>
         <label className='Datelabel'>
          <td>모집기간 :&nbsp;</td>
           <td><input className='inputDate'
@@ -393,10 +405,10 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             <input className='inputRadio'
               type="radio"
               name="program"
-              value="줌"
+              value="Zoom"
               id="Zoom"
               onChange={handleRadioChange3}
-              checked={formData.program === '줌'}
+              checked={formData.program === 'Zoom'}
               disabled={formData.faceToFace === '대면'}
             />
             </label>
@@ -406,10 +418,10 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
           <input className='inputRadio'
             type="radio"
             name="program"
-            value="스카이프"
+            value="Skype"
             id="Skype"
             onChange={handleRadioChange3}
-            checked={formData.program === '스카이프'}
+            checked={formData.program === 'Skype'}
             disabled={formData.faceToFace === '대면'}
           />
           </label>
@@ -419,10 +431,10 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         <input className='inputRadio'
           type="radio"
           name="program"
-          value="디스코드"
+          value="Discord"
           id="Discord"
           onChange={handleRadioChange3}
-          checked={formData.program === '디스코드'}
+          checked={formData.program === 'Discord'}
           disabled={formData.faceToFace === '대면'}
         />
         </label>
