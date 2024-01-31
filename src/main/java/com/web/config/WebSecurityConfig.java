@@ -26,25 +26,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);  
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/login") // 수정된 부분
-                .permitAll()
-                .and()
-            .httpBasic();
+        http.csrf().disable() // CSRF 토큰 비활성화
+            .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 
