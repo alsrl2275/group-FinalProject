@@ -65,7 +65,7 @@
   margin-right: 8px;
 }
 
-.agree, .checkId, .agreeModal, .cancelModal, .show-password, .submit{
+.agree, .checkId, .agreeModal, .cancelModal, .password, .submit{
   padding: 15px;
   cursor: pointer;
 }
