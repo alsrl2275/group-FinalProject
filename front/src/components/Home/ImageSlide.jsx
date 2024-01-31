@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -18,13 +19,13 @@ export default class ImageSlide extends Component {
 
     return (
       <div>
-        <Slider {...settings}>
+        <Slider {...settings} style={{width: '100%'}}>
           <NavLink to='/test'>
           <div className="slide-item">
             <img
               className="slide-item-img"
-              src="/Image/silder/hobby.jpg"
-              alt="Hobby"
+              src="/Image/silder/life.jpg"
+              alt="life"
             />
           </div>
           </NavLink>
@@ -41,8 +42,8 @@ export default class ImageSlide extends Component {
           <div className="slide-item">
             <img
               className="slide-item-img"
-              src="/Image/silder/sports.jpg"
-              alt="Sports"
+              src="/Image/silder/sport.jpg"
+              alt="Sport"
             />
           </div>
           </NavLink>

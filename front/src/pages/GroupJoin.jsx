@@ -7,7 +7,6 @@ import ImageSlide from "../components/Home/ImageSlide";
 import { useParams } from "react-router-dom";
 import GroupList from "../components/GroupJoin/GroupList";
 import axios from "axios";
-
 const GroupJoin = () => {
   let { hsearch, hselected } = useParams();
   if(hsearch=="null"){
@@ -16,11 +15,11 @@ const GroupJoin = () => {
   if(hselected=="null"){
     hselected=null;
   }
-  
   const { search, selected, categoryProps, groupprops, category } = useParams();
+  
   const [searchValue, setSearchValue] = useState(search || hsearch);
   const [selectedValue, setSelectedValue] = useState(selected || hselected);
-  const [categoryValue, setCategoryValue] = useState(categoryProps || category);
+  const [categoryValue, setCategoryValue] = useState(categoryProps || category || selected);
   const [groupValue, setGroupValue] = useState(groupprops);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
@@ -31,10 +30,13 @@ const GroupJoin = () => {
     setCategoryValue(category);
     if (group) {
       setGroupValue(group);
+      setCategoryValue('sport')
     }
     setIsSelectOpen(true); // 검색 시 Select 컴포넌트 열기
     
   };
+
+
   const [print, setPrint] = useState();
     // fetchDataAndResetValues 함수 정의
     const fetchData = async () => {
@@ -44,7 +46,12 @@ const GroupJoin = () => {
           groupValue, categoryValue, searchValue, selectedValue
         });
         // 데이터 출력
-        setPrint(response.data);
+        if(response.data.length === 0){
+          setPrint(categoryValue || selectedValue);
+        }else{
+          setPrint(response.data);
+        }
+
 
       } catch (error) {
         console.log(error);
@@ -74,7 +81,7 @@ const GroupJoin = () => {
       <div style={{ marginTop: "40px" }} />
       {/* search와 selected 값을 GroupCategory로 전달 */}
       <GroupCategory onSearch={handleSearch}/>
-      <GroupList print={print}/>
+      <GroupList print={print} searchValue={searchValue}/>
       {/* End Main */}
       {/* Footer */}
       <Footer />

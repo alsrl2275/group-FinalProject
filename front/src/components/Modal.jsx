@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Modal.css"
-const Modal = ({ isOpen, handleClose, data }) => {
+const Modal = ({ isOpen, handleClose, data, handleApply }) => {
   // 모달이 열려 있지 않으면 null 반환할꺼양
   if (!isOpen) {
     return null;
@@ -19,7 +19,14 @@ const Modal = ({ isOpen, handleClose, data }) => {
         <p>{data.program}</p><p>{data.program}</p>
 
         {/* 기타 데이터 출력 */}
-        <button className="modal-content-but" onClick={handleClose}>닫기</button>
+        <div className="modal-buttons">
+          <button className="modal-content-but" onClick={handleApply}>
+            신청
+          </button>
+          <button className="modal-content-but" onClick={handleClose}>
+            닫기
+          </button>
+        </div>
       </div>
     </div>
   );
