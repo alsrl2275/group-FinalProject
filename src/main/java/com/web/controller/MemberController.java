@@ -1,6 +1,7 @@
 package com.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,13 @@ public class MemberController {
 		System.out.println(category);
 		return "운동 ";
 	}
+    
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO){
+    	System.out.println("젭알");
+    	System.out.println(memberDTO);
+    	return ResponseEntity.ok("가입 완료");
+    }
     
 //    @Autowired
 //    private MemberService msv;
