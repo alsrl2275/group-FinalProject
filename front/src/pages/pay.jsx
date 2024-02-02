@@ -1,5 +1,6 @@
 import React from 'react';
 import Pay from '../JS/pay';
+import Header from '../components/Header/header';
 
 const pay = ({ vo, mv }) => {
   const handlePay = () => {

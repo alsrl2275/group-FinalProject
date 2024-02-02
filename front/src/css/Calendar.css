@@ -27,8 +27,10 @@
 
 /* 왼쪽 테이블 컨테이너 스타일 */
 .table-container {
-  width: 30%; /* 왼쪽에 테이블이 차지하는 너비 설정 */
-  margin-left: 10px;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block; /* 추가된 부분 */
 }
 
 /* 오른쪽 캘린더 스타일 */

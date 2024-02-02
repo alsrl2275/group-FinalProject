@@ -63,12 +63,12 @@ function DaumPost({ setAddressObj, setMapCenter }) {
 
       // 지번 주소일 경우
       try {
-        const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(data.jibunAddress)}`, {
-          headers: {
+        const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(data.jibunAddress)}`, { // 특정 주소에대한 좌표정보 가져오기
+          headers: { // 헤더 설정
             Authorization: 'KakaoAK 5d1d37549e35d188f883b6f3b378dd76',
           },
         });
-        const coordinates = response.data.documents[0].address;
+        const coordinates = response.data.documents[0].address; // 응답이 성공적으로 도팍하면 response.data.documents[0].address에서 주소정보 추출
 
         console.log('좌표 정보:', coordinates);
 
