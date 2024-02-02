@@ -33,6 +33,20 @@ const Crolling = ({ print }) => {
             <h4 className="group-item-h4">플랩으로 오세요</h4>
           </a>
         </div>
+        <div className="group-item">
+          <a
+            href="http://www.badmintontimes.com/index.jsp"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <img
+              className="group-item-img"
+              src={"/Image/badminton.jpg"}
+              alt="Card"
+            />
+            <h4 className="group-item-h4">배드민턴 하실분</h4>
+            <h4 className="group-item-h4">배드민턴 타임즈로 오세요</h4>
+          </a>
+        </div>
       </>
     );
   } else if (

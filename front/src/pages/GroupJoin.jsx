@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "../components/Home/Select";
-import Header from "../components/Home/header";
+import Header from '../components/Header/header';
 import Footer from "../components/Home/Footer";
 import GroupCategory from "../components/GroupJoin/GroupCategory";
 import ImageSlide from "../components/Home/ImageSlide";

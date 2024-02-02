@@ -2,10 +2,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Home/Footer';
-import Header from '../components/Home/header';
+import Header from '../components/Header/header';
 import ImageSlide from '../components/Home/ImageSlide';
 import Category from '../components/Home/HomeCategory';
 import Select from '../components/Home/Select';
+
 
 
 const HomePage = () => {
@@ -31,6 +32,7 @@ const HomePage = () => {
       <Category />
       {/* End Main */}
       {/* Footer */}
+      
       <Footer />
       {/* End footer */}
     </>

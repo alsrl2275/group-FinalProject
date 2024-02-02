@@ -25,6 +25,8 @@ const SportGroup = ({ print, searchValue }) => {
         alert("모집기간이 지났습니다");
       }else if(response.data === "인원"){
         alert("모집인원이 다 찼습니다")
+      }else if(response.data === "신청"){
+        alert("신청완료")
       }
       
     } catch (error) {
