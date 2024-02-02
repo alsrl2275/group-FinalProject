@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import Header from "../components/Home/header";
+import Header from '../components/Header/header';
 import Footer from "../components/Home/Footer";
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from "axios";
