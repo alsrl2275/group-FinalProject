@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table
+@Table(name="member")
 public class MemberDTO {
 	
 	@Id
