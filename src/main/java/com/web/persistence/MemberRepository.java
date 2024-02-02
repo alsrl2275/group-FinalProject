@@ -1,5 +1,14 @@
 package com.web.persistence;
 
-public class MemberRepository {
+import java.util.Optional;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.web.dto.MemberDTO;
+@Repository
+public interface MemberRepository extends CrudRepository<MemberDTO, String> {
+
+
 
 }

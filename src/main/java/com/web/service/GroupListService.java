@@ -18,22 +18,44 @@ public class GroupListService {
 	
 	public List<GroupInfo> ShowGroupList(GroupListDTO2 dto) {
 		List<GroupInfo> list = new ArrayList<>();
-		if(dto.getCategoryValue() == null && dto.getSearchValue() == null && dto.getSelectedValue() == null) {
-			list = Grepo.findAllByCategory("sport");
-		}
-		if(dto.getSelectedValue() != null) {
-			if(dto.getSearchValue() == null) {
-				list = Grepo.findAllByCategory(dto.getSelectedValue());	
-			}else {
-				list = Grepo.findAllByCategoryContainingAndMeetingTitleContaining(dto.getSelectedValue(), dto.getSearchValue());
+		if ("무료".equals(dto.getGroupValue())) {
+			if(dto.getCategoryValue() == null && dto.getSearchValue() == null && dto.getSelectedValue() == null) {
+				list =  Grepo.findAllByMeetingTypeAndCategory("무료","sport");
 			}
-			
-		}else if(dto.getSelectedValue() == null && dto.getSearchValue() != null) {
-			list = Grepo.findAllByMeetingTitleContaining(dto.getSearchValue());
-		}
-		if(dto.getCategoryValue() != null) {
-			list = Grepo.findAllByCategory(dto.getCategoryValue());
+			if(dto.getSelectedValue() != null) {
+				if(dto.getSearchValue() == null) {
+					list = Grepo.findAllByMeetingTypeAndCategory("무료",dto.getSelectedValue());	
+				}else {
+					list = Grepo.findAllByMeetingTypeAndCategoryContainingAndMeetingTitleContaining("무료",dto.getSelectedValue(), dto.getSearchValue());
+				}
+				
+			}else if(dto.getSelectedValue() == null && dto.getSearchValue() != null) {
+				list = Grepo.findAllByMeetingTypeAndMeetingTitleContaining("무료",dto.getSearchValue());
+			}
+			if(dto.getCategoryValue() != null) {
+				list = Grepo.findAllByMeetingTypeAndCategory("무료",dto.getCategoryValue());
+			}
+			return list;	
+		}else if ("유료".equals(dto.getGroupValue())) {
+			if(dto.getCategoryValue() == null && dto.getSearchValue() == null && dto.getSelectedValue() == null) {
+				list =  Grepo.findAllByMeetingTypeAndCategory("유료","sport");
+			}
+			if(dto.getSelectedValue() != null) {
+				if(dto.getSearchValue() == null) {
+					list = Grepo.findAllByMeetingTypeAndCategory("유료",dto.getSelectedValue());	
+				}else {
+					list = Grepo.findAllByMeetingTypeAndCategoryContainingAndMeetingTitleContaining("유료",dto.getSelectedValue(), dto.getSearchValue());
+				}
+				
+			}else if(dto.getSelectedValue() == null && dto.getSearchValue() != null) {
+				list = Grepo.findAllByMeetingTypeAndMeetingTitleContaining("유료",dto.getSearchValue());
+			}
+			if(dto.getCategoryValue() != null) {
+				list = Grepo.findAllByMeetingTypeAndCategory("유료",dto.getCategoryValue());
+			}
+			return list;	
 		}
 		return list;
+		
 	}
 }

@@ -1,6 +1,6 @@
 // import Button from 'react-bootstrap/Button';
 import KakaoMap from '../KakaoMap';
-import Header from '../components/Home/header';
+import Header from '../components/Header/header';
 import '../css/InsertForm.css'
 import axios from 'axios';
 import { useState } from 'react';
