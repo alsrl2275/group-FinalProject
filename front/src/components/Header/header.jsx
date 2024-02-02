@@ -1,15 +1,16 @@
 // Header.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/Header.css"; // CSS 파일 불러오기
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
 const Header = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1000);
@@ -27,7 +28,7 @@ const Header = () => {
       {isMobile ? (
         <>
           <NavLink className="home-link" to="/">
-            로고자리
+            <image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJzPmj5mWavFuACY5Mfn1wE2iRrtTOmqPtRg&usqp=CAU" />
           </NavLink>
           <div className="dropdown-container">
             <Dropdown>
@@ -35,12 +36,13 @@ const Header = () => {
                 더보기
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item as={NavLink} to="/Login">
+                <Dropdown.Item as={Link} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/SignUp">
+                <Dropdown.Item as={Link} to="/SignUp">
                   회원가입
                 </Dropdown.Item>
+
                 <Dropdown.Item as={NavLink} to="/insert">
                   그룹 개설
                 </Dropdown.Item>
@@ -59,22 +61,30 @@ const Header = () => {
         </>
       ) : (
         <>
-          <NavLink className="home-link" to="/">
-            로고자리
-          </NavLink>
+          <Link className="home-link" to="/">
+            <img
+              className="home-link-img"
+              src="/Image/T1.png"
+              alt="Chanel Logo"
+            />
+          </Link>
           <div className="nav-links-container">
-            <NavLink className="nav-link" to="/insert">
+            <Link className="nav-link" to="/insert">
               그룹 개설
-            </NavLink>
-            <Link className="nav-link" to={{ pathname: '/GroupJoin', state: { categorys: 'sport' } }}>그룹 참가하기</Link>
+            </Link>
+            <Link
+              className="nav-link"
+              to={{ pathname: "/GroupJoin", state: { categorys: "sport" } }}
+            >
+              그룹 참가하기
+            </Link>
 
-
-            <NavLink className="nav-link" to="/schedule">
+            <Link className="nav-link" to="/schedule">
               일정 관리
-            </NavLink>
-            <NavLink className="nav-link" to="/review">
+            </Link>
+            <Link className="nav-link" to="/review">
               리뷰
-            </NavLink>
+            </Link>
           </div>
           <div className="dropdown-container">
             <Dropdown>
@@ -82,10 +92,10 @@ const Header = () => {
                 계정
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item as={NavLink} to="/Login">
+                <Dropdown.Item as={Link} to="/Login">
                   로그인
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/SignUp">
+                <Dropdown.Item as={Link} to="/SignUp">
                   회원가입
                 </Dropdown.Item>
               </Dropdown.Menu>

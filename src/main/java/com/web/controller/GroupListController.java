@@ -40,7 +40,8 @@ public class GroupListController {
 	
 	@PostMapping("/api/test")
 	public List<GroupInfo> test2(@RequestBody GroupListDTO2 dto2) {
-		
+		System.out.println("확인중");
+		System.out.println(dto2.getGroupValue());
 		if(dto2.getGroupValue() == null) {
 			dto2.setGroupValue("무료");
 		}
@@ -75,8 +76,7 @@ public class GroupListController {
 		
 		System.out.println("확인용4");
 		InfoService.updateGroup(dao);
-		System.out.println("완룡!");
-		return null;
+		return "신청";
 		
 	}
 }
