@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import '../css/Calendar.css'
-import Header from '../components/Home/header';
+import Header from '../components/Header/header';
 import axios from 'axios';
 
 
