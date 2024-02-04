@@ -14,7 +14,7 @@ import axios from 'axios';
 class Calendar extends Component {
   state = {
     showModal: false,
-    modalDate: null,
+    // modalDate: null,
     modalStartDate: null,
     modalEndDate: null,
     diff: null,
@@ -28,7 +28,7 @@ class Calendar extends Component {
   handleDateClick = (arg) => {
     this.setState({
       showModal: true,
-      modalDate: arg.dateStr,
+      // modalDate: arg.dateStr,
       diff: 'a'
     });
   };
@@ -41,8 +41,6 @@ class Calendar extends Component {
     const adjustedEndStr = adjustedEndDate.toISOString().split('T')[0]; // 시간 정보 제외
     console.log('Selected end date:', adjustedEndStr);
 
-
-  
     // 모달에 날짜 설정
     this.setState({
     showModal: true,
@@ -52,10 +50,41 @@ class Calendar extends Component {
   });
   };
 
+  handleEventClick = (info) => { // 일정이 있는 이벤트 클릭 시 
+    // 클릭한 이벤트 정보에 대한 작업을 수행
+    console.log('Clicked event:', info.event);
+
+    // 종료날짜 데이터변환 로직
+    const adjustedEndDate = new Date(info.event.end.valueOf());
+    adjustedEndDate.setDate(adjustedEndDate.getDate());
+    const adjustedEndStr = adjustedEndDate.toISOString().split('T')[0];
+
+    // 모달에 날짜 설정
+    this.setState({
+      showModal: true,
+      modalStartDate: info.event.startStr,
+      modalEndDate: info.event.endStr,
+      diff: 'c', // 이벤트 클릭을 나타내는 다른 값으로 변경
+      selectedEventData: {  // info.event = FullCalendar에서 이벤트를 나타내는 객체
+        title: info.event.title,
+        start: info.event.startStr,
+        end: adjustedEndStr,
+        memo: info.event.extendedProps.memo, // extendedProps : 객체 내에 있는 속성에 접근하기 위해서는 info.event.extendedProps.seq
+        userId: info.event.extendedProps.userId,
+        seq: info.event.extendedProps.seq
+        // 원하는 다른 이벤트 속성들 추가
+      },
+      
+    }, () => {
+      console.log('Selected Event Data:', this.state.selectedEventData);
+    })
+ };
+
+
   handleCloseModal = async () => {
     this.setState({
       showModal: false,
-      modalDate: null,
+      // modalDate: null,
       modalStartDate: null,
       modalEndDate: null,
     });
@@ -67,26 +96,27 @@ class Calendar extends Component {
     try {
       const response = await axios.get("/getEvents")
       const eventData = response.data
-      console.log("서버에서 넘어온 값", eventData)
+      // console.log("서버에서 넘어온 값", eventData)
       
       const formattedEvents = eventData.map(event => ({
-        title: event.scheduleTitle,
-        start: new Date(event.startDate),
-        end: new Date(event.endDate),
-        memo: event.scheduleMemo,
-        userID: event.userId
+          title: event.scheduleTitle,
+          start: event.startDate,
+          end: event.endDate,
+          memo: event.scheduleMemo,
+          userId: event.userId,
+          seq: event.seq
       }))
       
       formattedEvents.forEach(event => {
         const adjustedEndDate = new Date(event.end)
         adjustedEndDate.setDate(adjustedEndDate.getDate() + 1)
-        event.end = adjustedEndDate
+        event.end = adjustedEndDate.toISOString().split('T')[0]; // 시간 정보 제외
         
       })
-      console.log(formattedEvents);
+      // console.log(formattedEvents);
       
       this.setState({ events: formattedEvents })
-      console.log("확인용 : ", this.state.events)
+      console.log("확인용이다 : ", this.state.events)
     } catch (error) {
       console.log("일정 데이터 가져오기 실패", error)
     }
@@ -134,19 +164,22 @@ class Calendar extends Component {
               }}
               events={this.state.events}
               dateClick={this.handleDateClick}
+              eventClick={this.handleEventClick}  // 이벤트 클릭 핸들러 추가
               nextDayThreshold={'24:00:00'} // 마지막 날을 포함하도록 설정
-              selectable={true} // 전체 캘린더를 선택 가능하게 만듦
+              selectable={true} // 전체 캘린더를 선택 가능하게 만듬
               select={this.handleSelect} // 선택한 영역에 대한 콜백
+              
             />
           </div>
         </div>
         {this.state.showModal && (
           <CalendarModal
-            date={this.state.modalDate}
+            // date={this.state.modalDate}
             onClose={this.handleCloseModal}
             start={this.state.modalStartDate}
             end={this.state.modalEndDate}
             diff={this.state.diff}
+            eventData={this.state.selectedEventData}
           />
         )}
       </div>

@@ -1,7 +1,9 @@
 package com.web.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +23,14 @@ public class ScheduleService {
 	public List<Calendar> getAllEvents() {
 		return scheduleRepo.findAll();
 	}
+	
+	public void updateEvent(Long id, Calendar calendar) {
+		Optional<Calendar> CalendarOptional = scheduleRepo.findById(id);
+		
+		CalendarOptional.ifPresent(existCalendar -> {
+			BeanUtils.copyProperties(calendar, existCalendar, "id");
+			scheduleRepo.save(existCalendar);
+		});
+	}
+	
 }
