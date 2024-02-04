@@ -90,3 +90,18 @@
 .submit-button:hover {
   background-color: #45a049;
 }
+
+/* .button-container {
+  display: flex;
+  justify-content: flex-end;
+} */
+
+.button-container {
+  text-align: center;
+}
+
+.button-gap {
+  margin-left: 10px;
+}
+
+
