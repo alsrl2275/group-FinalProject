@@ -2,6 +2,7 @@ package com.web.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,13 +18,12 @@ import lombok.ToString;
 public class MemberDTO {
 	
 	@Id
-	@GeneratedValue
 	private String id;
 	private String pwd;
 	private String name;
 	private String email;
 	private String phone;
-	private int bitrh;
+	private int birth;
 	private int age;
 	private String bank;
 	private String banknum;
