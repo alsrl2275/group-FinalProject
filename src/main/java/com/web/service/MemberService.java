@@ -1,5 +1,7 @@
 package com.web.service;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.internal.build.AllowSysOut;
@@ -20,7 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class MemberService {
-	
+
+	@Autowired
+	private final MemberRepository rep;
+
+    public MemberService(MemberRepository rep) {
+        this.rep = rep;
+    }
+
+    public MemberDTO saveMember(MemberDTO member) {
+        return rep.save(member);
+    }
 
 }
 
