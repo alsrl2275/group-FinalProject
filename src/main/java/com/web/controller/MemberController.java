@@ -1,6 +1,7 @@
 package com.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,13 @@ import com.web.service.MemberService;
 @RestController
 public class MemberController {
 
+	private final MemberService msv;
+	
+	@Autowired
+	public MemberController(MemberService msv) {
+		this.msv = msv;
+	}
+	
     @GetMapping("/GroupJoin")
     public String joinGroup(String category) {
 		System.out.println("확인용~~~~~~~~~");
@@ -24,12 +32,34 @@ public class MemberController {
 		return "운동 ";
 	}
     
+    //회원가입
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO){
+//    	System.out.println(memberDTO);
+//    	return ResponseEntity.ok("가입 완료");
+//    }
+    
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO) {
+//        try {
+//            MemberDTO savedMember = msv.saveMember(memberDTO);
+//            return new ResponseEntity<>("Member registered successfully.", HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("Failed to register member.", HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO){
-    	System.out.println("젭알");
+    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO) {
     	System.out.println(memberDTO);
-    	return ResponseEntity.ok("가입 완료");
+        try {
+            MemberDTO savedMember = msv.saveMember(memberDTO);
+            return ResponseEntity.ok("Member registered successfully. Member ID: " + savedMember.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to register member. Error: " + e.getMessage());
+        }
     }
+    
     
 //    @Autowired
 //    private MemberService msv;

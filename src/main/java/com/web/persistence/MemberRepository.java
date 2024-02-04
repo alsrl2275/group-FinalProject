@@ -9,6 +9,11 @@ import com.web.dto.MemberDTO;
 @Repository
 public interface MemberRepository extends CrudRepository<MemberDTO, String> {
 
+	
+	Optional<MemberDTO> findById(Long memberId);
 
+	void deleteById(Long memberId);
+
+	MemberDTO save(MemberDTO memberDTO);
 
 }
