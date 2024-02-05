@@ -6,6 +6,7 @@ import Header from '../components/Header/header';
 import ImageSlide from '../components/Home/ImageSlide';
 import Category from '../components/Home/HomeCategory';
 import Select from '../components/Home/Select';
+import LoginContextConsumer from '../contexts/LoginContextConsumer';
 
 
 
@@ -32,7 +33,7 @@ const HomePage = () => {
       <Category />
       {/* End Main */}
       {/* Footer */}
-      
+      <LoginContextConsumer/>
       <Footer />
       {/* End footer */}
     </>

@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                         .antMatchers("/login", "/", "/join","/api/test","/api/content","/groupInsert").permitAll()
                         .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**","/deleteCalendar/**").permitAll()
                         .antMatchers("/register/**").permitAll()
+						.antMatchers("/getIdRole").permitAll()
                         .antMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
