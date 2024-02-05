@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Select from "../components/Home/Select";
 import Header from '../components/Header/header';
 import Footer from "../components/Home/Footer";
@@ -7,6 +7,8 @@ import ImageSlide from "../components/Home/ImageSlide";
 import { useParams } from "react-router-dom";
 import GroupList from "../components/GroupJoin/GroupList";
 import axios from "axios";
+import { LoginContext } from "../contexts/LoginContextProvider";
+
 const GroupJoin = () => {
   let { hsearch, hselected } = useParams();
   if(hsearch=="null"){
@@ -15,13 +17,16 @@ const GroupJoin = () => {
   if(hselected=="null"){
     hselected=null;
   }
-  const { search, selected, categoryProps, groupprops, category } = useParams();
   
+  const { search, selected, categoryProps, groupprops, category } = useParams();
   const [searchValue, setSearchValue] = useState(search || hsearch);
   const [selectedValue, setSelectedValue] = useState(selected || hselected);
   const [categoryValue, setCategoryValue] = useState(categoryProps || category || selected);
   const [groupValue, setGroupValue] = useState(groupprops);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const { userInfo } = useContext(LoginContext);
+  const token = localStorage.getItem('accessToken');
+  const [serverData, setServerData]= useState(null);
 
   const handleSearch = (search, selected, category, group) => {
 
@@ -57,11 +62,13 @@ const GroupJoin = () => {
         console.log(error);
       }
     };
-
   useEffect(() => {
     // fetchDataAndResetValues 함수 실행
     fetchData();
+
   }, [searchValue, selectedValue, categoryValue, groupValue]);
+
+
   const fetchDataAndResetValues = () =>{
     fetchData();
 
@@ -84,6 +91,7 @@ const GroupJoin = () => {
       <GroupList print={print} searchValue={searchValue}/>
       {/* End Main */}
       {/* Footer */}
+      <h3>{userInfo}</h3>
       <Footer />
       {/* End footer */}
     </>

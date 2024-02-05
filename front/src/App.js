@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Test from "./pages/Test";
@@ -8,12 +8,15 @@ import KakaoMap from "./KakaoMap";
 import GroupJoin from "./pages/GroupJoin";
 import SignUp from "./pages/SignUp";
 import Calendar from "./pages/Calendar";
+import LoginContextProvider, { LoginContext } from "./contexts/LoginContextProvider";
 
 
 export default function App() {
-  return (
-    <BrowserRouter>
 
+  return (
+    <LoginContextProvider>
+    <BrowserRouter>
+      
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/test" element={<Test />} />
@@ -30,7 +33,8 @@ export default function App() {
           />
           <Route path="/schedule" element={<Calendar />} />
         </Routes>
-
+      
     </BrowserRouter>
+    </LoginContextProvider>
   );
 }
