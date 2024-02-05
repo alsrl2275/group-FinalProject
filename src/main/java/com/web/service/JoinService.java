@@ -40,6 +40,11 @@ public class JoinService {
 
         userRepository.save(data);
     }
+    
+    public UserEntity search(String username) {
+    	UserEntity entity = userRepository.findByUsername(username);
+    	return entity;
+    }
 }
 
 

@@ -7,10 +7,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/Header.css"; // CSS 파일 불러오기
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { LoginContext } from "../../contexts/LoginContextProvider";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
+  const { isLogin, logout } = useContext(LoginContext);
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1000);
@@ -87,19 +90,33 @@ const Header = () => {
             </Link>
           </div>
           <div className="dropdown-container">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="account-dropdown">
-                계정
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/Login">
-                  로그인
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/SignUp">
-                  회원가입
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            {!isLogin ? (
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="account-dropdown">
+                  계정
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/Login">
+                    로그인
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/SignUp">
+                    회원가입
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="account-dropdown">
+                  계정
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/Login">
+                    내정보
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Button} onClick={() => logout()}>로그아웃</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
           </div>
         </>
       )}
