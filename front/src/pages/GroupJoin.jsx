@@ -24,7 +24,7 @@ const GroupJoin = () => {
   const [categoryValue, setCategoryValue] = useState(categoryProps || category || selected);
   const [groupValue, setGroupValue] = useState(groupprops);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const { userInfo } = useContext(LoginContext);
+  const { userInfo } = useContext(LoginContext);    // 로그인값 받는거(유저 번호, 권한)
   const token = localStorage.getItem('accessToken');
   const [serverData, setServerData]= useState(null);
 
@@ -91,7 +91,6 @@ const GroupJoin = () => {
       <GroupList print={print} searchValue={searchValue}/>
       {/* End Main */}
       {/* Footer */}
-      <h3>{userInfo}</h3>
       <Footer />
       {/* End footer */}
     </>

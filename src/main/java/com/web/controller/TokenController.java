@@ -1,14 +1,13 @@
 package com.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.management.relation.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +24,9 @@ public class TokenController {
 	public JoinService Jservice;
 	
 	@PostMapping("/getIdRole")
-    public String getCurrentMember(@RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String token) {
+    public Map<String, Object> getCurrentMember(@RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String token) {
 		System.out.println("왜 안들어와?");
-      
+		Map<String, Object> search = new HashMap<>();
         if (token != null && token.startsWith("Bearer ")) {
             String jwtToken = token.substring(7);
             
@@ -36,10 +35,12 @@ public class TokenController {
             String username = jwtUtil.getUsername(jwtToken);
             UserEntity member = Jservice.search(username);
             if(member != null) {
-            	return member.getUsername();
+            	search.put("no", member.getId());
+            	search.put("role", member.getRole());
+            	return search;
             } 
         }
-		return "없는 아이디";
+		return null;
         
     }
 }

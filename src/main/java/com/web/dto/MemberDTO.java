@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.ToString;
 public class MemberDTO {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long seq;
 	@Column(name = "id")
 	private String id;
