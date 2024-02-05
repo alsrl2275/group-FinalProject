@@ -1,5 +1,10 @@
 package com.web.controller;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,17 +54,30 @@ public class MemberController {
 //        }
 //    }
 
+    // 회원가입
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO) {
     	System.out.println(memberDTO);
         try {
+//        	LocalDate birth = LocalDate.parse(Integer.toString(memberDTO.getBirth()), DateTimeFormatter.BASIC_ISO_DATE);
+//        	int age = CountAge(birth);
+//        	memberDTO.setAge(age);
+//        	String email = memberDTO.getEmail();
+//        	String domain = memberDTO.getDomain();
+//        	String semail = email + "@" + domain;
+//        	memberDTO.setEmail(semail);
             MemberDTO savedMember = msv.saveMember(memberDTO);
             return ResponseEntity.ok("Member registered successfully. Member ID: " + savedMember.getId());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to register member. Error: " + e.getMessage());
         }
     }
-    
+   
+//    // 나이 구하기
+//    private int CountAge(LocalDate birthdate) {
+//    	LocalDate today = LocalDate.now();
+//    	return (int) ChronoUnit.YEARS.between(birthdate, today);
+//    }
     
 //    @Autowired
 //    private MemberService msv;

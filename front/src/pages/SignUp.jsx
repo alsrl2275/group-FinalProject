@@ -48,7 +48,7 @@ const SignUp = () => {
                 if(handlesubmit){
                     setUser((preUser) => ({
                         ...preUser,
-                        email: value + "@" + user.domain,
+                        email: value,
                     }));
                 } else if(name === 'domain'){
                     setUser((preUser) => ({
