@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Test from "./pages/Test";
 import Login from "./pages/Login";
@@ -9,12 +9,13 @@ import GroupJoin from "./pages/GroupJoin";
 import SignUp from "./pages/SignUp";
 import Calendar from "./pages/Calendar";
 import LoginContextProvider, { LoginContext } from "./contexts/LoginContextProvider";
+import AdminPage from "./pages/admin";
 
 
 export default function App() {
-
+  const { userInfo } = useContext(LoginContext);
   return (
-    <LoginContextProvider>
+ 
     <BrowserRouter>
       
         <Routes>
@@ -32,9 +33,12 @@ export default function App() {
             element={<GroupJoin />}
           />
           <Route path="/schedule" element={<Calendar />} />
+          
+          {userInfo.role === 'ROLE_ADMIN' && (<Route path="/admin" element={<AdminPage/>}/>)}
+          {userInfo.role !== 'ROLE_ADMIN' && (<Route path="/admin" element={<Navigate to="/" replace />} />)}
         </Routes>
       
     </BrowserRouter>
-    </LoginContextProvider>
+    
   );
 }

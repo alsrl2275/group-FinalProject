@@ -1,6 +1,7 @@
+
 const footer = () => {
     return(
-    <div>
+    <div className="footer">
         
             <h1>백주승 김민기 권찬영 조</h1>
             <h1>개발기간 : 2024-01-18 ~ 2024-02-20</h1>

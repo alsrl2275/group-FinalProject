@@ -8,11 +8,11 @@ import "../../css/Header.css"; // CSS 파일 불러오기
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../../contexts/LoginContextProvider";
-
 const Header = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
   const { isLogin, logout } = useContext(LoginContext);
+const { userInfo } = useContext(LoginContext);
   
   useEffect(() => {
     const handleResize = () => {
@@ -110,10 +110,26 @@ const Header = () => {
                   계정
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item as={Link} to="/Login">
-                    내정보
-                  </Dropdown.Item>
-                  <Dropdown.Item as={Button} onClick={() => logout()}>로그아웃</Dropdown.Item>
+                  {userInfo.role === 'ROLE_ADMIN' ? (
+                    <>
+                      <Dropdown.Item as={Link} to="/admin">
+                        관리자 페이지
+                      </Dropdown.Item>
+                      <Dropdown.Item as={Button} onClick={() => logout()}>
+                        로그아웃
+                      </Dropdown.Item>
+                      {/* 추가적인 관리자 메뉴 항목들 */}
+                    </>
+                  ) : (
+                    <>
+                      <Dropdown.Item as={Link} to="/Login">
+                        내정보
+                      </Dropdown.Item>
+                      <Dropdown.Item as={Button} onClick={() => logout()}>
+                        로그아웃
+                      </Dropdown.Item>
+                    </>
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
             )}
