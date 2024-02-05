@@ -28,18 +28,45 @@ class CalendarModal extends React.Component {
   // handleUserIdChange = (e) => {
   //   this.setState({ userId: e.target.value });
   // };
+
+  
   // handleEdit 및 handleDelete 메서드 추가
   handleEdit = () => {
-
-    this.setState({ isEditModalOpen: true });
+    // this.props.onClose(); // 먼저 현재 모달을 닫습니다.
+    this.setState({ isEditModalOpen: true }); 
     
   };
 
-  handleDelete = () => {
-  // 삭제 버튼 클릭 시 처리 로직 작성
-  // 예: 삭제를 위한 확인 모달을 띄우거나 다른 동작 수행
-  console.log('삭제 버튼 클릭');
-  };
+  handleDelete = async () => {
+    const { eventData } = this.props;
+
+    const isConfirmed = await Swal.fire({
+      icon: 'question',
+      title: '정말 삭제하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then((result) => result.isConfirmed)
+
+    if (isConfirmed) {
+      try {
+        // 삭제작업
+        await axios.delete(`/deleteCalendar/${eventData.seq}`);
+        
+        Swal.fire({
+          icon: 'success',
+          title: '일정이 삭제되었습니다.',
+          confirmButtonText: '확인'
+        });
+  
+        this.props.onClose();
+      } catch (error) {
+        console.error('서버 요청 실패', error);
+      }
+    }
+  }
+
+
 
   handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -52,13 +79,6 @@ class CalendarModal extends React.Component {
         title: '제목을 입력해주세요.',
         confirmButtonText: '확인'
       })
-    } else if(this.state.scheduleMemo.trim() === '') {
-      Swal.fire({
-        icon: 'error',
-        title: '메모내용을 입력해주세요.',
-        confirmButtonText: '확인'
-      })
-
     } else {
       try {
         const response = await axios.post("/Calendar", {
@@ -177,7 +197,7 @@ class CalendarModal extends React.Component {
             </form>
           )}
 
-{diff === 'c' && (
+{diff === 'c' && ( // 일정이있는 데이터 클릭했을 때 
             <>
 
                 <table className="form-table">
@@ -218,15 +238,18 @@ class CalendarModal extends React.Component {
                   </tbody>
                 </table>
                 {/* 수정 모달 열기 */}
-                {this.state.isEditModalOpen && ( // isEditModalOpen값이 true인 경우에만 EditModal 컴포넌트 랜더링
+              
+                {this.state.isEditModalOpen && ( // isEditModalOpen값이 true인 경우에만 EditModal 컴포넌트 랜더
                   <EditModal
-                    onClose={() => this.setState({ isEditModalOpen: false})} // EditModal 컴포넌트를 랜더링하면서 'onClose' prop에는 현재                       
-                    eventData={eventData}                                    // 컴포넌트 상태를 업데이트하여 isEditModalOpend을 false로 설정하는 함수를 전달하고
-                    />                                                       // eventData prop에는 현재 일정 데이터를 전달합니다
+                  onClose={() => {                              // 컴포넌트 상태를 업데이트하여 isEditModalOpend을 false로 설정하는 함수를 전달하고
+                    this.setState({ isEditModalOpen: false });   // EditModal 컴포넌트를 랜더링하면서 'onClose' prop에는 현재 
+                    this.props.onClose();                         // eventData prop에는 현재 일정 데이터를 전달합니다
+                  }}                  
+                  eventData={eventData}
+                />                                                                                                                                                  
                 )}
             </>
           )}
-
           <button className= "submit-button" onClick={this.props.onClose}>모달 닫기</button>
         </div>
       </div>
