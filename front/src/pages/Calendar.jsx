@@ -123,9 +123,6 @@ class Calendar extends Component {
 
   }
 
-
-
-
   render() {
     return (
       <div className="App">
@@ -170,6 +167,7 @@ class Calendar extends Component {
               select={this.handleSelect} // 선택한 영역에 대한 콜백
               
             />
+            
           </div>
         </div>
         {this.state.showModal && (
@@ -185,6 +183,7 @@ class Calendar extends Component {
       </div>
     );
   }
+  
 }
 
 export default Calendar;

@@ -35,7 +35,7 @@ function DaumPost({ setAddressObj, setMapCenter }) {
           Authorization: 'KakaoAK 5d1d37549e35d188f883b6f3b378dd76',
         },
       });
-      const coordinates = response.data.documents[0].address;
+      const coordinates = response.data.documents[0].address; //  첫번째 문서에서 주소 정보에 해당하는 부분을 나타낸다. 좌표 정보를 담고 있는 변수인 coordinates로 할당된다
 
       console.log('좌표 정보:', coordinates);
 

@@ -61,7 +61,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/login", "/", "/join","/api/test","/api/content","/groupInsert").permitAll()
-                        .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**").permitAll()
+                        .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**","/deleteCalendar/**").permitAll()
                         .antMatchers("/register/**").permitAll()
                         .antMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());

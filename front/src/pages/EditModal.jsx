@@ -5,12 +5,8 @@ import Swal from 'sweetalert2';
 const EditModal = ({ onClose, eventData }) => {
   const [editedTitle, setEditedTitle] = useState(eventData.title);
   const [editedMemo, setEditedMemo] = useState(eventData.memo);
-  const [editedSeq, setEditedSeq] = useState(eventData.seq);
-  const [editedUserId, setEditedUserId] = useState(eventData.userId);
   const [editedStart, setEditedStart] = useState(eventData.start);
   const [editedEnd, setEditedEnd] = useState(eventData.end);
-
-
 
   const handleTitleChange = (e) => {
     setEditedTitle(e.target.value);
@@ -20,23 +16,49 @@ const EditModal = ({ onClose, eventData }) => {
     setEditedMemo(e.target.value);
   };
 
+  const handleStartChange = (e) => {
+    setEditedStart(e.target.value);
+  };
+
+  const handleEndChange = (e) => {
+    setEditedEnd(e.target.value);
+  };
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`/updateCalendar/${eventData.id}`, {
-        editedTitle,
-        editedMemo,
-      });
-      console.log('결과:', response.data);
+    if(editedEnd < editedStart) {
       Swal.fire({
-        icon: 'success',
-        title: '일정이 수정되었습니다.',
-        confirmButtonText: '확인',
-      });
+        icon: 'error',
+        title: '올바른 날짜 형식을 입력해주세요.',
+        confirmButtonText: '확인'
+      })
+    } else if(editedTitle.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: '제목을 입력해주세요.',
+        confirmButtonText: '확인'
+      })
+    } else {
+      try {
+        const response = await axios.put(`/updateCalendar/${eventData.seq}`, {
+          editedTitle,
+          editedMemo,
+          editedStart,
+          editedEnd
+        });
+        console.log('결과:', response.data);
+        Swal.fire({
+          icon: 'success',
+          title: '일정이 수정되었습니다.',
+          confirmButtonText: '확인',
+        });
       onClose(); // 수정 후 모달 닫기
-    } catch (error) {
-      console.error('서버 요청 실패', error);
+      } catch (error) {
+        console.error('서버 요청 실패', error);
+      }
     }
+
+
   };
 
   return (
@@ -47,7 +69,21 @@ const EditModal = ({ onClose, eventData }) => {
             <tbody>
                 <tr>
                     <td className="label">날짜</td>
-                    <td className="value">{editedStart} - {editedEnd}</td>
+                    <td className="value">
+                     
+                     <input
+                        type="date"
+                        value={editedStart}
+                        onChange={handleStartChange}
+                        className="input-field"
+                      />
+                    <input
+                        type="date"
+                        value={editedEnd}
+                        onChange={handleEndChange}
+                        className="input-field"
+                      /> 
+                    </td>
                 </tr>
                 <tr>
                     <td className="label">제목:</td>
@@ -55,6 +91,7 @@ const EditModal = ({ onClose, eventData }) => {
                       <input
                         type="text"
                         value={editedTitle}
+                        id="editedTitle"
                         onChange={handleTitleChange}
                         className="input-field"
                       />
