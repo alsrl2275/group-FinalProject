@@ -29,5 +29,6 @@ public class Calendar {
 	private String startDate;  // 일정 시작날짜
 	private String endDate;  // 일정 종료 날짜
 	private String userId; // 아이디
+	private String color;
 	
 }

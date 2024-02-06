@@ -18,8 +18,10 @@ class Calendar extends Component {
     modalStartDate: null,
     modalEndDate: null,
     diff: null,
-    events: []
+    events: [],
   };
+
+
 
   componentDidMount() {
     this.fetchEvents();
@@ -29,7 +31,7 @@ class Calendar extends Component {
     this.setState({
       showModal: true,
       // modalDate: arg.dateStr,
-      diff: 'a'
+      diff: 'b'
     });
   };
 
@@ -46,7 +48,7 @@ class Calendar extends Component {
     showModal: true,
     modalStartDate: arg.startStr,
     modalEndDate: adjustedEndStr,
-    diff: 'b' 
+    diff: 'b'
   });
   };
 
@@ -91,6 +93,14 @@ class Calendar extends Component {
 
       await this.fetchEvents();
   };
+  handleEventRender = (info) => {
+    // info.el은 이벤트를 렌더링하는 HTML 엘리먼트입니다.
+    // info.event는 풀캘린더 이벤트 객체입니다.
+
+    // 선택한 색상을 배경색으로 적용
+    info.el.style.backgroundColor = info.event.extendedProps.color;
+  };
+  
 
   fetchEvents = async () => {
     try {
@@ -104,7 +114,8 @@ class Calendar extends Component {
           end: event.endDate,
           memo: event.scheduleMemo,
           userId: event.userId,
-          seq: event.seq
+          seq: event.seq,
+          color: event.color
       }))
       
       formattedEvents.forEach(event => {
@@ -123,7 +134,15 @@ class Calendar extends Component {
 
   }
 
+  
+  
+
+
   render() {
+
+    
+
+
     return (
       <div className="App">
         <Header />
@@ -165,6 +184,7 @@ class Calendar extends Component {
               nextDayThreshold={'24:00:00'} // 마지막 날을 포함하도록 설정
               selectable={true} // 전체 캘린더를 선택 가능하게 만듬
               select={this.handleSelect} // 선택한 영역에 대한 콜백
+              eventRender={this.handleEventRender}  // 이벤트 렌더링 시 호출되는 콜백
               
             />
             

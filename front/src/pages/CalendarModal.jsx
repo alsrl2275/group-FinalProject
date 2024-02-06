@@ -5,6 +5,7 @@ import '../css/CalendarModal.css'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import EditModal from './EditModal';
+import { SketchPicker } from 'react-color';
 
 
 class CalendarModal extends React.Component {
@@ -14,7 +15,9 @@ class CalendarModal extends React.Component {
     startDate: this.props.start,
     endDate: this.props.end,
     userId: '아이디A',
-    isEditModalOpen: false,  // 새로운 모달을 열기 위한 상태 추가
+    isEditModalOpen: false,  // 수정모달을 열기 위한 상태 추가
+    displayColorPicker: false, // 컬러 피커의 표시 여부를 관리
+    color: '#4a90e2'  // 선택된 컬러를 저장하는 상태 추가
   };
 
   handleTitleChange = (e) => {
@@ -25,6 +28,22 @@ class CalendarModal extends React.Component {
     this.setState({ scheduleMemo: e.target.value });
   };
 
+  handleColorPickerOpen = () => { // displayColorPicker 반대값 즉, True (초기값은 False) 컬러 팔레트 열고 닫는 기능
+    this.setState({ displayColorPicker: !this.state.displayColorPicker });
+  };
+
+  handleColorChange = (color) => { // 컬러를 선택하면 선택된 컬러로 컴포넌트 상태 저장
+    this.setState({ color: color.hex }); // 
+  };
+
+  handleColorPickerClose = () => {
+    
+    this.setState({ 
+      displayColorPicker: false,
+      color: '#4a90e2', 
+    });
+  };
+
   // handleUserIdChange = (e) => {
   //   this.setState({ userId: e.target.value });
   // };
@@ -32,7 +51,6 @@ class CalendarModal extends React.Component {
   
   // handleEdit 및 handleDelete 메서드 추가
   handleEdit = () => {
-    // this.props.onClose(); // 먼저 현재 모달을 닫습니다.
     this.setState({ isEditModalOpen: true }); 
     
   };
@@ -65,7 +83,12 @@ class CalendarModal extends React.Component {
       }
     }
   }
-
+  handleColorPickerConfirm = () => {
+    this.handleColorPickerClose(); // 팔레트를 닫습니다.
+    this.setState({ // 선택한 색상 적용
+      color: this.state.color
+    })
+  };
 
 
   handleFormSubmit = async (e) => {
@@ -73,6 +96,9 @@ class CalendarModal extends React.Component {
     // 여기서 저장 또는 다른 작업 수행
     console.log('제목:', this.state.scheduleTitle);
     console.log('메모:', this.state.scheduleMemo);
+
+
+
     if(this.state.scheduleTitle.trim() === '') {
       Swal.fire({
         icon: 'error',
@@ -86,7 +112,8 @@ class CalendarModal extends React.Component {
           scheduleMemo: this.state.scheduleMemo,
           startDate: this.state.startDate,
           endDate: this.state.endDate,
-          userId: this.state.userId
+          userId: this.state.userId,
+          color: this.state.color
         })
         console.log("결과 :", response.data)
         Swal.fire({
@@ -107,51 +134,10 @@ class CalendarModal extends React.Component {
     return (
       <div className="modal-overlay">
         <div className="modal-content">
-          
-          {this.props.diff === 'a' && ( // 날짜가 하루일 때
-            <>
-              <form onSubmit={this.handleFormSubmit} className="form-container">
-                <table className="form-table">
-                  <tbody>
-                    <tr>
-                      <td className='label'>날짜</td>
-                      <td className='value'>{this.state.startDate} - {this.state.endDate}</td>
-                    </tr>
-                    <tr>
-                      <td className="label">제목:</td>
-                      <td className="value">
-                        <input
-                          type="text"
-                          value={this.state.scheduleTitle}
-                          onChange={this.handleTitleChange}
-                          className="input-field"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="label">메모:</td>
-                      <td className="value">
-                        <textarea
-                          value={this.state.scheduleMemo}
-                          onChange={this.handleMemoChange}
-                          className="textarea-field"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan="2">
-                        <button type="submit" className="submit-button">
-                          일정 추가
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form>
-            </>
-          )}
 
-{this.props.diff === 'b' && ( // 여러날짜일 때
+      {this.props.diff === 'b' && ( // 빈 일정클릭 시 열리는 모달
+            <>
+
             <form onSubmit={this.handleFormSubmit} className="form-container">
               <table className="form-table">
                 <tbody>
@@ -182,22 +168,36 @@ class CalendarModal extends React.Component {
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="2">
-                    {/* <input
-                      type="hidden"
-                      value={this.state.userId}
-                      className="input-field"
-                      onChange={this.handleUserIdChange}
-                      /> */}
-                      <button type="submit" className="submit-button">일정 추가</button>
-                    </td>
+                  <td colSpan="2">
+                    <br/>
+                  <div className='colorBtn'>
+                  <button type="button" className="colorBtn" onClick={this.handleColorPickerOpen}>
+                    색상 추가
+                  </button>
+                  <button type="submit" className="submit-button">일정 추가</button>
+                  </div>                  
+                  </td>
                   </tr>
                 </tbody>
               </table>
             </form>
+            </>   
           )}
-
-{diff === 'c' && ( // 일정이있는 데이터 클릭했을 때 
+      {this.state.displayColorPicker ? ( // displayColorPicker  상태가 'true'이면 랜더링 아니면 null
+        <div className='color-picker-modal'>
+          <div className="color-picker-cover" onClick={this.handleColorPickerClose} />
+          <div className="color-picker-content">
+            <SketchPicker color={this.state.color} onChange={this.handleColorChange} />
+            <div className="color-preview" style={{ backgroundColor: this.state.color }}></div>
+            <div className="color-picker-buttons">
+              <button type="button" onClick={this.handleColorPickerConfirm}>확인</button>
+              <span className="button-gap" />
+              <button type="button" onClick={this.handleColorPickerClose}>취소</button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+{diff === 'c' && ( // 일정이있는 데이터 클릭했을 때 열리는 모달 
             <>
 
                 <table className="form-table">
@@ -246,11 +246,16 @@ class CalendarModal extends React.Component {
                     this.props.onClose();                         // eventData prop에는 현재 일정 데이터를 전달합니다
                   }}                  
                   eventData={eventData}
+                  displayColorPicker={this.state.displayColorPicker}
+                  handleColorPickerOpen={this.handleColorPickerOpen}
+                  // handleColorChange={this.handleColorChange}
+                  handleColorPickerConfirm={this.handleColorPickerConfirm}
+                  handleColorPickerClose={this.handleColorPickerClose}
                 />                                                                                                                                                  
                 )}
             </>
           )}
-          <button className= "submit-button" onClick={this.props.onClose}>모달 닫기</button>
+          <button className= "closeBtn" onClick={this.props.onClose}>모달 닫기</button>
         </div>
       </div>
     );
