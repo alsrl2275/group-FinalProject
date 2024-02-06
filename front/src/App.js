@@ -8,37 +8,34 @@ import KakaoMap from "./KakaoMap";
 import GroupJoin from "./pages/GroupJoin";
 import SignUp from "./pages/SignUp";
 import Calendar from "./pages/Calendar";
-import LoginContextProvider, { LoginContext } from "./contexts/LoginContextProvider";
+import LoginContextProvider, {
+  LoginContext,
+} from "./contexts/LoginContextProvider";
 import AdminPage from "./pages/admin";
-
+import Header from "./components/Header/header";
+import Footer from "./components/Home/Footer";
 
 export default function App() {
   const { userInfo } = useContext(LoginContext);
   return (
- 
-    <BrowserRouter>
-      
-        <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/test" element={<Test />} />
-          <Route path="/insert" element={<InsertForm />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/KakaoMap" element={<KakaoMap />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/GroupJoin" element={<GroupJoin />} />
-          <Route path="/GroupJoin/:category" element={<GroupJoin />} />
-          <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
-          <Route
-            path="/GroupJoin/:hsearch/:hselected"
-            element={<GroupJoin />}
-          />
-          <Route path="/schedule" element={<Calendar />} />
-          
-          {userInfo.role === 'ROLE_ADMIN' && (<Route path="/admin" element={<AdminPage/>}/>)}
-          {userInfo.role !== 'ROLE_ADMIN' && (<Route path="/admin" element={<Navigate to="/" replace />} />)}
-        </Routes>
-      
-    </BrowserRouter>
-    
+    <Routes>
+      <Route path="/" element={<HomePage />}></Route>
+      <Route path="/test" element={<Test />} />
+      <Route path="/insert" element={<InsertForm />} />
+      <Route path="/Login" element={<Login />} />
+      <Route path="/KakaoMap" element={<KakaoMap />} />
+      <Route path="/SignUp" element={<SignUp />} />
+      <Route path="/GroupJoin" element={<GroupJoin />} />
+      <Route path="/GroupJoin/:category" element={<GroupJoin />} />
+      <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
+      <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
+      <Route path="/schedule" element={<Calendar />} />
+
+      {userInfo && userInfo.role === "ROLE_ADMIN" ? (
+        <Route path="/admin" element={<AdminPage />} />
+      ) : (
+        <Route path="/admin" element={<Navigate to="/" replace />} />
+      )}
+    </Routes>
   );
 }

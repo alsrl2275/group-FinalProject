@@ -4,7 +4,7 @@ import Header from '../components/Header/header';
 import Footer from "../components/Home/Footer";
 import GroupCategory from "../components/GroupJoin/GroupCategory";
 import ImageSlide from "../components/Home/ImageSlide";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import GroupList from "../components/GroupJoin/GroupList";
 import axios from "axios";
 import { LoginContext } from "../contexts/LoginContextProvider";
@@ -17,11 +17,10 @@ const GroupJoin = () => {
   if(hselected=="null"){
     hselected=null;
   }
-  
-  const { search, selected, categoryProps, groupprops, category } = useParams();
+  const { search, selected, categoryProps, category, groupprops } = useParams();
   const [searchValue, setSearchValue] = useState(search || hsearch);
   const [selectedValue, setSelectedValue] = useState(selected || hselected);
-  const [categoryValue, setCategoryValue] = useState(categoryProps || category || selected);
+  const [categoryValue, setCategoryValue] = useState(categoryProps || category || selected || 'sport');
   const [groupValue, setGroupValue] = useState(groupprops);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const { userInfo } = useContext(LoginContext);    // 로그인값 받는거(유저 번호, 권한)
@@ -29,7 +28,7 @@ const GroupJoin = () => {
   const [serverData, setServerData]= useState(null);
 
   const handleSearch = (search, selected, category, group) => {
-
+  
     setSearchValue(search);
     setSelectedValue(selected);
     setCategoryValue(category);
@@ -91,6 +90,7 @@ const GroupJoin = () => {
       <GroupList print={print} searchValue={searchValue}/>
       {/* End Main */}
       {/* Footer */}
+      {userInfo.role}
       <Footer />
       {/* End footer */}
     </>

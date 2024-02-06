@@ -12,8 +12,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
   const { isLogin, logout } = useContext(LoginContext);
-const { userInfo } = useContext(LoginContext);
-  
+  const { userInfo } = useContext(LoginContext);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1000);
@@ -77,7 +77,10 @@ const { userInfo } = useContext(LoginContext);
             </Link>
             <Link
               className="nav-link"
-              to={{ pathname: "/GroupJoin", state: { categorys: "sport" } }}
+              to={{
+                pathname: "/GroupJoin",
+                state: { category: "sport" },
+              }}
             >
               그룹 참가하기
             </Link>
@@ -110,7 +113,7 @@ const { userInfo } = useContext(LoginContext);
                   계정
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {userInfo.role === 'ROLE_ADMIN' ? (
+                  {userInfo.role === "ROLE_ADMIN" ? (
                     <>
                       <Dropdown.Item as={Link} to="/admin">
                         관리자 페이지

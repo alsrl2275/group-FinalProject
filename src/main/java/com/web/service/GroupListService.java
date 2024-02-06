@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.web.dto.GroupInfo;
+import com.web.dto.GroupInfoDAO;
 import com.web.dto.GroupListDTO2;
+import com.web.persistence.GroupInfoRepository;
 import com.web.persistence.GroupListRepository;
 
 @Service
@@ -15,6 +17,9 @@ public class GroupListService {
 
 	@Autowired
 	public GroupListRepository Grepo;
+	
+	@Autowired
+	public GroupInfoRepository GIRepo;
 	
 	public List<GroupInfo> ShowGroupList(GroupListDTO2 dto) {
 		List<GroupInfo> list = new ArrayList<>();
@@ -58,4 +63,51 @@ public class GroupListService {
 		return list;
 		
 	}
+	
+	public List<GroupInfo> searchGroup(){
+		
+		List<GroupInfo> list = GIRepo.findAll();
+		return list;
+	}
+	
+	public void delete(String seq) {
+		seq = seq.replace("=", "");
+    	Long seq2 = Long.parseLong(seq);
+    	GIRepo.deleteById(seq2);
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

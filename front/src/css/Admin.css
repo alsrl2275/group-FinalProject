@@ -3,5 +3,28 @@
     width: 100%; /* 가로 폭을 100%로 설정 */
     margin: 0 auto; /* 가운데 정렬을 위해 좌우 여백을 자동으로 설정 */
     padding: 20px; /* 내용과의 여백을 설정, 필요에 따라 조절 가능 */
-    display: block;
+    display: flex;
+    
 }
+.left {
+    display: flex;
+    flex-direction: column; /* 버튼을 세로로 배치 */
+  }
+  
+.left-button {
+    margin-bottom: 10px; /* 버튼 간의 간격 조절 */
+  }
+.right-table{
+    margin-left: 25px;
+    border: solid 2px black;
+}
+.right-table-tr{
+    display: flex;
+    
+}
+.right-table td {
+    margin-right: 10px; /* 우측 마진을 추가하여 간격 조절 */
+  }
+
+  
+
