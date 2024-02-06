@@ -45,6 +45,9 @@ public class ScheduleService {
                     case "editedEnd":
                         existCalendar.setEndDate((String) value);
                         break;
+                    case "color":
+                        existCalendar.setColor((String) value);
+                        break;
                     // 다른 필요한 필드에 대한 처리 추가
                 }
             });
