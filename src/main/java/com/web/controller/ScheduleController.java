@@ -49,7 +49,6 @@ public class ScheduleController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 실패");
 		}
 	}
-	
 	@DeleteMapping("/deleteCalendar/{seq}")
 	public ResponseEntity<String> deleteCalnedar(@PathVariable Long seq) {
 		try {

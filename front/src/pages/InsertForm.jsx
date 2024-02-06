@@ -5,8 +5,12 @@ import '../css/InsertForm.css'
 import axios from 'axios';
 import { useState } from 'react';
 import DaumPost from '../DaumPost';
+import { useNavigate } from 'react-router-dom';
 
 function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
+
+  const navigation = useNavigate();
+
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -121,6 +125,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       meetingType: formData.meetingType,
     };
     const currentDate = new Date();
+    
     if(formData.meetingType.trim() === '') {
       alert("모임타입을 설정해주세요."); // 알림 창 표시
       document.getElementById("free").focus();
@@ -180,6 +185,8 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         console.log(response.data);
         // setFormData(response.data)
         console.log('Updated meetingLocation:', updatedFormData.meetingLocation);
+        alert("그룹개설이 완료되었습니다.")
+        navigation('/'); // 이동하고자 하는 경로로 변경
       } catch (error) {
         console.error('Error submitting data:', error);
       }
