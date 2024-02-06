@@ -41,6 +41,8 @@ public class MemberService {
         member.setRole("ROLE_USER");
         return rep.save(member);
     }
+    
+    public boolean checkId(String id) { return rep.existsById(id); }
 
     public MemberDTO search(String id) {
     	MemberDTO member = rep.findById(id);
