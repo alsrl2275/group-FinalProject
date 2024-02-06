@@ -1,21 +1,18 @@
 package com.web.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.dto.JoinDTO;
-import com.web.entity.UserEntity;
-import com.web.service.JoinService;
+import com.web.service.AdminJoinService;
 
 @Controller
 @ResponseBody
-public class JoinController {
+public class AdminJoinController {
+	private final AdminJoinService joinService;
 
-    private final JoinService joinService;
-
-    public JoinController(JoinService joinService) {
+    public AdminJoinController(AdminJoinService joinService) {
 
         this.joinService = joinService;
     }
@@ -27,5 +24,4 @@ public class JoinController {
 
         return "ok";
     }
-    
 }

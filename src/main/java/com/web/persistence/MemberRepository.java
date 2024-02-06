@@ -12,4 +12,8 @@ public interface MemberRepository extends JpaRepository<MemberDTO, Long> {
 
 	public MemberDTO save(MemberDTO memberDTO);
 
+	public MemberDTO findById(String username);
+
+
+
 }
