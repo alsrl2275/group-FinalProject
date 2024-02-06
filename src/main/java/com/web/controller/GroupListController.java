@@ -38,10 +38,10 @@ public class GroupListController {
 	@Autowired
 	public GroupInfoService InfoService;
 	
+	// 그룹 참가하기 페이지에 그룹 출력
 	@PostMapping("/api/test")
 	public List<GroupInfo> test2(@RequestBody GroupListDTO2 dto2) {
-		System.out.println("확인중");
-		System.out.println(dto2.getGroupValue());
+
 		if(dto2.getGroupValue() == null) {
 			dto2.setGroupValue("무료");
 		}
@@ -50,31 +50,27 @@ public class GroupListController {
 
 		list = Gservice.ShowGroupList(dto2);
 
-		System.out.println(list);
+		
 	    return list;
 	}
 	
+	// 그룹 신청
 	@PostMapping("/api/content")
 	public String test(@RequestBody GroupInfo dao) {
 		LocalDate today = LocalDate.now();
 		if(dao.getJoinPeople() == dao.getPeopleNum()) {
-			System.out.println("확인용1");
 			return "인원";
 		}
 		try {
-			System.out.println("확인용2");
+			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	        LocalDate recruitmentDate = LocalDate.parse(dao.getRecruitmentd(), formatter);
 	        if (today.isAfter(recruitmentDate)) {
-	        	System.out.println("모집일 지남");
 	            return "기간";
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("확인용3");
 		}
-		
-		System.out.println("확인용4");
 		InfoService.updateGroup(dao);
 		return "신청";
 		

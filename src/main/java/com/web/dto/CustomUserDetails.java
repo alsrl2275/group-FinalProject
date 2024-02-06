@@ -6,15 +6,14 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.web.entity.UserEntity;
 
 public class CustomUserDetails  implements UserDetails {
 
-    private final UserEntity userEntity;
+    private final MemberDTO member;
 
-    public CustomUserDetails(UserEntity userEntity) {
+    public CustomUserDetails(MemberDTO member) {
 
-        this.userEntity = userEntity;
+        this.member= member;
     }
 
 
@@ -28,7 +27,7 @@ public class CustomUserDetails  implements UserDetails {
             @Override
             public String getAuthority() {
 
-                return userEntity.getRole();
+                return member.getRole();
             }
         });
 
@@ -38,13 +37,13 @@ public class CustomUserDetails  implements UserDetails {
     @Override
     public String getPassword() {
 
-        return userEntity.getPassword();
+        return member.getPwd();
     }
 
     @Override
     public String getUsername() {
 
-        return userEntity.getUsername();
+        return member.getId();
     }
 
     @Override
