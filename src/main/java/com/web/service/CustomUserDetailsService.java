@@ -6,27 +6,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.web.dto.CustomUserDetails;
-import com.web.entity.UserEntity;
-import com.web.persistence.UserRepository;
+import com.web.dto.MemberDTO;
+import com.web.persistence.MemberRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository MbRepo;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailsService(MemberRepository MbRepo) {
 
-        this.userRepository = userRepository;
+        this.MbRepo = MbRepo;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity userData = userRepository.findByUsername(username);
-        System.out.println(userData.getUsername());
-        if (userData != null) {
+        MemberDTO member = MbRepo.findById(username);
+        System.out.println(member.getId());
+        if (member != null) {
 
-            return new CustomUserDetails(userData);
+            return new CustomUserDetails(member);
         }
 
         return null;

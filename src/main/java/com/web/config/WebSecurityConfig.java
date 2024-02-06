@@ -81,11 +81,11 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .antMatchers("/login", "/", "/join","/api/test","/api/content","/groupInsert").permitAll()
+                        .antMatchers("/login", "/", "/join","/api/test/**","/api/content","/groupInsert").permitAll()
                         .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**","/deleteCalendar/**").permitAll()
                         .antMatchers("/register/**").permitAll()
 						.antMatchers("/getIdRole").permitAll()
-                        .antMatchers("/admin").hasRole("ADMIN")
+                        .antMatchers("/admin/**").permitAll()
                         .anyRequest().authenticated());
 
         http

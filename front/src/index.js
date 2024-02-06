@@ -11,8 +11,10 @@ const root = ReactDOM.createRoot(document.getElementById("root")); // 가상 DOM
 
 root.render(
   <React.StrictMode>
-    <LoginContextProvider>
-      <App />
-    </LoginContextProvider>
+    <BrowserRouter>
+      <LoginContextProvider>
+        <App />
+      </LoginContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

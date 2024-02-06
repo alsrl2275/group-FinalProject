@@ -29,7 +29,7 @@ const LoginForm = () => {
     } catch (error) {
       // 로그인 실패 시 처리
       console.error("Login failed:", error);
-      alert("로그인 실패")
+      alert("아이디 비밀번호 확인바랍니다")
     }
     
   };

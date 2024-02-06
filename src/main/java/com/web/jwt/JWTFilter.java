@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.web.dto.CustomUserDetails;
-import com.web.entity.UserEntity;
+import com.web.dto.MemberDTO;
 
 public class JWTFilter extends OncePerRequestFilter{
 
@@ -61,13 +61,13 @@ public class JWTFilter extends OncePerRequestFilter{
         String role = jwtUtil.getRole(token);
 		
     	//userEntity를 생성하여 값 set
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(username);
-        userEntity.setPassword("temppassword");
-        userEntity.setRole(role);
+        MemberDTO member = new MemberDTO();
+        member.setId(username);
+
+        member.setRole(role);
         
         //UserDetails에 회원 정보 객체 담기
-        CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
+        CustomUserDetails customUserDetails = new CustomUserDetails(member);
 
 		//스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
