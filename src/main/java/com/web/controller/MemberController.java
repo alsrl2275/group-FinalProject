@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +25,9 @@ import com.web.service.MemberService;
 @RestController
 public class MemberController {
 
-	private final MemberService msv;
-	
 	@Autowired
-	public MemberController(MemberService msv) {
-		this.msv = msv;
-	}
+	MemberService msv;
+
 	
     @GetMapping("/GroupJoin")
     public String joinGroup(String category) {
@@ -36,23 +35,6 @@ public class MemberController {
 		System.out.println(category);
 		return "운동 ";
 	}
-    
-    //회원가입
-//    @PostMapping("/register")
-//    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO){
-//    	System.out.println(memberDTO);
-//    	return ResponseEntity.ok("가입 완료");
-//    }
-    
-//    @PostMapping("/register")
-//    public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO) {
-//        try {
-//            MemberDTO savedMember = msv.saveMember(memberDTO);
-//            return new ResponseEntity<>("Member registered successfully.", HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>("Failed to register member.", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     // 회원가입
     @PostMapping("/register")
@@ -62,36 +44,36 @@ public class MemberController {
 //        	LocalDate birth = LocalDate.parse(Integer.toString(memberDTO.getBirth()), DateTimeFormatter.BASIC_ISO_DATE);
 //        	int age = CountAge(birth);
 //        	memberDTO.setAge(age);
-//        	String email = memberDTO.getEmail();
-//        	String domain = memberDTO.getDomain();
-//        	String semail = email + "@" + domain;
-//        	memberDTO.setEmail(semail);
+        	String email = memberDTO.getEmail();
+        	String domain = memberDTO.getDomain();
+        	String semail = email + "@" + domain;
+        	memberDTO.setEmail(semail);
             MemberDTO savedMember = msv.saveMember(memberDTO);
             return ResponseEntity.ok("Member registered successfully. Member ID: " + savedMember.getId());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to register member. Error: " + e.getMessage());
         }
     }
-   
+
+    // 아이디 중복검사
+    @PostMapping("/checkId")
+    public ResponseEntity<Map<String, Boolean>> checkId(@RequestBody Map<String, String> requestBody) {
+        String checkedId = requestBody.get("id");
+
+        // 중복 여부 확인
+        boolean isDuplicate = msv.checkId(checkedId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("iddu", isDuplicate);
+
+        return ResponseEntity.ok(response);
+    }
+    
 //    // 나이 구하기
 //    private int CountAge(LocalDate birthdate) {
 //    	LocalDate today = LocalDate.now();
 //    	return (int) ChronoUnit.YEARS.between(birthdate, today);
 //    }
-    
-//    @Autowired
-//    private MemberService msv;
-//    
-//    @PostMapping("/checkId")
-//    public String checkId(@RequestBody MemberDTO memberDTO) {
-//    	String res = msv.checkId(memberDTO.getId());
-//    	return res;
-//    }
-//    
-//    @PostMapping("SignUp")
-//    public String SignUp(@RequestBody MemberDTO memberDTO) {
-//    	String res = msv.signUp(memberDTO);
-//		return res;
-//    }
+
 		
 }
