@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Header from '../components/Header/header';
 import Footer from "../components/Home/Footer";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -20,17 +20,36 @@ const SignUp = () => {
         domain: "",
         phone: "",
         birth: "",
+        age: "",
         bank: "",
         banknum: "",
     });
 
     const handlesubmit = async (e) => {
-        e.preventDefault();
-        if (user.id.trim() === '' || user.pwd.trim() === '' || user.cpwd.trim() === '' || user.name.trim() === '' || user.email.trim() === '' || user.domain.trim() === '' || user.phone.trim() === '' || user.birth.trim() === '' || user.bank.trim() === '' || user.banknum.trim() === '') {
-            alert('모든 필드를 입력해주세요.');
+        e.preventDefault();  // 폼의 기본 동작을 막음
+    
+        if (user.pwd !== user.cpwd) {
+            alert('비밀번호가 일치하지 않습니다');
             return;
         }
-        try{
+
+        try {
+            if (
+                user.id.trim() === '' ||
+                user.pwd.trim() === '' ||
+                user.cpwd.trim() === '' ||
+                user.name.trim() === '' ||
+                user.email.trim() === '' ||
+                user.domain.trim() === '' ||
+                user.phone.trim() === '' ||
+                user.birth.trim() === '' ||
+                user.bank.trim() === '' ||
+                user.banknum.trim() === ''
+            ) {
+                alert('모든 필드를 입력해주세요.');
+                return;
+            }
+    
             const response = await axios.post('/register', user);
             console.log(user);
             console.log(response.data);
@@ -39,18 +58,19 @@ const SignUp = () => {
         } catch (error) {
             console.error('가입 실패:', error);
         }
-    }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+    
         switch (name) {
             case 'email':
-                if(handlesubmit){
+                if (name === 'email') {
                     setUser((preUser) => ({
                         ...preUser,
                         email: value,
                     }));
-                } else if(name === 'domain'){
+                } else if (name === 'domain') {
                     setUser((preUser) => ({
                         ...preUser,
                         domain: value,
@@ -73,10 +93,12 @@ const SignUp = () => {
                 }));
                 break;
             case 'birth':
-                const bnu = value.replace(/\D/g, '');
+                const bnu = value.replace(/\D+/g, '');
+                const age = Age(bnu);
                 setUser((preUser) => ({
                     ...preUser,
-                    [name]: bnu,
+                    [name]: value,
+                    age: age
                 }));
                 break;
             default:
@@ -91,34 +113,35 @@ const SignUp = () => {
                 break;
         }
     };
+    
 
 
     // 아이디 유효성 검사
     const [iid, setIid] = useState(false);
     const [cid, setcid] = useState(false);
     
+    // 입력 가능한 글자 정하는 유효성
       const lenid = (id) => {
         const isValid = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(id);
         setIid(isValid);
       };
+
+      const handleCheckId = async () => {
+        console.log('handleCheckId 호출됨');
+        try {
+            const response = await axios.post('/checkId', { id: user.id });
+            const isDuplicate = response.data.iddu;
     
-      const handleId = async () => {
-        const isDuplicate = await checked(user.id);
-    
-        if (isDuplicate) {
-          alert('이미 사용중인 아이디입니다.');
-        } else {
-          alert('사용 가능한 아이디입니다');
-          setIid(true);
-          setcid(true);
+            if (isDuplicate) {
+                alert('이미 사용 중인 아이디입니다.');
+            } else {
+                alert('사용 가능한 아이디입니다.');
+            }
+        } catch (error) {
+            console.error('중복 체크 에러:', error);
         }
-      };
+    };
     
-      const checked = async (id) => {
-        // 실제로는 서버로 중복 여부를 확인하는 로직을 구현해야 합니다.
-        // 여기서는 간단한 예시로 "test1" 아이디가 중복인 것으로 가정합니다.
-        return id === 'test1';
-      };
 
 //----------------------------------------------------------------
 
@@ -144,18 +167,23 @@ const SignUp = () => {
 
     // 전화번호
     const phonenum = (phnum) => {
-        if(phnum.length < 4){
-            return phnum;
-        } else if(phnum.length < 7){
-            return `${phnum.slice(0,3)}-${phnum.slice(3)}`;
+        if (phnum.length < 4) {
+          return phnum;
+        } else if (phnum.length < 7) {
+          return `${phnum.slice(0, 3)}-${phnum.slice(3)}`;
         } else {
-            return `${phnum.slice(0,3)}-${phnum.slice(3,7)}-${phnum.slice(7)}`;
+          return `${phnum.slice(0, 3)}-${phnum.slice(3, 7)}${phnum.length > 7 ? `-${phnum.slice(7)}` : ''}`;
         }
-    }
+      };
 
     //---------------------------------------------------------------
 
-    // 생년월일
+    // 나이 구하기
+    const Age = (birth) => {
+        const currentYear = new Date().getFullYear();
+        const birthYear = parseInt(birth.substring(0,2),10) + 1900;
+        return currentYear - birthYear + 1
+    }
     
     return (
         <>
@@ -178,7 +206,7 @@ const SignUp = () => {
                                     onChange={handleChange}
                                     placeholder="영문과 숫자 최소 6글자"
                                 />
-                                {!cid && <button  className="checkId" onClick={handleId} disabled={!iid}>중복체크</button>}
+                                {!cid && <button type="button" className="checkId" onClick={handleCheckId} disabled={!iid}>중복체크</button>}
                             </td>
                         </tr>
                         <tr>
@@ -321,7 +349,7 @@ const SignUp = () => {
                     </tbody>
                 </table>
                 <br />
-				 <button className="submit" type="submit">가입하기</button>
+				 <button className="submit" type="submit" onClick={handlesubmit}>가입하기</button>
             </form>
             </div>
         <Footer/>
