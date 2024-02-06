@@ -14,6 +14,6 @@ public interface MemberRepository extends JpaRepository<MemberDTO, Long> {
 
 	public MemberDTO findById(String username);
 
-
+	boolean existsById(String id);
 
 }

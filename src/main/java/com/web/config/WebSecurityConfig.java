@@ -85,6 +85,7 @@ public class WebSecurityConfig {
                         .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**","/deleteCalendar/**").permitAll()
                         .antMatchers("/register/**").permitAll()
 						.antMatchers("/getIdRole").permitAll()
+						.antMatchers("/checkId").permitAll()
                         .antMatchers("/admin/**").permitAll()
                         .anyRequest().authenticated());
 
