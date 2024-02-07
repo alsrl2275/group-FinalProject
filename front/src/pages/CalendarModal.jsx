@@ -6,20 +6,45 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import EditModal from './EditModal';
 import { SketchPicker } from 'react-color';
+import { LoginContext } from "../contexts/LoginContextProvider";
 
 
 class CalendarModal extends React.Component {
+
+  static contextType = LoginContext; // 클래스 컴포넌트에서 contextType을 사용하여 context에 직접 액세스할 수 있게 합니다.
+  
   state = {
     scheduleTitle: '',
     scheduleMemo: '',
     startDate: this.props.start,
     endDate: this.props.end,
-    userId: '아이디A',
+    userId: '',
     isEditModalOpen: false,  // 수정모달을 열기 위한 상태 추가
     displayColorPicker: false, // 컬러 피커의 표시 여부를 관리
     color: '#4a90e2'  // 선택된 컬러를 저장하는 상태 추가
   };
 
+  async componentDidMount() { // 컴포넌트가 화면에 랜더링되어 마운트된 직후에 호출
+                        // 따라서 이 메서드 안에서 수행하는 작업들은 컴포넌트가 처음으로 화면에 나타날 때 한번만 실행됩니다
+
+    try {
+      const { userInfo } = this.context;  // context에서 userInfo를 가져옵니다.
+
+      const response = await axios.post('/findUserId', {
+        seq: userInfo.seq
+      })
+
+
+      const findId = response.data
+
+      // seq에 해당하는 사용자의 아이디를 userId에 설정합니다.
+      this.setState({
+        userId: findId,
+      })
+    } catch (error) {
+      console.error('서버 요청 실패', error);
+    }
+  }
   handleTitleChange = (e) => {
     this.setState({ scheduleTitle: e.target.value });
   };
@@ -44,9 +69,6 @@ class CalendarModal extends React.Component {
     });
   };
 
-  // handleUserIdChange = (e) => {
-  //   this.setState({ userId: e.target.value });
-  // };
 
   
   // handleEdit 및 handleDelete 메서드 추가
@@ -107,6 +129,8 @@ class CalendarModal extends React.Component {
       })
     } else {
       try {
+
+
         const response = await axios.post("/Calendar", {
           scheduleTitle: this.state.scheduleTitle,
           scheduleMemo: this.state.scheduleMemo,
@@ -141,6 +165,7 @@ class CalendarModal extends React.Component {
             <form onSubmit={this.handleFormSubmit} className="form-container">
               <table className="form-table">
                 <tbody>
+                <input type="hidden" name="userId" value={this.state.userId} />
                   <tr>
                     <td className="label">날짜</td>
                     <td className="value">{this.state.startDate} - {this.state.endDate}</td>

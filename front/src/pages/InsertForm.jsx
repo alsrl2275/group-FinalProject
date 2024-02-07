@@ -3,14 +3,16 @@ import KakaoMap from '../KakaoMap';
 import Header from '../components/Header/header';
 import '../css/InsertForm.css'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import DaumPost from '../DaumPost';
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from "../contexts/LoginContextProvider";
 
 function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
 
+  const { userInfo } = useContext(LoginContext);
   const navigation = useNavigate();
-
+  
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -84,6 +86,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       ...formData,
       [name]: value,
     });
+    
   };
 
   const handleRadioChange2 = (e) => { // 대면 OR 비대면 (faceToFace)
@@ -114,6 +117,31 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       });
     };
     }
+
+    useEffect(() => {
+      const findUserId = async () => {
+        try {
+          console.log('userInfo.seq:', userInfo.seq);
+  
+          const response = await axios.post('/findUserId', { seq: userInfo.seq });
+  
+          console.log('response.data:', response.data);
+  
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            userId: response.data,
+          }));
+        } catch (error) {
+          console.error('axios 에러', error);
+        }
+      };
+  
+      if (userInfo.seq) {
+        findUserId();
+      }
+    }, [userInfo.seq]);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,6 +178,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       setTimeout(() => {
         meetingTitle.focus();
       }, 100); 
+      console.log(userInfo)
     } else if (formData.category.trim() === '') {
       alert("모임종류를 선택해주세요."); // 알림 창 표시
       document.getElementById("sports").focus();
