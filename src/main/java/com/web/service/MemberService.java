@@ -1,9 +1,11 @@
 package com.web.service;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.internal.build.AllowSysOut;
@@ -74,8 +76,16 @@ public class MemberService {
     	rep.save(dtos);
 
     }
-    
-    
+
+//	public MemberDTO getUserDataById(String id) {
+//		Member member = rep.findById(id)
+//				.orElseThrow(() -> new EntityNotFoundException("can not found id " +id));
+//		return mapToDto(member);
+//	}
+//	
+//	private MemberDTO mapToDto(Member member) {
+//		
+//	}
     
 }
 
