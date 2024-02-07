@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.dto.Calendar;
+import com.web.dto.MemberDTO;
+import com.web.service.GroupInfoService;
 import com.web.service.ScheduleService;
 
 @RestController
@@ -25,6 +28,9 @@ public class ScheduleController {
 	@Autowired
 	ScheduleService scheduleService;
 	
+	@Autowired 
+	GroupInfoService groupService;
+	
 	@PostMapping("/Calendar")
 	public Calendar schedule(@RequestBody Calendar calendar) {
 		System.out.println(calendar);
@@ -32,10 +38,14 @@ public class ScheduleController {
 		return calendar;
 	}
 	
-	@GetMapping("/getEvents")
-	public List<Calendar> getEvents() {
+	@PostMapping("/getEvents")
+	public List<Calendar> getEvents(@RequestBody MemberDTO member) {
+		System.out.println(member.getSeq());
 		System.out.println("안녕");
-		return scheduleService.getAllEvents();
+		String id = groupService.findUserById(member.getSeq());
+		System.out.println(id);
+//		String id = groupService.findUserById(member.getSeq());
+		return scheduleService.getAllEvents(id);
 	}
 	
 	@PutMapping("/updateCalendar/{seq}")

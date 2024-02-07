@@ -36,7 +36,7 @@ public class TokenController {
             String username = jwtUtil.getUsername(jwtToken);
             MemberDTO member = Mservice.search(username);
             if(member != null) {
-            	search.put("no", member.getSeq());
+            	search.put("seq", member.getSeq());
             	search.put("role", member.getRole());
             	return search;
             } 

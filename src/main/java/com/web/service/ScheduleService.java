@@ -21,8 +21,8 @@ public class ScheduleService {
 		scheduleRepo.save(calendar);
 	}
 	
-	public List<Calendar> getAllEvents() {
-		return scheduleRepo.findAll();
+	public List<Calendar> getAllEvents(String userId) {
+		return scheduleRepo.findByUserId(userId);
 	}
 	
 	public void updateEvent(Long seq, Map<String, Object> updateRequest) {
