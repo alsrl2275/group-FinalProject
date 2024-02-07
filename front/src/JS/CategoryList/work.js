@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import list from "../../JS/images";
 import Modal from "../../components/Modal"; // 모달 컴포넌트 import
-import Crolling from "../../components/GroupJoin/Crolling";
+
 import axios from "axios";
+import Site from "../../components/GroupJoin/Site";
 const SportGroup = ({ print, searchValue }) => {
 
   const [selectedData, setSelectedData] = useState(null);
@@ -44,13 +45,13 @@ const SportGroup = ({ print, searchValue }) => {
 if(print === "work"){
   return (
     <div className="group-container">
-     {!searchValue &&<Crolling print={print}/>}
+     {!searchValue &&<Site print={print}/>}
     </div>
       );
 }else{
   return (
     <div className="group-container">
-      {!searchValue &&<Crolling print={print}/>}
+      {!searchValue &&<Site print={print}/>}
       {print && print.length > 0 &&
         print.map((c, index) => (
           <div key={index} className="group-item">
