@@ -20,10 +20,12 @@
 }
 .right-table-tr{
     display: flex;
-    
+    width: 1500px;  
 }
 .right-table td {
     margin-right: 10px; /* 우측 마진을 추가하여 간격 조절 */
+    width:300px;
+    border-bottom: solid 1px black;
   }
 
   

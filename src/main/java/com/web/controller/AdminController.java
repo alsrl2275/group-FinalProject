@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,11 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.web.dto.GroupInfo;
 import com.web.dto.GroupInfoDAO;
 import com.web.dto.MemberDTO;
+import com.web.dto.SiteDTO;
+import com.web.persistence.SiteRepository;
+import com.web.service.AdminJoinService;
 import com.web.service.GroupInfoService;
 import com.web.service.GroupListService;
 import com.web.service.MemberService;
@@ -23,6 +29,9 @@ import com.web.service.MemberService;
 @ResponseBody
 public class AdminController {
 
+	@Autowired
+	public AdminJoinService as;
+	
 	@Autowired
 	public MemberService ms;
 
@@ -75,6 +84,61 @@ public class AdminController {
 		System.out.println(seq);
 		gs.delete(seq);
 	}
+	
+	 @PostMapping("/admin/insertSite")
+	    public String insertSite(
+	            @RequestParam("siteName") String siteName,
+	            @RequestParam("category") String category,
+	            @RequestParam("sitetalk") String sitetalk,
+	            @RequestParam("address") String address,
+	            @RequestParam("file") MultipartFile file) {
+		 SiteDTO site = new SiteDTO();
+		 site.setAddress(address);
+		 site.setCategory(category);
+		 site.setSitetalk(sitetalk);
+		 site.setSiteName(siteName);
+         site.setFilePath(file.getOriginalFilename());
+	        if (!file.isEmpty()) {
+	            try {
+	                // 파일 저장 경로 설정 (원하는 경로로 수정 필요)
+	                String uploadPath = "E:/upload/"; 
+
+	                // 파일 이름을 유니크하게 만들어줌
+	                String fileName = file.getOriginalFilename();
+
+	                // 파일을 저장할 경로 설정
+	                String filePath = uploadPath + fileName;
+
+	                as.siteinsert(site);
+	                // 파일 저장
+	                file.transferTo(new File(filePath));
+	                
+	                // 여기에서 파일을 저장하거나 DB에 파일 경로 등을 저장하는 로직을 수행
+	                // 예를 들면, 데이터베이스에 파일 경로를 저장하거나 파일을 다른 서버로 전송하는 등의 작업을 수행할 수 있습니다.
+
+	                // 파일 저장이 성공하면 성공 메시지를 리턴
+	                return "파일 업로드 성공";
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                return "파일 업로드 실패";
+	            }
+	        } else {
+	            return "파일이 비어있습니다.";
+	        }
+	    }
+	 
+	 @PostMapping("/admin/siteSearch")
+	 public List<SiteDTO> sitesearch(){
+		 List<SiteDTO> list = new ArrayList<>();
+		 list = as.sitesearch();
+		 return list;
+	 }
+	 
+	 @PostMapping("/admin/sitedelete")
+	 public void deletesite(@RequestBody String seq) {
+		 as.delete(seq);
+		 
+	 }
 }
 
 

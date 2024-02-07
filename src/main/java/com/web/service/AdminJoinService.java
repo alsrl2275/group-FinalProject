@@ -1,38 +1,61 @@
 package com.web.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.web.dto.JoinDTO;
 import com.web.dto.MemberDTO;
+import com.web.dto.SiteDTO;
 import com.web.persistence.MemberRepository;
+import com.web.persistence.SiteRepository;
 
 @Service
 public class AdminJoinService {
-    private final MemberRepository mRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AdminJoinService(MemberRepository mRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	@Autowired
+	private SiteRepository Srepo;
 
-        this.mRepository = mRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+	private final MemberRepository mRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void joinProcess(JoinDTO joinDTO) {
+	public AdminJoinService(MemberRepository mRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 
-        String username = joinDTO.getUsername();
-        String password = joinDTO.getPassword();
+		this.mRepository = mRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
-        MemberDTO data = new MemberDTO();
+	public void joinProcess(JoinDTO joinDTO) {
 
-        data.setId(username);
-        data.setPwd(bCryptPasswordEncoder.encode(password));
-        data.setRole("ROLE_ADMIN");
+		String username = joinDTO.getUsername();
+		String password = joinDTO.getPassword();
 
-        mRepository.save(data);
-    }
-    
+		MemberDTO data = new MemberDTO();
+
+		data.setId(username);
+		data.setPwd(bCryptPasswordEncoder.encode(password));
+		data.setRole("ROLE_ADMIN");
+
+		mRepository.save(data);
+	}
+
+	public void siteinsert(SiteDTO site) {
+		Srepo.save(site);
+	}
+
+	public List<SiteDTO> sitesearch() {
+		List<SiteDTO> list = new ArrayList<>();
+		list = Srepo.findAll();
+		return list;
+	}
+	public void delete(String seq) {
+		seq = seq.replace("=", "");
+    	Long seq2 = Long.parseLong(seq);
+		Srepo.deleteById(seq2);
+	}
 
 }
-

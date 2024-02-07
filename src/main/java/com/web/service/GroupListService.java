@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.web.dto.GroupInfo;
 import com.web.dto.GroupInfoDAO;
 import com.web.dto.GroupListDTO2;
+import com.web.dto.SiteDTO;
 import com.web.persistence.GroupInfoRepository;
 import com.web.persistence.GroupListRepository;
 
@@ -75,6 +77,11 @@ public class GroupListService {
     	Long seq2 = Long.parseLong(seq);
     	GIRepo.deleteById(seq2);
 	}
+	
+
+	
+	
+
 	
 }
 
