@@ -16,6 +16,7 @@ const EditModal = ({
   const [editedStart, setEditedStart] = useState(eventData.start);
   const [editedEnd, setEditedEnd] = useState(eventData.end);
   const [color, setColor] = useState(eventData.color || '#4a90e2'); // 초기 상태 설정
+  const userId = eventData.userId
 
   const handleTitleChange = (e) => {
     setEditedTitle(e.target.value);
@@ -59,7 +60,7 @@ const EditModal = ({
           editedMemo,
           editedStart,
           editedEnd,
-          color
+          color,
         });
         console.log('결과:', response.data);
         Swal.fire({
@@ -83,6 +84,7 @@ const EditModal = ({
         <form onSubmit={handleEditSubmit} className="form-container">
           <table className="form-table">
             <tbody>
+             <input type="hidden" name="userId" value={userId} />
                 <tr>
                     <td className="label">날짜</td>
                     <td className="value">

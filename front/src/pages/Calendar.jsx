@@ -10,8 +10,11 @@ import Header from '../components/Header/header';
 import CalendarModal from './CalendarModal';
 import '../css/CalendarModal.css';
 import axios from 'axios';
+import { LoginContext } from "../contexts/LoginContextProvider";
 
 class Calendar extends Component {
+  
+  static contextType = LoginContext; // 클래스 컴포넌트에서 contextType을 사용하여 context에 직접 액세스할 수 있게 합니다.
   state = {
     showModal: false,
     // modalDate: null,
@@ -19,13 +22,12 @@ class Calendar extends Component {
     modalEndDate: null,
     diff: null,
     events: [],
+    
   };
 
 
 
-  componentDidMount() {
-    this.fetchEvents();
-  }
+
 
   handleDateClick = (arg) => {
     this.setState({
@@ -100,11 +102,50 @@ class Calendar extends Component {
     // 선택한 색상을 배경색으로 적용
     info.el.style.backgroundColor = info.event.extendedProps.color;
   };
-  
 
-  fetchEvents = async () => {
+
+  checkTokenExpiration = async () => {
+    const token = localStorage.getItem("accessToken");
+    console.log("시작한다?")
+    if(token){
+      try {
+        const response = await axios.post("/getIdRole", null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data.seq)
+        this.setState({seq: response.data.seq}, () =>{
+          this.fetchEvents(this.state.seq);
+        })
+        
+        console.log("왜 여기가 아노디?");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  }
+ 
+  async componentDidMount() {
+
+  await this.checkTokenExpiration();
+
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    // 이전 상태와 현재 상태를 비교하여 필요한 조건을 확인
+    if (prevState.showModal !== this.state.showModal) {
+      // showModal 상태가 변경되었을 때만 데이터 다시 불러오기
+      await this.fetchEvents(this.state.seq);
+    }
+  }
+
+
+  fetchEvents = async (seq) => {
     try {
-      const response = await axios.get("/getEvents")
+
+      console.log(seq)
+      const response = await axios.post("/getEvents", {seq})
       const eventData = response.data
       // console.log("서버에서 넘어온 값", eventData)
       
@@ -124,7 +165,6 @@ class Calendar extends Component {
         event.end = adjustedEndDate.toISOString().split('T')[0]; // 시간 정보 제외
         
       })
-      // console.log(formattedEvents);
       
       this.setState({ events: formattedEvents })
       console.log("확인용이다 : ", this.state.events)
@@ -134,14 +174,7 @@ class Calendar extends Component {
 
   }
 
-  
-  
-
-
   render() {
-
-    
-
 
     return (
       <div className="App">
@@ -198,6 +231,7 @@ class Calendar extends Component {
             end={this.state.modalEndDate}
             diff={this.state.diff}
             eventData={this.state.selectedEventData}
+            componentDidMount={this.componentDidMount}
           />
         )}
       </div>
