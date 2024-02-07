@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import list from "../../JS/images";
 import Modal from "../../components/Modal"; // 모달 컴포넌트 import
-import Crolling from "../../components/GroupJoin/Crolling";
+
 import axios from "axios";
+import Site from "../../components/GroupJoin/Site";
 const SportGroup = ({ print, searchValue }) => {
 
   const [selectedData, setSelectedData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [site, setSite] = useState([]);
 
   const handleSeq = (c) => {
     setSelectedData(c);
@@ -41,16 +43,17 @@ const SportGroup = ({ print, searchValue }) => {
     const randomIndex = Math.floor(Math.random() * images.length);
     return images[randomIndex];
   };
+
 if(print === "IT"){
   return (
     <div className="group-container">
-     {!searchValue &&<Crolling print={print}/>}
+     {!searchValue &&<Site print={print}/>}
     </div>
       );
 }else{
   return (
     <div className="group-container">
-      {!searchValue &&<Crolling print={print}/>}
+      {!searchValue &&<Site print={print}/>}
       {print && print.length > 0 &&
         print.map((c, index) => (
           <div key={index} className="group-item">

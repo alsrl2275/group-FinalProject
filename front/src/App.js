@@ -15,6 +15,7 @@ import AdminPage from "./pages/admin";
 import Header from "./components/Header/header";
 import Footer from "./components/Home/Footer";
 
+
 export default function App() {
   const { userInfo } = useContext(LoginContext);
   return (
@@ -30,7 +31,6 @@ export default function App() {
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
       <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
       <Route path="/schedule" element={<Calendar />} />
-
       {userInfo && userInfo.role === "ROLE_ADMIN" ? (
         <Route path="/admin" element={<AdminPage />} />
       ) : (
