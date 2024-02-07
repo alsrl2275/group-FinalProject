@@ -7,9 +7,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.dto.MemberDTO;
+import com.web.persistence.MemberRepository;
 import com.web.service.MemberService;
 
 @RestController
@@ -27,6 +32,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService msv;
+	
+	@Autowired
+	MemberRepository rep;
 
 	
     @GetMapping("/GroupJoin")
@@ -68,6 +76,23 @@ public class MemberController {
 
         return ResponseEntity.ok(response);
     }
+    
+//    // 회원정보
+//    @GetMapping("/userdata")
+//    public ResponseEntity<MemberDTO> getUserData(){
+//    	
+//    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//    	String username = auth.getName();
+//    	
+//    	Entity entity = rep.findById(username).orElse(null);
+//    	
+//    	if(entity != null) {
+//    		MemberDTO memberDTO = new MemberDTO();
+//    		memberDTO.setId(((MemberDTO) entity).getId());
+//    	}
+//    	
+//    }
+    	
     
 //    // 나이 구하기
 //    private int CountAge(LocalDate birthdate) {

@@ -125,7 +125,7 @@ const Header = () => {
                     </>
                   ) : (
                     <>
-                      <Dropdown.Item as={Link} to="/Login">
+                      <Dropdown.Item as={Link} to="/userdata">
                         내정보
                       </Dropdown.Item>
                       <Dropdown.Item as={Button} onClick={() => logout()}>

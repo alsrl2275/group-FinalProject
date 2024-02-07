@@ -33,6 +33,11 @@ const SignUp = () => {
             return;
         }
 
+        if(!cid){
+            alert('아이디 중복체크를 해주세요');
+            return;
+        }
+
         try {
             if (
                 user.id.trim() === '' ||
@@ -134,8 +139,13 @@ const SignUp = () => {
     
             if (isDuplicate) {
                 alert('이미 사용 중인 아이디입니다.');
+                setUser((preUser) => ({
+                    ...preUser,
+                    id: '',
+                }));
             } else {
                 alert('사용 가능한 아이디입니다.');
+                setcid(true);
             }
         } catch (error) {
             console.error('중복 체크 에러:', error);
