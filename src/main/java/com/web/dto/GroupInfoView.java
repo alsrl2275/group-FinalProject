@@ -38,5 +38,5 @@ public class GroupInfoView {
     private String meetingDateStart; // 모임시작날짜
     private String meetingDateEnd; // 모임종료날짜
     private String meetingLocation; // 모임장소
-    private String membersId; // 모집된 사용자 아이디
+    private String membersId; // 모임에 참가한 아이디
 }
