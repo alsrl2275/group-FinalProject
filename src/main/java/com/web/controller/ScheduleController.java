@@ -38,6 +38,8 @@ public class ScheduleController {
 		return calendar;
 	}
 	
+	
+	
 	@PostMapping("/getEvents")
 	public List<Calendar> getEvents(@RequestBody MemberDTO member) {
 		System.out.println(member.getSeq());

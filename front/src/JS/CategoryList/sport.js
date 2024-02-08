@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import list from "../../JS/images";
 import Modal from "../../components/Modal"; // 모달 컴포넌트 import
-
 import axios from "axios";
 import Site from "../../components/GroupJoin/Site";
+import { LoginContext } from "../../contexts/LoginContextProvider";
+
+
+
 const SportGroup = ({ print, searchValue }) => {
+
+  const { userInfo } = useContext(LoginContext);
   const [selectedData, setSelectedData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -19,8 +24,14 @@ const SportGroup = ({ print, searchValue }) => {
   };
   const handleApply = async () => {
     try {
-      const response = await axios.post("/api/content", selectedData);
+
+      const response = await axios.post("/api/content", selectedData,{
+        params:{
+        seq:userInfo.seq
+      }} );
       console.log(response)
+
+
       if(response.data === "기간"){
         alert("모집기간이 지났습니다");
       }else if(response.data === "인원"){
