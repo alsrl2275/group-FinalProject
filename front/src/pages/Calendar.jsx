@@ -22,6 +22,7 @@ class Calendar extends Component {
     modalEndDate: null,
     diff: null,
     events: [],
+    groupInfo: []
     
   };
 
@@ -118,6 +119,9 @@ class Calendar extends Component {
         this.setState({seq: response.data.seq}, () =>{
           this.fetchEvents(this.state.seq);
         })
+        this.setState({seq: response.data.seq}, () => {
+          this.fetchGroupEvents(this.state.seq);
+        })
         
         console.log("왜 여기가 아노디?");
       } catch (error) {
@@ -140,12 +144,51 @@ class Calendar extends Component {
     }
   }
 
+  fetchGroupEvents = async (seq) => {
+    try {
+
+      console.log(seq)
+      const response = await axios.post("/getGroupEvents", null, { params: { seq } });
+      const eventData = response.data
+      console.log(eventData)
+
+      const formatEvents = eventData.map(event => ({
+        seq: event.seq,
+        userId: event.userId,
+        meetingTitle: event.meetingTitle,
+        category: event.category,
+        faceToFace: event.faceToFace,
+        program: event.program,
+        meetingType: event.meetingType,
+        peopleNum: event.peopleNum,
+        joinPeople: event.joinPeople,
+        meetingCost: event.meetingCost,
+        recruitments: event.recruitments,
+        recruitmentd: event.recruitmentd,
+        meetingDateStart: event.meetingDateStart,
+        meetingDateEnd: event.meetingDateEnd,
+        meetingLocation: event.meetingLocation,
+        membersId: event.membersId,
+      }))
+      // formatEvents.forEach(event => {
+      //   const adjustedEndDate = new Date(event.end)
+      //   adjustedEndDate.setDate(adjustedEndDate.getDate() + 1)
+      //   event.end = adjustedEndDate.toISOString().split('T')[0]; // 시간 정보 제외
+        
+      // })
+      this.setState({ groupInfo: formatEvents })
+      console.log("내 모임현황 ", this.state.groupInfo)
+    } catch (error) {
+      console.log("일정 데이터 가져오기 실패", error)
+    }
+
+  } 
 
   fetchEvents = async (seq) => {
     try {
 
       console.log(seq)
-      const response = await axios.post("/getEvents", {seq})
+      const response = await axios.post("/getEvents", {seq} )
       const eventData = response.data
       // console.log("서버에서 넘어온 값", eventData)
       
@@ -184,21 +227,14 @@ class Calendar extends Component {
           <div className="table-container">
             <table>
               <tbody>
-                <tr>
-                  <th>모임 현황</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                </tr>
+              <tr>
+        <th> 내 모임 현황</th>
+      </tr>
+      {this.state.groupInfo.map((event, index) => (
+        <tr key={index}>
+          <td>{event.meetingTitle}</td>
+        </tr>
+      ))}
               </tbody>
             </table>
           </div>

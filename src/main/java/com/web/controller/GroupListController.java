@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.dto.GroupInfo;
 import com.web.dto.GroupInfoDAO;
 import com.web.dto.GroupListDTO2;
+import com.web.dto.MemberDTO;
 import com.web.dto.SiteDTO;
 import com.web.persistence.GroupListRepository;
 import com.web.service.GroupInfoService;
@@ -41,6 +43,8 @@ public class GroupListController {
 	@Autowired
 	public SiteService Sservice;
 	
+
+	
 	// 그룹 참가하기 페이지에 그룹 출력
 	@PostMapping("/api/test")
 	public List<GroupInfo> test2(@RequestBody GroupListDTO2 dto2) {
@@ -58,7 +62,11 @@ public class GroupListController {
 
 	// 그룹 신청
 	@PostMapping("/api/content")
-	public String test(@RequestBody GroupInfo dao) {
+	public String test(@RequestBody GroupInfo dao, @RequestParam(name="seq") Long seq) {
+		System.out.println(dao.getSeq());
+		System.out.println(seq);
+		String id = InfoService.findUserById(seq);
+		System.out.println(id);
 		LocalDate today = LocalDate.now();
 		if (dao.getJoinPeople() == dao.getPeopleNum()) {
 			return "인원";
@@ -73,7 +81,7 @@ public class GroupListController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		InfoService.updateGroup(dao);
+		InfoService.updateGroup(dao, id);
 		return "신청";
 	}
 	

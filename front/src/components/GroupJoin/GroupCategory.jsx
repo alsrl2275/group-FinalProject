@@ -13,6 +13,7 @@ const GroupCategory = ({ onSearch }) => {
 
   return (
     <>
+    
       <div className="Group">
         <div
           className="Group-div"
