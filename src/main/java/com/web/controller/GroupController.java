@@ -3,15 +3,18 @@ package com.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.dto.Calendar;
 import com.web.dto.GroupInfo;
+import com.web.dto.GroupInfoView;
 import com.web.dto.MemberDTO;
 import com.web.service.GroupInfoService;
 
@@ -29,6 +32,17 @@ public class GroupController {
 		return formData;
 	}
 	
+	@PostMapping("/getGroupEvents")
+	public List<GroupInfoView> getGroupEvents(@RequestParam Long seq) {
+		System.out.println("안녕" + seq);
+		String id = groupService.findUserById(seq);
+		System.out.println(id);
+				
+		return groupService.getGroupEventsById(id);
+
+	}
+	
+
 	@PostMapping("/findUserId")
 	public ResponseEntity<String> findUserId(@RequestBody MemberDTO member) {
 	System.out.println("들어왔냐");
@@ -40,6 +54,7 @@ public class GroupController {
 		String id = groupService.findUserById(member.getSeq());
 		System.out.println(id);
 		if(id != null) {
+			
 			return ResponseEntity.ok(id);
 		} else {
 			return ResponseEntity.notFound().build();
@@ -47,6 +62,8 @@ public class GroupController {
 		}
 		
 	}
+	
+
 	
 
 	

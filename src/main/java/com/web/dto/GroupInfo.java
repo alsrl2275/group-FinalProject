@@ -24,7 +24,7 @@ public class GroupInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INSERT_SEQ_GENERATOR")
     private Long seq;			
-    private String userId;	// 아이디
+    private String userId;	// 모임장 아이디
     private String meetingTitle; // 모임명
     private String category; // 카테고리
     private String faceToFace; // 대면 or 비대면

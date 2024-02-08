@@ -40,7 +40,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     customProgram: '',
     meetingType: '',                                   
     meetingCost: 0,
-    joinPeople: 1
+    joinPeople: 1,
   });
   const [showDaumPost, setShowDaumPost] = useState(false);
 
@@ -312,7 +312,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             name="userId"
             id="userId"
             value={formData.userId}
-            onChange={handleChange}
+            readOnly
           /></td>
         </label>
         </tr>
