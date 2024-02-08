@@ -8,6 +8,7 @@ import KakaoMap from "./KakaoMap";
 import GroupJoin from "./pages/GroupJoin";
 import SignUp from "./pages/SignUp";
 import Calendar from "./pages/Calendar";
+import Userdata from "./pages/Userdata";
 import LoginContextProvider, {
   LoginContext,
 } from "./contexts/LoginContextProvider";
@@ -26,6 +27,7 @@ export default function App() {
       <Route path="/Login" element={<Login />} />
       <Route path="/KakaoMap" element={<KakaoMap />} />
       <Route path="/SignUp" element={<SignUp />} />
+      <Route path="/userdata" element={<Userdata/>}/>
       <Route path="/GroupJoin" element={<GroupJoin />} />
       <Route path="/GroupJoin/:category" element={<GroupJoin />} />
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
