@@ -5,6 +5,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
@@ -23,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.web.dto.Calendar;
 import com.web.dto.MemberDTO;
 import com.web.persistence.MemberRepository;
+import com.web.service.GroupInfoService;
 import com.web.service.MemberService;
 
 @RestController
@@ -35,7 +38,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberRepository rep;
-
+	
+	@Autowired 
+	GroupInfoService groupService;
 	
     @GetMapping("/GroupJoin")
     public String joinGroup(String category) {
@@ -49,13 +54,6 @@ public class MemberController {
     public ResponseEntity<String> register(@RequestBody MemberDTO memberDTO) {
     	System.out.println(memberDTO);
         try {
-//        	LocalDate birth = LocalDate.parse(Integer.toString(memberDTO.getBirth()), DateTimeFormatter.BASIC_ISO_DATE);
-//        	int age = CountAge(birth);
-//        	memberDTO.setAge(age);
-        	String email = memberDTO.getEmail();
-        	String domain = memberDTO.getDomain();
-        	String semail = email + "@" + domain;
-        	memberDTO.setEmail(semail);
             MemberDTO savedMember = msv.saveMember(memberDTO);
             return ResponseEntity.ok("Member registered successfully. Member ID: " + savedMember.getId());
         } catch (Exception e) {
@@ -77,28 +75,46 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
     
-//    // 회원정보
-//    @GetMapping("/userdata")
-//    public ResponseEntity<MemberDTO> getUserData(){
-//    	
-//    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//    	String username = auth.getName();
-//    	
-//    	Entity entity = rep.findById(username).orElse(null);
-//    	
-//    	if(entity != null) {
-//    		MemberDTO memberDTO = new MemberDTO();
-//    		memberDTO.setId(((MemberDTO) entity).getId());
-//    	}
-//    	
-//    }
+    // 회원정보
+    @PostMapping("/userdata")
+    public MemberDTO getEvents(@RequestBody MemberDTO member) {
     	
-    
-//    // 나이 구하기
-//    private int CountAge(LocalDate birthdate) {
-//    	LocalDate today = LocalDate.now();
-//    	return (int) ChronoUnit.YEARS.between(birthdate, today);
-//    }
+    	
+
+		System.out.println(member.getSeq());
+		System.out.println(member.getSeq().getClass().getTypeName());
+		System.out.println("안녕");
+		MemberDTO member2 = msv.getUserDataById(member.getSeq());
+		System.out.println(member2.getId());
+//		String id = groupService.findUserById(member.getSeq());
+		return member2;
 
 		
+	}
+    
+//    @PostMapping("/userdata")
+//    public ResponseEntity<MemberDTO> getUserData(@RequestBody MemberDTO member) {
+//        try {
+//            Long seq = member.getSeq();
+//            if (seq != null) {
+//                MemberDTO member2 = msv.getUserDataById(seq);
+//                System.out.println(member2.getId());
+//                
+//                if (member2 != null) {
+//                    return ResponseEntity.ok(member2);
+//                } else {
+//                    // 사용자 정보가 없는 경우
+//                    return ResponseEntity.notFound().build();
+//                }
+//            } else {
+//                // seq가 null인 경우
+//                return ResponseEntity.badRequest().build();
+//            }
+//        } catch (Exception e) {
+//            // 예외 발생 시 처리
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
+    	
 }
