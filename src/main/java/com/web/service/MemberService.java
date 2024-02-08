@@ -77,15 +77,14 @@ public class MemberService {
 
     }
 
-//	public MemberDTO getUserDataById(String id) {
-//		Member member = rep.findById(id)
-//				.orElseThrow(() -> new EntityNotFoundException("can not found id " +id));
-//		return mapToDto(member);
-//	}
-//	
-//	private MemberDTO mapToDto(Member member) {
-//		
-//	}
+	public MemberDTO getUserDataById(Long seq) {
+
+		MemberDTO member = rep.findById(seq).get();
+
+        return member;
+    }
+
+    
     
 }
 
