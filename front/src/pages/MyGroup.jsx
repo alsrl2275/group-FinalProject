@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from 'react-modal';
 
 const MyGroup = ({ onClose, eventData }) => {
+
+
   return (
     <Modal
       isOpen={true} // Ensure the modal is open

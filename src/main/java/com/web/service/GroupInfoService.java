@@ -1,5 +1,7 @@
 package com.web.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +53,12 @@ public class GroupInfoService {
 	}
 	
     public List<GroupInfoView> getGroupEventsById(String id) {
-        return groupViewRepo.findByMembersId(id);
+    	 // 현재 날짜 구하기
+        LocalDate currentDate = LocalDate.now();
+
+        String currentDateStr = currentDate.format(DateTimeFormatter.ISO_DATE); // LocalDate를 String으로 변환
+        // 종료날짜가 현재 날짜와 같거나 높은 데이터만 조회 (신청현황)
+        return groupViewRepo.findByMembersIdAndRecruitmentdGreaterThanEqual(id, currentDateStr);
     }
 			
 	
