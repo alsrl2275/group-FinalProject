@@ -48,5 +48,7 @@ public class MemberDTO {
 	private int point;
 	@Column(name = "role")
 	private String role;
+	@Column(name = "evp")
+	private int evp;
 	
 }
