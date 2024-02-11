@@ -15,6 +15,7 @@ import LoginContextProvider, {
 import AdminPage from "./pages/admin";
 import Header from "./components/Header/header";
 import Footer from "./components/Home/Footer";
+import UserUpdate from "./pages/UserUpdate";
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
       <Route path="/KakaoMap" element={<KakaoMap />} />
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/userdata" element={<Userdata/>}/>
+      <Route path="/userUpdate" element={<UserUpdate/>}/>
       <Route path="/GroupJoin" element={<GroupJoin />} />
       <Route path="/GroupJoin/:category" element={<GroupJoin />} />
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
