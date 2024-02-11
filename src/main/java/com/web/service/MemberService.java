@@ -43,6 +43,11 @@ public class MemberService {
         member.setRole("ROLE_USER");
         return rep.save(member);
     }
+    public void roleMemberSave(MemberDTO dto) {
+    	dto.setRole("ROLE_MUSER");
+    	
+    	rep.save(dto);
+    }
     
     public boolean checkId(String id) { return rep.existsById(id); }
 
@@ -64,7 +69,9 @@ public class MemberService {
     }
     public void pointSeq(MemberDTO dto) {
     	MemberDTO dtos = rep.findById(dto.getSeq()).get();
-    	dtos.setPoint(dto.getPoint());
+    	dtos.setEvp(dto.getEvp());
+    	dtos.setCount(1);
+    	dtos.setPoint(dto.getEvp());
     	System.out.println(dtos);
     	rep.save(dtos);
 
@@ -76,7 +83,6 @@ public class MemberService {
     	rep.save(dtos);
 
     }
-
 	public MemberDTO getUserDataById(Long seq) {
 
 		MemberDTO member = rep.findById(seq).get();
@@ -84,7 +90,15 @@ public class MemberService {
         return member;
     }
 
-    
+//	public MemberDTO getUserDataById(String id) {
+//		Member member = rep.findById(id)
+//				.orElseThrow(() -> new EntityNotFoundException("can not found id " +id));
+//		return mapToDto(member);
+//	}
+//	
+//	private MemberDTO mapToDto(Member member) {
+//		
+//	}
     
 }
 
