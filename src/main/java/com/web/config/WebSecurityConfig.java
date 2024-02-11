@@ -82,7 +82,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .antMatchers("/login", "/", "/join","/api/test/**","/api/content","/groupInsert").permitAll()
-                        .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**","/deleteCalendar/**","/findUserId/**","/getGroupEvents/**").permitAll()
+                        .antMatchers("/Calendar/**","/updateCalendar/**","/getEvents/**","/deleteCalendar/**","/findUserId/**","/getGroupEvents/**","/getGroupJoin/**").permitAll()
                         .antMatchers("/register/**").permitAll()
 						.antMatchers("/getIdRole").permitAll()
 						.antMatchers("/checkId").permitAll()

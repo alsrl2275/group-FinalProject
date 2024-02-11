@@ -25,14 +25,14 @@ public class GroupController {
 	@Autowired
 	GroupInfoService groupService;
 
-	@PostMapping("/groupInsert")
+	@PostMapping("/groupInsert") // 그룹추가
 	public GroupInfo groupInsert(@RequestBody GroupInfo formData) {
 		System.out.println(formData);
 		groupService.insertGroup(formData);
 		return formData;
 	}
 	
-	@PostMapping("/getGroupEvents")
+	@PostMapping("/getGroupEvents") // 신청현황 불러오기
 	public List<GroupInfoView> getGroupEvents(@RequestParam Long seq) {
 		System.out.println("안녕" + seq);
 		String id = groupService.findUserById(seq);
@@ -42,8 +42,17 @@ public class GroupController {
 
 	}
 	
+	@PostMapping("/getGroupJoin") // 가입현황 불러오기
+	public List<GroupInfoView> getGroupJoin(@RequestParam Long seq) {
+		System.out.println("안녕" + seq);
+		String id = groupService.findUserById(seq);
+		System.out.println(id);
+				
+		return groupService.getGroupJoinById(id);
+	}
+	
 
-	@PostMapping("/findUserId")
+	@PostMapping("/findUserId") // 로그인 아이디값 불러오기
 	public ResponseEntity<String> findUserId(@RequestBody MemberDTO member) {
 	System.out.println("들어왔냐");
 	System.out.println(member.getSeq());

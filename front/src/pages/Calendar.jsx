@@ -16,18 +16,34 @@ class Calendar extends Component {
   
   static contextType = LoginContext; // 클래스 컴포넌트에서 contextType을 사용하여 context에 직접 액세스할 수 있게 합니다.
   state = {
+    showData: false, // 상태 추가: 데이터를 보일지 여부를 결정하는 상태
+    showJoinData: false,
     showModal: false,
     // modalDate: null,
     modalStartDate: null,
     modalEndDate: null,
     diff: null,
     events: [],
-    groupInfo: []
+    groupInfo: [],
+    joinInfo: []
     
   };
 
+  handleButtonClick = () => {
+    // 버튼이 클릭될 때 상태를 토글
+    this.setState((prevState) => ({
+      showData: !prevState.showData,
+      showJoinData: false
+    }));
+  };
 
-
+  handleButtonClick2 = () => {
+    // 버튼이 클릭될 때 상태를 토글
+    this.setState((prevState) => ({
+      showJoinData: !prevState.showJoinData,
+      showData: false
+    }));
+  };
 
 
   handleDateClick = (arg) => {
@@ -54,6 +70,8 @@ class Calendar extends Component {
     diff: 'b'
   });
   };
+
+
 
   handleEventClick = (info) => { // 일정이 있는 이벤트 클릭 시 
     // 클릭한 이벤트 정보에 대한 작업을 수행
@@ -122,6 +140,9 @@ class Calendar extends Component {
         this.setState({seq: response.data.seq}, () => {
           this.fetchGroupEvents(this.state.seq);
         })
+        this.setState({seq: response.data.seq}, () => {
+          this.fetchGroupJoin(this.state.seq);
+        })
         
         console.log("왜 여기가 아노디?");
       } catch (error) {
@@ -144,7 +165,47 @@ class Calendar extends Component {
     }
   }
 
-  fetchGroupEvents = async (seq) => {
+  fetchGroupJoin = async (seq) => { // 신청현황 랜더링
+    try {
+
+      console.log(seq)
+      const response = await axios.post("/getGroupJoin", null, { params: { seq } });
+      const eventData = response.data
+      console.log(eventData)
+
+      const formatEvents = eventData.map(event => ({
+        seq: event.seq,
+        userId: event.userId,
+        meetingTitle: event.meetingTitle,
+        category: event.category,
+        faceToFace: event.faceToFace,
+        program: event.program,
+        meetingType: event.meetingType,
+        peopleNum: event.peopleNum,
+        joinPeople: event.joinPeople,
+        meetingCost: event.meetingCost,
+        recruitments: event.recruitments,
+        recruitmentd: event.recruitmentd,
+        meetingDateStart: event.meetingDateStart,
+        meetingDateEnd: event.meetingDateEnd,
+        meetingLocation: event.meetingLocation,
+        membersId: event.membersId,
+      }))
+      // formatEvents.forEach(event => {
+      //   const adjustedEndDate = new Date(event.end)
+      //   adjustedEndDate.setDate(adjustedEndDate.getDate() + 1)
+      //   event.end = adjustedEndDate.toISOString().split('T')[0]; // 시간 정보 제외
+        
+      // })
+      this.setState({ joinInfo: formatEvents })
+      console.log("내 가입현황 ", this.state.joinInfo)
+    } catch (error) {
+      console.log("일정 데이터 가져오기 실패", error)
+    }
+
+  } 
+
+  fetchGroupEvents = async (seq) => { // 신청현황 랜더링
     try {
 
       console.log(seq)
@@ -177,7 +238,7 @@ class Calendar extends Component {
         
       // })
       this.setState({ groupInfo: formatEvents })
-      console.log("내 모임현황 ", this.state.groupInfo)
+      console.log("내 신청현황 ", this.state.groupInfo)
     } catch (error) {
       console.log("일정 데이터 가져오기 실패", error)
     }
@@ -225,18 +286,43 @@ class Calendar extends Component {
         <br />
         <div className="content-container">
           <div className="table-container">
-            <table>
-              <tbody>
+          <button className = "btn btn-light" onClick={this.handleButtonClick}>
+          {this.state.showData ? '닫기' : '모임신청 현황'}
+        </button>
+        &nbsp;
+        <button className = "btn btn-secondary" onClick={this.handleButtonClick2}>
+          {this.state.showJoinData ? '닫기' : '가입 현황'}
+        </button>
+
+        {this.state.showJoinData && (
+          <table>
+            <tbody>
               <tr>
-        <th> 내 모임 현황</th>
-      </tr>
-      {this.state.groupInfo.map((event, index) => (
-        <tr key={index}>
-          <td>{event.meetingTitle}</td>
-        </tr>
-      ))}
-              </tbody>
-            </table>
+                <th>내 모임 가입현황</th>
+              </tr>
+              {this.state.joinInfo.map((event, index) => (
+                <tr key={index}>
+                  <td>{event.meetingTitle}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {this.state.showData && (
+          <table>
+            <tbody>
+              <tr>
+                <th>내 모임 신청현황</th>
+              </tr>
+              {this.state.groupInfo.map((event, index) => (
+                <tr key={index}>
+                  <td>{event.meetingTitle}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
           </div>
           <div className="calendar">
             <FullCalendar
