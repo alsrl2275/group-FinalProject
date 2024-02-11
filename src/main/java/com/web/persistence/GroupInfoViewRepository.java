@@ -14,5 +14,7 @@ public interface GroupInfoViewRepository extends JpaRepository<GroupInfoView, Lo
 	List<GroupInfoView> findByMembersId(String id);
 
 	List<GroupInfoView> findByMembersIdAndRecruitmentdGreaterThanEqual(String id, String currentDate);
+	
+	List<GroupInfoView> findByMembersIdAndRecruitmentdLessThan(String id, String currentDate);
 
 }
