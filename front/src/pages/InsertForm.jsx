@@ -157,13 +157,13 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
     if(formData.meetingType.trim() === '') {
       alert("모임타입을 설정해주세요."); // 알림 창 표시
       document.getElementById("free").focus();
-    } else if(formData.recruitmentd.trim() === '' || new Date(formData.recruitmentd) <= currentDate) {
-      alert("올바른 모집 기간 날짜를 입력해주세요.")
-      const recruitmentd = document.getElementById("recruitmentd")
-      recruitmentd.scrollIntoView({ behavior: 'auto', block: 'center' });
-      setTimeout(() => {
-        recruitmentd.focus();
-      }, 100); 
+    // } else if(formData.recruitmentd.trim() === '' || new Date(formData.recruitmentd) <= currentDate) {
+    //   alert("올바른 모집 기간 날짜를 입력해주세요.")
+    //   const recruitmentd = document.getElementById("recruitmentd")
+    //   recruitmentd.scrollIntoView({ behavior: 'auto', block: 'center' });
+    //   setTimeout(() => {
+    //     recruitmentd.focus();
+    //   }, 100); 
     } else if (formData.userId.trim() === '') {
       alert("아이디를 입력하세요."); // 알림 창 표시
       const userId = document.getElementById("userId")
@@ -293,7 +293,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             id="recruitments"
             value={formData.recruitments}
             onChange={handleChange}
-            disabled
+          
           /> &nbsp;-&nbsp;&nbsp;
             <input className='inputDate'
             type="date"
