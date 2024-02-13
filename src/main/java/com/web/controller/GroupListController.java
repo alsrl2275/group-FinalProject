@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.dto.GroupInfo;
 import com.web.dto.GroupInfoDAO;
+import com.web.dto.GroupInfoView;
 import com.web.dto.GroupListDTO2;
 import com.web.dto.MemberDTO;
 import com.web.dto.SiteDTO;
@@ -63,12 +64,18 @@ public class GroupListController {
 	// 그룹 신청
 	@PostMapping("/api/content")
 	public String test(@RequestBody GroupInfo dao, @RequestParam(name="seq") Long seq) {
-		System.out.println("여기 머야");
-		System.out.println(dao.getSeq());
-		System.out.println(seq);
 		String id = InfoService.findUserById(seq);
-		System.out.println(id);
 		LocalDate today = LocalDate.now();
+		System.out.println(id);
+		List<GroupInfoView> list = new ArrayList<>();
+		list = InfoService.checkJoin(dao.getMeetingTitle());
+		boolean isIdIncluded = list.stream()
+                .anyMatch(GroupInfoView -> GroupInfoView.getMembersId().equals(id));
+		if(isIdIncluded) {
+			System.out.println("여기지롱");
+			
+			return "이미";
+		}
 		if (dao.getJoinPeople() == dao.getPeopleNum()) {
 			return "인원";
 		}

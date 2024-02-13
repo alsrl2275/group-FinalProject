@@ -12,6 +12,9 @@ const Review = () => {
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const [reviewsPerPage] = useState(5); // 페이지 당 리뷰 수
+  const [idsearch, setIdsearch] = useState("");
+
+
 
   // 모달을 열기 위한 함수
   const toggleModal = () => {
@@ -30,8 +33,25 @@ const Review = () => {
     } catch (error) {}
   };
 
+  const IdSearch = async () => {
+    const data = {
+      idsearch : idsearch
+    }
+    try {
+      console.log(idsearch)
+      const response = await axios.post("/api/idSearch", data );
+      if (response.data.length === 0) {
+        alert("검색 결과가 없습니다.");
+      }
+      setReviews(response.data)
+    } catch (error) {
+      
+    }
+  }
+
   useEffect(() => {
     get();
+    
   }, []);
 
   // 페이지 변경 함수
@@ -64,7 +84,8 @@ const Review = () => {
       {/* End header */}
       {/* Main */}
       <div className="review-container">
-        <button onClick={toggleModal}>리뷰 작성</button>
+        <div className="review-container-div">
+        <button className="review-container-div-button" onClick={toggleModal}>리뷰 작성</button>
         {/* 모달 */}
         {showModal && (
           <ReviewWrite
@@ -72,7 +93,14 @@ const Review = () => {
             setShowModal={setShowModal}
             toggleModalClose={toggleModalClose}
           />
+          
         )}
+        
+          <input type="text" className="review-form-input" placeholder="아이디검색" value={idsearch} onChange={(e)=>setIdsearch(e.target.value)}/>
+          <input type="submit"className="review-form-input-submit" onClick={IdSearch} value="검색"/>
+          
+          
+        </div>
         {/* 리뷰 목록 출력 */}
         {currentReviews.map((review, index) => (
           <div className="reviews-div" key={index}>
@@ -132,6 +160,7 @@ const Review = () => {
             </li>
           )}
         </ul>
+        <button className="review-container-div-button" onClick={get}>전체보기</button>
       </div>
       {/* End Main */}
       {/* Start footer */}

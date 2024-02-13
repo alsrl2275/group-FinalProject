@@ -31,13 +31,13 @@ public class AdminController {
 
 	@Autowired
 	public AdminJoinService as;
-	
+
 	@Autowired
 	public MemberService ms;
 
 	@Autowired
 	public GroupListService gs;
-	
+
 	// 관리자페이지에서 회원 전체 목록 조회
 	@PostMapping("/admin/memberSearch")
 	public List<MemberDTO> MemberSearch() {
@@ -53,7 +53,7 @@ public class AdminController {
 		ms.delete(seq);
 
 	}
-	
+
 	// 관리자페이지에서 회원 권한 수정
 	@PostMapping("/admin/updateRole")
 	public void updateRole(@RequestBody MemberDTO dto) {
@@ -61,7 +61,7 @@ public class AdminController {
 		System.out.println(dto);
 		ms.roleSeq(dto);
 	}
-	
+
 	// 관리자 페이지에서 회원 포인트 수정
 	@PostMapping("/admin/updatePoint")
 	public void updatePoint(@RequestBody MemberDTO dto) {
@@ -79,91 +79,62 @@ public class AdminController {
 		System.out.println(list);
 		return list;
 	}
-	
+
 	// 관리자 페이지에서 그룹 삭제
 	@PostMapping("/admin/groupdelete")
 	public void deleteGroup(@RequestBody String seq) {
 		System.out.println(seq);
 		gs.delete(seq);
 	}
-	
-	 @PostMapping("/admin/insertSite")
-	    public String insertSite(
-	            @RequestParam("siteName") String siteName,
-	            @RequestParam("category") String category,
-	            @RequestParam("sitetalk") String sitetalk,
-	            @RequestParam("address") String address,
-	            @RequestParam("file") MultipartFile file) {
-		 SiteDTO site = new SiteDTO();
-		 site.setAddress(address);
-		 site.setCategory(category);
-		 site.setSitetalk(sitetalk);
-		 site.setSiteName(siteName);
-         site.setFilePath(file.getOriginalFilename());
-	        if (!file.isEmpty()) {
-	            try {
-	                // 파일 저장 경로 설정 (원하는 경로로 수정 필요)
-	                String uploadPath = "E:/upload/"; 
 
-	                // 파일 이름을 유니크하게 만들어줌
-	                String fileName = file.getOriginalFilename();
+	// 관리자 페이지에서 사이트 추가
+	@PostMapping("/admin/insertSite")
+	public String insertSite(@RequestParam("siteName") String siteName, @RequestParam("category") String category,
+			@RequestParam("sitetalk") String sitetalk, @RequestParam("address") String address,
+			@RequestParam("file") MultipartFile file) {
+		SiteDTO site = new SiteDTO();
+		site.setAddress(address);
+		site.setCategory(category);
+		site.setSitetalk(sitetalk);
+		site.setSiteName(siteName);
+		site.setFilePath(file.getOriginalFilename());
+		if (!file.isEmpty()) {
+			try {
+				// 파일 저장 경로 설정 (원하는 경로로 수정 필요)
+				String uploadPath = "E:/upload/";
 
-	                // 파일을 저장할 경로 설정
-	                String filePath = uploadPath + fileName;
+				// 파일 이름을 유니크하게 만들어줌
+				String fileName = file.getOriginalFilename();
 
-	                as.siteinsert(site);
-	                // 파일 저장
-	                file.transferTo(new File(filePath));
-	                
-	                // 여기에서 파일을 저장하거나 DB에 파일 경로 등을 저장하는 로직을 수행
-	                // 예를 들면, 데이터베이스에 파일 경로를 저장하거나 파일을 다른 서버로 전송하는 등의 작업을 수행할 수 있습니다.
+				// 파일을 저장할 경로 설정
+				String filePath = uploadPath + fileName;
 
-	                // 파일 저장이 성공하면 성공 메시지를 리턴
-	                return "파일 업로드 성공";
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                return "파일 업로드 실패";
-	            }
-	        } else {
-	            return "파일이 비어있습니다.";
-	        }
-	    }
-	 
-	 @PostMapping("/admin/siteSearch")
-	 public List<SiteDTO> sitesearch(){
-		 List<SiteDTO> list = new ArrayList<>();
-		 list = as.sitesearch();
-		 return list;
-	 }
-	 
-	 @PostMapping("/admin/sitedelete")
-	 public void deletesite(@RequestBody String seq) {
-		 as.delete(seq);
-		 
-	 }
+				as.siteinsert(site);
+				// 파일 저장
+				file.transferTo(new File(filePath));
+
+
+				// 파일 저장이 성공하면 성공 메시지를 리턴
+				return "파일 업로드 성공";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "파일 업로드 실패";
+			}
+		} else {
+			return "파일이 비어있습니다.";
+		}
+	}
+
+	@PostMapping("/admin/siteSearch")
+	public List<SiteDTO> sitesearch() {
+		List<SiteDTO> list = new ArrayList<>();
+		list = as.sitesearch();
+		return list;
+	}
+
+	@PostMapping("/admin/sitedelete")
+	public void deletesite(@RequestBody String seq) {
+		as.delete(seq);
+
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

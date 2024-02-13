@@ -10,6 +10,13 @@ import com.web.dto.GroupInfo;
 @Repository
 public interface GroupListRepository extends CrudRepository<GroupInfo, Long> {
 
+	List<GroupInfo> findAllByMeetingTypeAndCategoryOrderBySeqDesc(String string, String string2);
+
+	List<GroupInfo> findAllByMeetingTypeAndCategoryContainingAndMeetingTitleContainingOrderBySeqDesc(String string,
+			String selectedValue, String searchValue);
+
+	List<GroupInfo> findAllByMeetingTypeAndMeetingTitleContainingOrderBySeqDesc(String string, String searchValue);
+
 	List<GroupInfo> findAllByCategory(String string);
 
 	List<GroupInfo> findAllByCategoryContainingAndMeetingTitleContaining(String selectedValue, String searchValue);

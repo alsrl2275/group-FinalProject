@@ -9,10 +9,8 @@ const SportGroup = ({ print, searchValue }) => {
   const { userInfo } = useContext(LoginContext);
   const [selectedData, setSelectedData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호 상태 추가
-  const itemsPerPage = 4; // 한 페이지에 표시되는 아이템 수
-  const pagesToShow = 5; // 페이징 컨트롤러에 표시되는 페이지 수
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // 한 페이지에 표시되는 항목 수
   const handleSeq = (c) => {
     setSelectedData(c);
     setIsModalOpen(true);
@@ -23,6 +21,10 @@ const SportGroup = ({ print, searchValue }) => {
     setIsModalOpen(false);
   };
   const handleApply = async (data) => {
+    if(userInfo === ""){
+      alert("로그인 해주세요")
+      window.location.href="/Login"
+    }
     if (data.meetingType === "무료") {
       try {
         const response = await axios.post("/api/content", selectedData, {
@@ -31,8 +33,9 @@ const SportGroup = ({ print, searchValue }) => {
           },
         });
         console.log(response);
-
-        if (response.data === "기간") {
+        if (response.data === "이미") {
+          alert("신청한 그룹입니다");
+        } else if (response.data === "기간") {
           alert("모집기간이 지났습니다");
         } else if (response.data === "인원") {
           alert("모집인원이 다 찼습니다");
@@ -43,7 +46,7 @@ const SportGroup = ({ print, searchValue }) => {
       setSelectedData(null);
       setIsModalOpen(false);
 
-      window.location.reload();
+       window.location.reload();
     } else if (data.meetingType === "유료") {
       console.log("여기도 들어왔지?");
       try {
@@ -54,7 +57,9 @@ const SportGroup = ({ print, searchValue }) => {
         });
         console.log(response);
 
-        if (response.data === "기간") {
+        if (response.data === "이미") {
+          alert("신청한 그룹입니다");
+        } else if (response.data === "기간") {
           alert("모집기간이 지났습니다");
         } else if (response.data === "인원") {
           alert("모집인원이 다 찼습니다");
@@ -70,29 +75,23 @@ const SportGroup = ({ print, searchValue }) => {
     return images[randomIndex];
   };
 
-    // 전체 페이지 수 계산
-    const totalPages = Math.ceil(print.length / itemsPerPage);
+  // 전체 페이지 수 계산
+  const totalPages = Math.ceil(print.length / itemsPerPage);
 
-    // 페이지 네비게이션을 위한 범위 계산
-    let startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
-    let endPage = Math.min(totalPages, startPage + pagesToShow - 1);
-  
-    // 만약 현재 페이지가 가장 앞쪽에 가깝다면 뒤로 밀어서 pagesToShow 개수를 유지
-    if (totalPages - currentPage < Math.floor(pagesToShow / 2)) {
-      startPage = totalPages - pagesToShow + 1;
-      endPage = totalPages;
-    }
-  
-    // 현재 페이지에 해당하는 데이터 계산
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentItems = print.slice(startIndex, endIndex);
-  
-    // 페이지 네비게이션 생성
-    const pageNumbers = [];
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
+  // 이전 페이지 함수
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  // 다음 페이지 함수
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  // 현재 페이지에 해당하는 데이터 계산
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPrint = print.slice(startIndex, endIndex);
 
   if (print === "sport") {
     return (
@@ -105,7 +104,7 @@ const SportGroup = ({ print, searchValue }) => {
       <>
         <div className="group-container">
           {!searchValue && <Site print={print} />}
-          {currentItems.map((c, index) => (
+          {currentPrint.map((c, index) => (
             <div key={index} className="group-item">
               <div onClick={() => handleSeq(c)}>
                 <img
@@ -126,46 +125,42 @@ const SportGroup = ({ print, searchValue }) => {
             handleApply={handleApply}
           />
         </div>
-        {/* 페이지 네비게이션 렌더링 */}
-        <ul className="pagination">
-          {startPage > 1 && (
-            <li className="page-item">
-              <a
-                href="#"
+        {/* 페이징 처리 */}
+        <div className="pagination-container">
+          <ul className="pagination">
+            <li>
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
                 className="page-link"
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               >
                 이전
-              </a>
+              </button>
             </li>
-          )}
-          {pageNumbers.map((number) => (
-            <li key={number} className="page-item">
-              <a
-                href="#"
-                className={
-                  number === currentPage ? "active page-link" : "page-link"
-                }
-                onClick={() => setCurrentPage(number)}
-              >
-                {number}
-              </a>
-            </li>
-          ))}
-          {endPage < totalPages && (
-            <li className="page-item">
-              <a
-                href="#"
+            {Array.from({ length: totalPages }, (_, i) => (
+              <li key={i} className="page-item">
+                <a
+                  href="#"
+                  className={
+                    currentPage === i + 1 ? "active page-link" : "page-link"
+                  }
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </a>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
                 className="page-link"
-                onClick={() =>
-                  setCurrentPage(Math.min(totalPages, currentPage + 1))
-                }
               >
                 다음
-              </a>
+              </button>
             </li>
-          )}
-        </ul>
+          </ul>
+        </div>
       </>
     );
   }
