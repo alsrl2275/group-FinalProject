@@ -19,26 +19,41 @@ import UserUpdate from "./pages/UserUpdate";
 import PaymentComponent from "./components/GroupJoin/PaymentComponent";
 import Review from "./pages/review";
 
-
 export default function App() {
   const { userInfo } = useContext(LoginContext);
+  console.log(userInfo)
   return (
     <Routes>
       <Route path="/" element={<HomePage />}></Route>
       <Route path="/test" element={<Test />} />
-      <Route path="/insert" element={<InsertForm />} />
+      {userInfo === "" ? (
+        <>
+        <Route path="/insert" element={<Navigate to="/Login" replace />} />
+        <Route path="/userdata" element={<Navigate to="/Login" replace />} />
+        <Route path="/schedule" element={<Navigate to="/Login" replace />} />
+        <Route path="/payment" element={<Navigate to="/Login" replace />} />
+        <Route path="/review" element={<Navigate to="/Login" replace />} />
+        </>
+      ) : (
+        <>
+          <Route path="/insert" element={<InsertForm />} />
+          <Route path="/userdata" element={<Userdata />} />
+          <Route path="/schedule" element={<Calendar />} />
+          <Route path="/payment" element={<PaymentComponent />} />
+          <Route path="/review" element={<Review />} />
+        </>
+      )}
+
       <Route path="/Login" element={<Login />} />
       <Route path="/KakaoMap" element={<KakaoMap />} />
       <Route path="/SignUp" element={<SignUp />} />
-      <Route path="/userdata" element={<Userdata/>}/>
-      <Route path="/userUpdate" element={<UserUpdate/>}/>
+
+      <Route path="/userUpdate" element={<UserUpdate />} />
       <Route path="/GroupJoin" element={<GroupJoin />} />
       <Route path="/GroupJoin/:category" element={<GroupJoin />} />
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
       <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
-      <Route path="/schedule" element={<Calendar />} />
-      <Route path="/payment" element={<PaymentComponent/>} />
-      <Route path="/review" element={<Review/>}/>
+
       {!userInfo || (userInfo && userInfo.role !== "ROLE_ADMIN") ? (
         <Route path="/admin" element={<Navigate to="/" replace />} />
       ) : (
