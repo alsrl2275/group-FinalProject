@@ -94,6 +94,13 @@ public class ReviewService {
 		return list;
 	}
 	
+	public List<Review> idSearch(String id){
+		List<Review> list = new ArrayList<>();
+		list = rr.findByLeaderId(id);
+		return list;
+		
+		
+	}
 	
 	
 	

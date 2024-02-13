@@ -1,7 +1,9 @@
 package com.web.controller;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +48,27 @@ public class ReviewController {
 		
 	}
 	
+	@PostMapping("/api/idSearch")
+	public List<Review> idSearch(@RequestBody Map<String, Object> requestData){
+		String idSearch = (String) requestData.get("idsearch");
+		List<Review> list = new ArrayList<>();
+		list = rs.idSearch(idSearch);
+		System.out.println("그럴껄???");
+		return list;
+	} 
+	
+	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
 

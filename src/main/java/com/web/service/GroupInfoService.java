@@ -113,5 +113,11 @@ public class GroupInfoService {
 	    }
 	}
 	
+	public List<GroupInfoView> checkJoin(String title){
+		List<GroupInfoView> list = new ArrayList<>();
+		list = groupViewRepo.findAllByMeetingTitle(title);
+		return list;
+	}
+	
 
 }
