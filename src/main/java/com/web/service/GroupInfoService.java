@@ -69,6 +69,24 @@ public class GroupInfoService {
        // 종료날짜가 현재 날짜와 같거나 높은 데이터만 조회 (신청현황)
        return groupViewRepo.findByMembersIdAndRecruitmentdLessThan(id, currentDateStr);
    }
+    
+	public void outGroup(Long seq, String meetingTitle) {
+		GroupInfo dao = groupRepo.findAllByMeetingTitle(meetingTitle);
+		dao.setJoinPeople(dao.getJoinPeople()-1);
+		groupRepo.save(dao);
+		
+		List<GroupInfoView> list = new ArrayList<>();
+		list = groupViewRepo.findAllByMeetingTitle(dao.getMeetingTitle());
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setJoinPeople(dao.getJoinPeople());
+			groupViewRepo.save(list.get(i));
+		}
+		
+        GroupInfoView groupView = groupViewRepo.findById(seq) 
+                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 존재하지 않습니다.")); // 조회된 일정이 없을경우 예외 발생
+        
+        groupViewRepo.delete(groupView);
+	}
 			
 	
 	public void updateGroup(GroupInfo dao, String id) {

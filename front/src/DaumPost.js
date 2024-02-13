@@ -68,7 +68,7 @@ function DaumPost({ setAddressObj, setMapCenter }) {
             Authorization: 'KakaoAK 5d1d37549e35d188f883b6f3b378dd76',
           },
         });
-        const coordinates = response.data.documents[0].address; // 응답이 성공적으로 도팍하면 response.data.documents[0].address에서 주소정보 추출
+        const coordinates = response.data.documents[0].address; // 응답이 성공적으로 도착하면 response.data.documents[0].address에서 주소정보 추출
 
         console.log('좌표 정보:', coordinates);
 
