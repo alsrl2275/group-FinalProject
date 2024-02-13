@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Header from "../components/Header/header";
 import Footer from "../components/Home/Footer";
 import { LoginContext } from "../contexts/LoginContextProvider";
@@ -9,6 +9,8 @@ import "../css/SignUp.css";
 const Userdata = () => {
   const { userInfo, setUserInfo } = useContext(LoginContext);
   const [user, setUser] = useState(null);
+  const [pwdModal, setpwdModal] = useState(false);
+  const [pwd, setpwd] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +23,23 @@ const Userdata = () => {
     };
     fetchData();
   }, [userInfo]);
+
+  const handlePasswordSubmit = async () => {
+    // 비밀번호 확인 요청을 서버로 보내고 확인
+    try {
+      const response = await axios.post("/checkpassword", { userId: userInfo.id, pwd });
+      if (response.data === "success") {
+        // 비밀번호가 일치하면 회원 정보 수정 페이지로 이동
+        window.location.href = "/UserUpdate";
+      } else {
+        // 비밀번호가 일치하지 않으면 경고 메시지 표시
+        alert("비밀번호가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   return (
     <>
@@ -83,10 +102,18 @@ const Userdata = () => {
             </tbody>
           </table>
           <br />
-          <Link to="/UserUpdate">
-            <button className="submit">수정하기</button>
-          </Link>
+          <button className="submit" onClick={() => setpwdModal(true)}>수정하기</button>
         </form>
+        {pwdModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setpwdModal(false)}>&times;</span>
+            <h2>비밀번호 확인</h2>
+            <input type="password" value={pwd} onChange={(e) => setpwd(e.target.value)} />
+            <button onClick={handlePasswordSubmit}>확인</button>
+          </div>
+        </div>
+      )}
       </div>
       <Footer />
     </>
