@@ -11,6 +11,7 @@ import CalendarModal from './CalendarModal';
 import '../css/CalendarModal.css';
 import axios from 'axios';
 import { LoginContext } from "../contexts/LoginContextProvider";
+import EventDetailModal from './EventDetailModal';
 
 class Calendar extends Component {
   
@@ -25,8 +26,16 @@ class Calendar extends Component {
     diff: null,
     events: [],
     groupInfo: [],
-    joinInfo: []
-    
+    joinInfo: [],
+    details: null,
+  };
+
+
+  handleDetailClick = (event) => {
+    // 클릭한 이벤트 정보를 상태에 저장
+    this.setState({
+      details: event,
+    });
   };
 
   handleButtonClick = () => {
@@ -162,6 +171,9 @@ class Calendar extends Component {
     if (prevState.showModal !== this.state.showModal) {
       // showModal 상태가 변경되었을 때만 데이터 다시 불러오기
       await this.fetchEvents(this.state.seq);
+    } else if(prevState.details !== this.state.details) {
+      await this.fetchGroupJoin(this.state.seq);
+      await this.fetchGroupEvents(this.state.seq);
     }
   }
 
@@ -301,7 +313,7 @@ class Calendar extends Component {
                 <th>내 모임 가입현황</th>
               </tr>
               {this.state.joinInfo.map((event, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={() => this.handleDetailClick(event)}>
                   <td>{event.meetingTitle}</td>
                 </tr>
               ))}
@@ -316,7 +328,7 @@ class Calendar extends Component {
                 <th>내 모임 신청현황</th>
               </tr>
               {this.state.groupInfo.map((event, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={() => this.handleDetailClick(event)}>
                   <td>{event.meetingTitle}</td>
                 </tr>
               ))}
@@ -353,7 +365,13 @@ class Calendar extends Component {
             end={this.state.modalEndDate}
             diff={this.state.diff}
             eventData={this.state.selectedEventData}
-            componentDidMount={this.componentDidMount}
+          />
+        )}
+
+        {this.state.details && (
+          <EventDetailModal
+            details={this.state.details}
+            onClose={() => this.setState({ details: null })}
           />
         )}
       </div>
