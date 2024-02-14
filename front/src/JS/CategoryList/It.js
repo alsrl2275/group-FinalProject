@@ -4,9 +4,10 @@ import Modal from "../../components/Modal"; // 모달 컴포넌트 import
 import { LoginContext } from "../../contexts/LoginContextProvider";
 import axios from "axios";
 import Site from "../../components/GroupJoin/Site";
+import { useNavigate } from "react-router-dom";
 const SportGroup = ({ print, searchValue }) => {
 
-
+  const navigate = useNavigate();
   const { userInfo } = useContext(LoginContext);
   const [selectedData, setSelectedData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,9 +23,9 @@ const SportGroup = ({ print, searchValue }) => {
     setIsModalOpen(false);
   };
   const handleApply = async (data) => {
-    if(userInfo === ""){
+    if(userInfo === ""|| userInfo===null){
       alert("로그인 해주세요")
-      window.location.href="/Login"
+      navigate("/Login")
     }
     if(data.meetingType==="무료"){ 
     try {
@@ -117,6 +118,11 @@ if(print === "IT"){
                   />
                   <h4 className="group-item-h4">{c.category}</h4>
                   <h4 className="group-item-h4">{c.meetingTitle}</h4>
+                  <h4 className="group-item-h4-end">
+                  {new Date(c.recruitmentd) < new Date() - 24 * 60 * 60 * 1000
+                    ? "모집종료"
+                    : null}
+                </h4>
                 </div>
               </div>
             ))}

@@ -87,7 +87,7 @@ const LoginForm = () => {
             <NavLink className="btn btn--form btn-login-a" to="/SignUp">
               회원가입
             </NavLink>
-            <NavLink className="btn btn--form btn-login-b" to="/findip">
+            <NavLink className="btn btn--form btn-login-b" to="/findUser">
               아이디/비밀번호 찾기
             </NavLink>
           </div>

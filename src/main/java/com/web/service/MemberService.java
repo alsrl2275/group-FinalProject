@@ -100,6 +100,28 @@ public class MemberService {
 //		
 //	}
     
+	public String findId(String name, String email) {
+		System.out.println(name);
+		System.out.println(email);
+		List<MemberDTO> member = rep.findByName(name);
+		for (MemberDTO dto : member) {
+			if(dto != null) {
+				String userEmail = dto.getEmail()+"@"+dto.getDomain();
+				if(userEmail.equals(email)) {
+	                String id = dto.getId();
+	                StringBuilder maskedId = new StringBuilder();
+	                maskedId.append(id.substring(0, Math.min(4, id.length()))); // 처음 4글자 유지
+	                maskedId.append("*".repeat(Math.max(0, id.length() - 4))); // 나머지는 '*'로 대체
+	                return maskedId.toString();
+							
+				}
+			}
+		}
+		
+		
+		return "없음";
+	}
+	
 }
 
 
