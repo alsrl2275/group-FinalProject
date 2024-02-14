@@ -3,20 +3,24 @@ import axios from "axios";
 import Header from "../components/Header/header";
 import Footer from "../components/Home/Footer";
 import { LoginContext } from "../contexts/LoginContextProvider";
+import { useNavigate } from "react-router-dom";
 import "../css/SignUp.css";
 
 const UserUpdate = () => {
-    const { userInfo, setUserInfo } = useContext(LoginContext);
+    const navigate = useNavigate();
+    const { userInfo } = useContext(LoginContext);
     const [user, setUser] = useState(null);
     const [formdata, setFormData] = useState({
+        id: userInfo.id,
         pwd: "",
         cpwd: "",
+        name: userInfo.name,
         email: "",
         domain: "",
         phone: "",
         bank: "",
         banknum: "",
-        birth: "",
+        birth: userInfo.birth,
     });
     const [showpwd, setShowpwd] = useState(false);
 
@@ -25,6 +29,11 @@ const UserUpdate = () => {
             try {
                 const response = await axios.post("/userdata", { seq: userInfo.seq });
                 setUser(response.data);
+                setFormData({
+                    ...response.data,
+                    pwd: "",
+                    cpwd: "",
+                });
             } catch (error) {
                 console.log(error);
             }
@@ -34,7 +43,8 @@ const UserUpdate = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formdata, [name]: value });
+        setFormData({ ...formdata, [name]: value }); 
+        setUser(preUser => ({ ...preUser, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
@@ -45,8 +55,10 @@ const UserUpdate = () => {
                     Authorization: `bearer ${localStorage.getItem("accessToken")}`,
                 },
             });
-            setUserInfo(response.data);
+            setFormData(response.data);
+            console.log(response.data);
             alert("회원 정보 업데이트 완료");
+            navigate('/');
         } catch (error) {
             console.error("error:", error);
             alert("회원 정보 업데이트 오류");
@@ -66,10 +78,14 @@ const UserUpdate = () => {
     };
 
     const handlePhoneChange = (e) => {
-        const phoneValue = e.target.value.replace(/[^0-9]/g, "");
+        let phoneValue = e.target.value.replace(/[^0-9]/g, ""); // 숫자 이외의 문자 제거
+        if (phoneValue.length >= 11) {
+            // 전화번호가 11자리 이상인 경우 형식 변환
+            phoneValue = phoneValue.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+        }
         setFormData((preUser) => ({
             ...preUser,
-            phone: phonenum(phoneValue),
+            phone: phoneValue,
         }));
     };
 
@@ -82,6 +98,7 @@ const UserUpdate = () => {
             return `${phnum.slice(0, 3)}-${phnum.slice(3, 7)}${phnum.length > 7 ? `-${phnum.slice(7)}` : ''}`;
         }
     };
+    
 
     return (
         <>
@@ -169,7 +186,7 @@ const UserUpdate = () => {
                                         id="phone"
                                         name="phone"
                                         value={formdata.phone || (user ? user.phone : '')}
-                                        onChange={handlePhoneChange}
+                                        onChange={handleChange}
                                         maxLength={13}
                                         placeholder="- 제외"
                                     />
@@ -184,14 +201,32 @@ const UserUpdate = () => {
                             <tr>
                                 <td className="firtd">계좌번호</td>
                                 <td className="firtd">
-                                    <input
-                                        className="fse"
-                                        type="text"
-                                        id="bank"
-                                        name="bank"
-                                        value={formdata.bank || (user ? user.bank : '')}
-                                        onChange={handleChange}
-                                    />
+                                <select
+                                    className="fse"
+                                    name="bank"
+                                    value={formdata.bank || (user ? user.bank : '')}
+                                    onChange={handleChange}
+                                >
+                                    <option value="" disabled hidden>
+                                        은행
+                                    </option>
+                                    <option value="한국은행">한국은행</option>
+                                    <option value="KB국민은행">KB국민은행</option>
+                                    <option value="우리은행">우리은행</option>
+                                    <option value="하나은행">하나은행</option>
+                                    <option value="SC은행">SC은행</option>
+                                    <option value="한국씨티은행">한국씨티은행</option>
+                                    <option value="케이뱅크">케이뱅크</option>
+                                    <option value="카카오뱅크">카카오뱅크</option>
+                                    <option value="토스뱅크">토스뱅크</option>
+                                    <option value="농협은행">농협은행</option>
+                                    <option value="대구은행">대구은행</option>
+                                    <option value="부산은행">부산은행</option>
+                                    <option value="경남은행">경남은행</option>
+                                    <option value="전북은행">전북은행</option>
+                                    <option value="제주은행">제주은행</option>
+                                    <option value="새마을금고">새마을금고</option>
+                                </select>
                                     <input
                                         className="fin"
                                         type="text"

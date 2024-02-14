@@ -121,6 +121,27 @@ public class MemberService {
 		
 		return "없음";
 	}
+
+	public boolean checkPassword(String id, String password) {
+		System.out.println(password);
+		MemberDTO member = rep.findById(id);
+		System.out.println(member.getPwd());
+		
+		if(bCryptPasswordEncoder.matches(password,member.getPwd())) {
+			System.out.println("여기냐?");
+			return true;
+		}
+		System.out.println("여기지?");
+		return false;
+	}
+
+	public MemberDTO updateUser(MemberDTO memberDTO) {
+		String pwd = memberDTO.getPwd();
+		memberDTO.setPwd(bCryptPasswordEncoder.encode(pwd));
+		
+        MemberDTO updatedMember = rep.save(memberDTO);
+        return updatedMember;
+    }
 	
 }
 

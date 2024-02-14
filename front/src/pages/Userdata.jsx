@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "../components/Header/header";
 import Footer from "../components/Home/Footer";
 import { LoginContext } from "../contexts/LoginContextProvider";
 import "../css/SignUp.css";
 
 const Userdata = () => {
-  const { userInfo, setUserInfo } = useContext(LoginContext);
+  const { userInfo } = useContext(LoginContext);
   const [user, setUser] = useState(null);
-  const [pwdModal, setpwdModal] = useState(false);
-  const [pwd, setpwd] = useState("");
+  const [pwdModal, setPwdModal] = useState(false);
+  const [pwd, setPwd] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,18 +21,26 @@ const Userdata = () => {
         console.log(error);
       }
     };
+
     fetchData();
   }, [userInfo]);
 
-  const handlePasswordSubmit = async () => {
-    // 비밀번호 확인 요청을 서버로 보내고 확인
+  const handleOpenModal = () => {
+    setPwdModal(true);
+  };
+
+  const handleCloseModal = (e) => {
+    if (!e.target.closest('.modal-content')) {
+      setPwdModal(false);
+    }
+  };
+
+  const handleSubmit = async () => {
     try {
-      const response = await axios.post("/checkpassword", { userId: userInfo.id, pwd });
+      const response = await axios.post("/checkpassword", { id: user.id, pwd });
       if (response.data === "success") {
-        // 비밀번호가 일치하면 회원 정보 수정 페이지로 이동
         window.location.href = "/UserUpdate";
       } else {
-        // 비밀번호가 일치하지 않으면 경고 메시지 표시
         alert("비밀번호가 일치하지 않습니다.");
       }
     } catch (error) {
@@ -101,19 +109,18 @@ const Userdata = () => {
               </tr>
             </tbody>
           </table>
-          <br />
-          <button className="submit" onClick={() => setpwdModal(true)}>수정하기</button>
         </form>
+                <button className="submit" onClick={handleOpenModal}>수정하기</button>
+        {/* 모달 */}
         {pwdModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setpwdModal(false)}>&times;</span>
-            <h2>비밀번호 확인</h2>
-            <input type="password" value={pwd} onChange={(e) => setpwd(e.target.value)} />
-            <button onClick={handlePasswordSubmit}>확인</button>
+          <div className="modal" onClick={handleCloseModal}>
+            <div className="modal-content">
+              <h2>비밀번호 확인</h2>
+              <input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} />
+              <button onClick={handleSubmit}>확인</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
       <Footer />
     </>
