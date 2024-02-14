@@ -15,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +44,9 @@ public class MemberController {
 	@Autowired 
 	GroupInfoService groupService;
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+    
     @GetMapping("/GroupJoin")
     public String joinGroup(String category) {
 		System.out.println("확인용~~~~~~~~~");
@@ -79,8 +84,6 @@ public class MemberController {
     @PostMapping("/userdata")
     public MemberDTO getEvents(@RequestBody MemberDTO member) {
     	
-    	
-
 		System.out.println(member.getSeq());
 		System.out.println(member.getSeq().getClass().getTypeName());
 		System.out.println("안녕");
@@ -88,33 +91,31 @@ public class MemberController {
 		System.out.println(member2.getId());
 //		String id = groupService.findUserById(member.getSeq());
 		return member2;
-
 		
 	}
     
-//    @PostMapping("/userdata")
-//    public ResponseEntity<MemberDTO> getUserData(@RequestBody MemberDTO member) {
-//        try {
-//            Long seq = member.getSeq();
-//            if (seq != null) {
-//                MemberDTO member2 = msv.getUserDataById(seq);
-//                System.out.println(member2.getId());
-//                
-//                if (member2 != null) {
-//                    return ResponseEntity.ok(member2);
-//                } else {
-//                    // 사용자 정보가 없는 경우
-//                    return ResponseEntity.notFound().build();
-//                }
-//            } else {
-//                // seq가 null인 경우
-//                return ResponseEntity.badRequest().build();
-//            }
-//        } catch (Exception e) {
-//            // 예외 발생 시 처리
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    @PostMapping("/checkpassword")
+    public String checkPassword(@RequestBody Map<String, String> request) {
+    	
+    	String id = request.get("id");
+    	String password = request.get("pwd");
+    	System.out.println(id);
+    	System.out.println(password);
+    	boolean passwordcheck = msv.checkPassword(id, password);
+    	System.out.println(passwordcheck);
+    	if(passwordcheck) {
+    		System.out.println("여기일꺼지??");
+    		return "success";
+    	}else {
+    		return "비밀번호가 다릅니다.";
+    	}
+    }
+    
+    //회원정보수정
+    @PutMapping("/userUpdate")
+    public ResponseEntity<MemberDTO> updateUser(@RequestBody MemberDTO memberDTO) {
+        msv.updateUser(memberDTO);
+        return ResponseEntity.ok(memberDTO);
+    }
     	
 }

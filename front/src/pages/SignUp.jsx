@@ -139,6 +139,7 @@ const SignUp = () => {
     
             if (isDuplicate) {
                 alert('이미 사용 중인 아이디입니다.');
+                setIid(false);
                 setUser((preUser) => ({
                     ...preUser,
                     id: '',
