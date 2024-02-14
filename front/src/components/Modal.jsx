@@ -16,6 +16,7 @@ const Modal = ({ isOpen, handleClose, data, handleApply }) => {
         <h3>모임기간 : {data.meetingDateStart} ~ {data.meetingDateEnd}</h3>
         <h3>모집인원 : {data.joinPeople}/{data.peopleNum}</h3>
         <h3>모임장소 : {data.meetingLocation}</h3>
+        {data.meetingType === "유료" ? <h3>참기비용 : 5000원</h3> : null}
 
         {/* 기타 데이터 출력 */}
         <div className="modal-buttons">

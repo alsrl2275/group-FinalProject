@@ -16,7 +16,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    let month = currentDate.getMonth() + 1;
+    let month = currentDate.getMonth() + 1; 
     month = month < 10 ? `0${month}` : month;
     let day = currentDate.getDate();
     day = day < 10 ? `0${day}` : day;
@@ -148,7 +148,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
 
     const updatedFormData = {
       ...formData,
-      meetingLocation: `${formData.meetingLocation}/${formData.meetingLocation2}`,
+      meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`,
       program: formData.program === 'other' ? formData.customProgram : formData.program, // 추가된 부분
       meetingType: formData.meetingType,
     };
@@ -210,11 +210,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       handleDaumPostClick();
     } else {
       try {
-        const response = await axios.post('/groupInsert',updatedFormData, {
-          params: {
-            searchLocation: formData.meetingLocation,
-          }
-        });
+        const response = await axios.post('/groupInsert',updatedFormData);
         console.log(response.data);
         // setFormData(response.data)
         console.log('Updated meetingLocation:', updatedFormData.meetingLocation);
@@ -233,6 +229,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       
       <div className="insert-form-container">     
       <form className="insert-form" onSubmit={handleSubmit}>
+      <h2>그룹 개설</h2>
       <table
       >
         <tbody>
@@ -251,6 +248,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         />
             </label>
             &nbsp;&nbsp;
+            {userInfo.role==="ROLE_MUSER" ?             
             <label htmlFor="nofree" className='insertLabel'>
             유료
             <input className='inputRadio'
@@ -261,7 +259,8 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
               onChange={handleChange}
               checked={formData.meetingType === '유료'}
             />
-            </label>
+            </label> : null}
+
           </div>
         </tr>
         <tr>
@@ -406,10 +405,8 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             </td>
             </tr>
             <br/>
-          <br/>
+          모임방식 :<br/>
           <tr>
-          <td colSpan="2">
-          모임방식
           <div className='radio-label'>
           <label htmlFor="Yface" className='insertLabel'>
           대면
@@ -435,11 +432,9 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
           />
          </label>
          </div>
-         </td>
          </tr>
         <br />
         <tr>
-        <td colSpan="2">
         공유 프로그램 : <br/>
         <div className='radio-label'>
           
@@ -507,7 +502,6 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         )}
         </div>
         <br/>
-        </td>
         </tr>
         <tr>
         <label htmlFor="peopleNum" className='insertLabel'>

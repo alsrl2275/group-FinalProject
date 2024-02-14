@@ -26,14 +26,14 @@ const HomePage = () => {
       <Header />
       {/* End header */}
       {/* Main */}
-      <ImageSlide />
+      {/* <ImageSlide /> */}
 
       {/* Select 컴포넌트에 상태 및 함수 전달 */}
       <Select onSearch={handleSearch} />
       <Category />
       {/* End Main */}
       {/* Footer */}
-      <LoginContextConsumer/>
+      
       <Footer />
       {/* End footer */}
     </>

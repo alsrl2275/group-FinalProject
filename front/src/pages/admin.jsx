@@ -4,6 +4,7 @@ import Footer from "../components/Home/Footer";
 import "../css/Admin.css"; // CSS 파일 불러오기
 import axios from "axios";
 import { SystemUpdateOutlined } from "@mui/icons-material";
+
 const AdminPage = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [members, setMembers] = useState([]);
@@ -11,6 +12,7 @@ const AdminPage = () => {
   const [editedMember, setEditedMember] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false); // 모달 열림/닫힘 상태 추가
   const [sites, setSite] = useState([]);
+  const [wow, setWow] = useState("");
   const [newSite, setNewSite] = useState({
     siteName: "",
     category: "",
@@ -18,14 +20,23 @@ const AdminPage = () => {
     address: "",
     file: null, // 파일을 저장하는 상태 추가
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // 페이지당 보여줄 아이템 수
+
   const handleButtonClick = (button) => {
     setSelectedButton(button);
     if (button === "회원") {
+      setWow("회원");
       fetchMembers(); // 수정: 함수명을 대문자로 변경
+      setCurrentPage(1); // 회원 버튼 클릭 시 페이지 번호 초기화
     } else if (button === "그룹") {
+      setWow("그룹");
       fetchGroup();
+      setCurrentPage(1); // 회원 버튼 클릭 시 페이지 번호 초기화
     } else if (button === "사이트") {
+      setWow("사이트");
       fetchSites();
+      setCurrentPage(1); // 회원 버튼 클릭 시 페이지 번호 초기화
     }
   };
 
@@ -33,7 +44,7 @@ const AdminPage = () => {
     try {
       const response = await axios.post("/admin/delete", seq);
       alert("삭제완료");
-      fetchMembers(); 
+      fetchMembers();
     } catch (error) {
       console.log("error" + error);
     }
@@ -42,7 +53,7 @@ const AdminPage = () => {
     try {
       const response = await axios.post("/admin/groupdelete", seq);
       alert("삭제완료");
-      fetchGroup(); 
+      fetchGroup();
     } catch (error) {
       console.log("error" + error);
     }
@@ -51,7 +62,7 @@ const AdminPage = () => {
     try {
       const response = await axios.post("/admin/sitedelete", seq);
       alert("삭제완료");
-      fetchSites(); 
+      fetchSites();
     } catch (error) {
       console.log("error" + error);
     }
@@ -71,7 +82,7 @@ const AdminPage = () => {
     try {
       const response = await axios.post("/admin/memberSearch");
       if (response.data && Array.isArray(response.data)) {
-        console.log(response.data)
+        console.log(response.data);
         setMembers(response.data);
       }
     } catch (error) {
@@ -96,7 +107,10 @@ const AdminPage = () => {
 
   const handlePointChange = (seq, event) => {
     const newPoint = event.target.value;
-    setEditedMember({ seq, role: editedMember?.role || "", evp: newPoint });
+    setEditedMember((prevMember) => ({
+      ...prevMember,
+      evp: newPoint,
+    }));
   };
 
   const handleEdit = (member) => {
@@ -177,6 +191,52 @@ const AdminPage = () => {
     fetchSites();
   }, []);
 
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+  // 총 페이지 수 계산
+
+  const totalMPages = Math.ceil(members.length / itemsPerPage);
+  const totalGPages = Math.ceil(groups.length / itemsPerPage);
+  const totalSPages = Math.ceil(sites.length / itemsPerPage);
+
+  // 페이지 번호 목록 생성
+  const pageNumbers = [];
+  if (wow === "회원") {
+    for (let i = 1; i <= totalMPages; i++) {
+      pageNumbers.push(i);
+    }
+  } else if (wow === "그룹") {
+    for (let i = 1; i <= totalGPages; i++) {
+      pageNumbers.push(i);
+    }
+  } else if (wow === "사이트") {
+    for (let i = 1; i <= totalSPages; i++) {
+      pageNumbers.push(i);
+    }
+  }
+
+  // 페이지 번호를 렌더링하는 함수
+  const renderPageNumbers = pageNumbers.map((number) => (
+    <button
+      key={number}
+      onClick={() => setCurrentPage(number)}
+      className={`pageButton ${currentPage === number ? "active" : ""}`}
+    >
+      {number}
+    </button>
+  ));
+
+  // 현재 페이지에 해당하는 멤버 목록 추출
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentMembers = members.slice(startIndex, endIndex);
+  const currentgourps = groups.slice(startIndex, endIndex);
+  const currentsites = sites.slice(startIndex, endIndex);
+
   return (
     <>
       {/* header */}
@@ -185,7 +245,7 @@ const AdminPage = () => {
       {/* Main */}
       <div className="adminBody">
         <div className="left">
-          <button
+          <button 
             className={`left-button ${
               selectedButton === "회원" ? "active" : ""
             }`}
@@ -223,7 +283,8 @@ const AdminPage = () => {
                 <td className="right-table-td">권한</td>
                 <td className="right-table-td">삭제</td>
               </tr>
-              {members.map((member) => (
+
+              {currentMembers.map((member) => (
                 <tr className="right-table-tr" key={member.seq}>
                   <td className="right-table-td">{member.id}</td>
                   <td className="right-table-td">{member.name}</td>
@@ -287,7 +348,7 @@ const AdminPage = () => {
                         수정
                       </button>
                     )}
-                
+
                     <button
                       className="membereditbtn"
                       onClick={() => handleDelete(member.seq)}
@@ -297,8 +358,19 @@ const AdminPage = () => {
                   </td>
                 </tr>
               ))}
+              <button className="adButton" onClick={handlePrevPage} disabled={currentPage === 1}>
+                이전
+              </button>
+              {renderPageNumbers}
+              <button className="adButton"
+                onClick={handleNextPage}
+                disabled={currentPage === totalMPages}
+              >
+                다음
+              </button>
             </table>
           )}
+
           {selectedButton === "그룹" && (
             <table className="right-table">
               <tr className="right-table-tr">
@@ -310,11 +382,12 @@ const AdminPage = () => {
                 <td className="right-table-td">모임종류</td>
                 <td className="right-table-td">현재인원</td>
                 <td className="right-table-td">모임인원</td>
-                <td className="right-table-td">모이기시작날짜</td>
-                <td className="right-table-td">모이기마지막말짜</td>
+                <td className="right-table-td">모집시작날짜</td>
+                <td className="right-table-td">모집마지막말짜</td>
+                <td className="right-table-td">모인돈</td>
                 <td className="right-table-td">삭제</td>
               </tr>
-              {groups.map((groups) => (
+              {currentgourps.map((groups) => (
                 <tr className="right-table-tr" key={groups.seq}>
                   <td className="right-table-td">{groups.userId}</td>
                   <td className="right-table-td">{groups.meetingTitle}</td>
@@ -326,6 +399,7 @@ const AdminPage = () => {
                   <td className="right-table-td">{groups.peopleNum}</td>
                   <td className="right-table-td">{groups.recruitments}</td>
                   <td className="right-table-td">{groups.recruitmentd}</td>
+                  <td className="right-table-td">{groups.meetingCost}</td>
                   <td>
                     <button
                       className="membereditbtn"
@@ -336,6 +410,16 @@ const AdminPage = () => {
                   </td>
                 </tr>
               ))}
+              <button className="adButton" onClick={handlePrevPage} disabled={currentPage === 1}>
+                이전
+              </button>
+              {renderPageNumbers}
+              <button className="adButton"
+                onClick={handleNextPage}
+                disabled={currentPage === totalGPages}
+              >
+                다음
+              </button>
             </table>
           )}
           {selectedButton === "사이트" && (
@@ -346,12 +430,12 @@ const AdminPage = () => {
                 <td className="right-table-td">사이트 카테고리</td>
                 <td className="right-table-td">주소</td>
                 <td className="right-table-td">
-                  <button className="siteInsertbtn" onClick={openModal}>
+                  <button className="siteInsertbtn" onClick={openModal} style={{backgroundColor:"blue"}}>
                     추가
                   </button>
                 </td>
               </tr>
-              {sites.map((site) => (
+              {currentsites.map((site) => (
                 <tr className="right-table-tr" key={site.seq}>
                   <td className="right-table-td">{site.siteName}</td>
                   <td className="right-table-td">{site.sitetalk}</td>
@@ -368,6 +452,16 @@ const AdminPage = () => {
                   </td>
                 </tr>
               ))}
+              <button className="adButton" onClick={handlePrevPage} disabled={currentPage === 1}>
+                이전
+              </button>
+              {renderPageNumbers}
+              <button className="adButton"
+                onClick={handleNextPage}
+                disabled={currentPage === totalSPages}
+              >
+                다음
+              </button>
             </table>
           )}
         </div>
@@ -413,12 +507,13 @@ const AdminPage = () => {
             </select>
             <label>파일:</label>
             <input type="file" onChange={handleFileChange} />
-            <button onClick={insertSite}>추가</button>
+            <button className="adButton" onClick={insertSite}>추가</button>
           </div>
         </div>
       )}
       <Footer />
       {/* End footer */}
+      {/* 페이지 네이션 */}
     </>
   );
 };
