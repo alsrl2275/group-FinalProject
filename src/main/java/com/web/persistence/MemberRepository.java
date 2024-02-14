@@ -1,5 +1,6 @@
 package com.web.persistence;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,10 @@ public interface MemberRepository extends JpaRepository<MemberDTO, Long> {
 	public MemberDTO findById(String username);
 
 	boolean existsById(String id);
+
+	public MemberDTO findByNameAndEmail(String name, String email);
+
+	public List<MemberDTO> findByName(String name);
 	
 
 }
