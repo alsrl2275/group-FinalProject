@@ -76,9 +76,7 @@ public class GroupListController {
 			
 			return "이미";
 		}
-		if (dao.getJoinPeople() == dao.getPeopleNum()) {
-			return "인원";
-		}
+
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate recruitmentDate = LocalDate.parse(dao.getRecruitmentd(), formatter);
@@ -87,6 +85,9 @@ public class GroupListController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if (dao.getJoinPeople() == dao.getPeopleNum()) {
+			return "인원";
 		}
 		InfoService.updateGroup(dao, id);
 		return "신청";

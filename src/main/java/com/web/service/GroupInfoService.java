@@ -93,6 +93,9 @@ public class GroupInfoService {
 	public void updateGroup(GroupInfo dao, String id) {
 		dao = groupRepo.findBySeq(dao.getSeq());
 		dao.setJoinPeople(dao.getJoinPeople()+1);
+		if(dao.getMeetingType().equals("유료")) {
+			dao.setMeetingCost(dao.getMeetingCost()+5000);
+		}
 		String[] addr = dao.getMeetingLocation().split("/");
 		System.out.println(addr[0]);
 		GroupInfoView group = new GroupInfoView();

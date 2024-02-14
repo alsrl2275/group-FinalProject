@@ -18,10 +18,11 @@ import UserUpdate from "./pages/UserUpdate";
 
 import PaymentComponent from "./components/GroupJoin/PaymentComponent";
 import Review from "./pages/review";
+import Finduser from "./pages/Finduser";
 
 export default function App() {
-  const token = localStorage.getItem("accessToken");
   const { userInfo } = useContext(LoginContext);
+  const token = localStorage.getItem("accessToken");
   console.log(userInfo)
   return (
     <Routes>
@@ -48,7 +49,7 @@ export default function App() {
       <Route path="/Login" element={<Login />} />
       <Route path="/KakaoMap" element={<KakaoMap />} />
       <Route path="/SignUp" element={<SignUp />} />
-
+      <Route path="/findUser" element={<Finduser/>}/>
       <Route path="/userUpdate" element={<UserUpdate />} />
       <Route path="/GroupJoin" element={<GroupJoin />} />
       <Route path="/GroupJoin/:category" element={<GroupJoin />} />

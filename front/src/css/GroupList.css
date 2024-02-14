@@ -40,6 +40,9 @@
   text-overflow: ellipsis;
   white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
 }
+.group-item-h4-end{
+  color: red;
+}
 
 
 @media (min-width: 768px) {

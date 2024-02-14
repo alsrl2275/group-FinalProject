@@ -46,20 +46,84 @@ public class GroupTest {
 //		}
 //	}
 //	
-//	@Test
-//	public void memberadd() {
-//		try {
-//			MemberDTO dto = new MemberDTO();
-//			dto.setId("jkuilo123");
-//			dto.setPwd("lan21243**");
-//			dto.setAge(19);
-//			dto.setBitrh(13);
-//			dto.setCount(3);
-//			dto.setPhone("12354");
-//			dto.setPoint(22);
-//			Memrepo.save(dto);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@Test
+	public void memberadd() {
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setId("jkuilo12312");
+			dto.setPwd("lan21243**");
+			dto.setAge(19);
+			
+			dto.setCount(3);
+			dto.setPhone("12354");
+			dto.setPoint(22);
+			Memrepo.save(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void memberadd1() {
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setId("jkuilo12323");
+			dto.setPwd("lan21243**");
+			dto.setAge(19);
+			
+			dto.setCount(3);
+			dto.setPhone("12354");
+			dto.setPoint(22);
+			Memrepo.save(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void memberadd2() {
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setId("jkuilo12334");
+			dto.setPwd("lan21243**");
+			dto.setAge(19);
+			
+			dto.setCount(3);
+			dto.setPhone("12354");
+			dto.setPoint(22);
+			Memrepo.save(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void memberadd3() {
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setId("jkuilo12345");
+			dto.setPwd("lan21243**");
+			dto.setAge(19);
+			
+			dto.setCount(3);
+			dto.setPhone("12354");
+			dto.setPoint(22);
+			Memrepo.save(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void memberadd4() {
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setId("jkuilo12356");
+			dto.setPwd("lan21243**");
+			dto.setAge(19);
+			
+			dto.setCount(3);
+			dto.setPhone("12354");
+			dto.setPoint(22);
+			Memrepo.save(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

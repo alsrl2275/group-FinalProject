@@ -16,7 +16,7 @@
   }
 .right-table{
     margin-left: 25px;
-    border: solid 2px black;
+    border: none;
 }
 .right-table-tr{
     display: flex;
@@ -27,6 +27,28 @@
     width:300px;
     border-bottom: solid 1px black;
   }
+.adminBody button{
 
-  
+  color: white;
+  background-color: skyblue;
+  border: none;
+}  
+.adButton{
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.pageButton {
+  margin-right: 5px; /* 페이지 번호 간격 조정 */
+  background-color: #fff; /* 기본 배경색 */
+  border: 1px solid #ccc; /* 테두리 스타일 */
+  padding: 3px 8px; /* 내부 여백 조정 */
+  cursor: pointer; /* 포인터 커서 설정 */
+}
 
+.pageButton.active {
+  background-color: #0056b3; /* 현재 페이지 버튼 배경색 */
+  color: #fff; /* 현재 페이지 텍스트 색상 */
+}
+.membereditbtn{
+  margin-right: 10px;
+}

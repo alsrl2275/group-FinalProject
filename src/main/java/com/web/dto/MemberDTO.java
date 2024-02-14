@@ -48,7 +48,7 @@ public class MemberDTO {
 	private int point;
 	@Column(name = "role")
 	private String role;
-	@Column(name = "evp")
-	private int evp;
+	 @Column(name = "evp", nullable = true)
+	    private Integer evp; // int가 아니라 Integer로 선언하여 null 값을 허용하도록 함
 	
 }
