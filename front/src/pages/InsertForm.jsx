@@ -148,7 +148,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
 
     const updatedFormData = {
       ...formData,
-      meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`,
+      meetingLocation: `${formData.meetingLocation}/${formData.meetingLocation2}`,
       program: formData.program === 'other' ? formData.customProgram : formData.program, // 추가된 부분
       meetingType: formData.meetingType,
     };
@@ -210,7 +210,11 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       handleDaumPostClick();
     } else {
       try {
-        const response = await axios.post('/groupInsert',updatedFormData);
+        const response = await axios.post('/groupInsert',updatedFormData, {
+          params: {
+            searchLocation: formData.meetingLocation,
+          }
+        });
         console.log(response.data);
         // setFormData(response.data)
         console.log('Updated meetingLocation:', updatedFormData.meetingLocation);
@@ -229,7 +233,6 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       
       <div className="insert-form-container">     
       <form className="insert-form" onSubmit={handleSubmit}>
-      <h2>그룹 개설</h2>
       <table
       >
         <tbody>
@@ -403,8 +406,10 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             </td>
             </tr>
             <br/>
-          모임방식 :<br/>
+          <br/>
           <tr>
+          <td colSpan="2">
+          모임방식
           <div className='radio-label'>
           <label htmlFor="Yface" className='insertLabel'>
           대면
@@ -430,9 +435,11 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
           />
          </label>
          </div>
+         </td>
          </tr>
         <br />
         <tr>
+        <td colSpan="2">
         공유 프로그램 : <br/>
         <div className='radio-label'>
           
@@ -500,6 +507,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
         )}
         </div>
         <br/>
+        </td>
         </tr>
         <tr>
         <label htmlFor="peopleNum" className='insertLabel'>

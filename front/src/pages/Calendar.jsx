@@ -202,6 +202,7 @@ class Calendar extends Component {
         meetingDateEnd: event.meetingDateEnd,
         meetingLocation: event.meetingLocation,
         membersId: event.membersId,
+        searchLocation: event.searchLocation,
       }))
       // formatEvents.forEach(event => {
       //   const adjustedEndDate = new Date(event.end)
@@ -242,6 +243,7 @@ class Calendar extends Component {
         meetingDateEnd: event.meetingDateEnd,
         meetingLocation: event.meetingLocation,
         membersId: event.membersId,
+        searchLocation: event.searchLocation,
       }))
       // formatEvents.forEach(event => {
       //   const adjustedEndDate = new Date(event.end)

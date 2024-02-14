@@ -20,13 +20,14 @@ import PaymentComponent from "./components/GroupJoin/PaymentComponent";
 import Review from "./pages/review";
 
 export default function App() {
+  const token = localStorage.getItem("accessToken");
   const { userInfo } = useContext(LoginContext);
   console.log(userInfo)
   return (
     <Routes>
       <Route path="/" element={<HomePage />}></Route>
       <Route path="/test" element={<Test />} />
-      {userInfo === "" ? (
+      {token === null ? (
         <>
         <Route path="/insert" element={<Navigate to="/Login" replace />} />
         <Route path="/userdata" element={<Navigate to="/Login" replace />} />
