@@ -10,7 +10,8 @@ function KakaoMap({ center }) {
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=03676f18b99991f944f886da9fc7de60';
+    const kakaoApiKey = process.env.REACT_APP_KAKAO_API_SCRIPTKEY
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${kakaoApiKey}`;
     script.addEventListener('load', () => {
       const kakao = window.kakao;
       kakao.maps.load(() => {
