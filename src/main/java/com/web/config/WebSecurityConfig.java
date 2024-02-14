@@ -87,6 +87,8 @@ public class WebSecurityConfig {
 						.antMatchers("/getIdRole").permitAll()
 						.antMatchers("/checkId").permitAll()
 						.antMatchers("/userdata/**").permitAll()
+						.antMatchers("/checkpassword/**").permitAll()
+						.antMatchers("/userUpdate/**").permitAll()
                         .antMatchers("/admin/**").permitAll()
                         .antMatchers("/groupjoin/**").permitAll()
                         .anyRequest().authenticated());
