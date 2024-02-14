@@ -28,9 +28,10 @@ public class GroupController {
 	GroupInfoService groupService;
 
 	@PostMapping("/groupInsert") // 그룹추가
-	public GroupInfo groupInsert(@RequestBody GroupInfo formData) {
+	public GroupInfo groupInsert(@RequestBody GroupInfo formData, @RequestParam String searchLocation) {
+		System.out.println(searchLocation);
 		System.out.println(formData);
-		groupService.insertGroup(formData);
+		groupService.insertGroup(formData, searchLocation);
 		return formData;
 	}
 	

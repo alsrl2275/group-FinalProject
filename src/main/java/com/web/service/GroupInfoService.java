@@ -29,7 +29,7 @@ public class GroupInfoService {
 	@Autowired
 	MemberRepository memberRepo;
 	
-	public void insertGroup(GroupInfo groupInfo) {
+	public void insertGroup(GroupInfo groupInfo, String searchLocation) {
 		GroupInfoView group = new GroupInfoView();
 		group.setUserId(groupInfo.getUserId());
 		group.setMeetingTitle(groupInfo.getMeetingTitle());
@@ -46,6 +46,7 @@ public class GroupInfoService {
 		group.setMeetingDateEnd(groupInfo.getMeetingDateEnd());
 		group.setMeetingLocation(groupInfo.getMeetingLocation());
 		group.setMembersId(groupInfo.getUserId());
+		group.setSearchLocation(searchLocation);
 		
 		
 		groupViewRepo.save(group);
@@ -92,6 +93,8 @@ public class GroupInfoService {
 	public void updateGroup(GroupInfo dao, String id) {
 		dao = groupRepo.findBySeq(dao.getSeq());
 		dao.setJoinPeople(dao.getJoinPeople()+1);
+		String[] addr = dao.getMeetingLocation().split("/");
+		System.out.println(addr[0]);
 		GroupInfoView group = new GroupInfoView();
 		group.setUserId(dao.getUserId());
 		group.setMeetingTitle(dao.getMeetingTitle());
@@ -108,6 +111,8 @@ public class GroupInfoService {
 		group.setMeetingDateEnd(dao.getMeetingDateEnd());
 		group.setMeetingLocation(dao.getMeetingLocation());
 		group.setMembersId(id);
+		group.setSearchLocation(addr[0]);
+		
 		groupViewRepo.save(group);
 		List<GroupInfoView> list = new ArrayList<>();
 		list = groupViewRepo.findAllByMeetingTitle(dao.getMeetingTitle());

@@ -1,5 +1,6 @@
 
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
 
 
@@ -16,20 +17,14 @@
   width: 100%;
   padding: 40px;
   margin-top: 20px;
-  /* border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-}
-
-.insert-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
+  font-family: 'Noto Sans', sans-serif; /* 변경: Noto Sans 폰트 사용 */
 }
 
 .insertLabel {
   width: auto;
   margin-bottom: 10px;
-  font-weight: bold;
+  color: #333;
+  font-family: 'Noto Sans', sans-serif; /* 변경: Noto Sans 폰트 사용 */
 }
 
 .insertInput {
@@ -125,3 +120,4 @@
   }
 
 }
+
