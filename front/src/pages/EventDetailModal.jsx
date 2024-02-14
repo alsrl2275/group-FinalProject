@@ -7,6 +7,8 @@ import { useState } from 'react';
 
 
 const EventDetailModal = ({ details, onClose }) => {
+
+  const today = new Date().toISOString().split('T')[0];
   const [isMapVisible, setIsMapVisible] = useState(false);
 
   const openMap = () => {
@@ -102,33 +104,37 @@ const EventDetailModal = ({ details, onClose }) => {
               </tr>
               <tr>
                 <td>모임장소</td>
-                <td>{details.meetingLocation}</td>
-                <button onClick={openMap}>지도보기</button>
+                <td>{details.meetingLocation}<button className='locationBtn' onClick={openMap} >지도보기</button>
+                {isMapVisible && (
+                <LocationMap
+                  location={details.searchLocation}
+                  onClose={closeMap}
+                />
+                )}
+                </td>
               </tr>
               <tr>
                 <td>아이디</td>
                 <td>{details.membersId}</td>
               </tr>
-
+              {/* <tr>
+                <td>검색할 장소</td>
+                <td>{details.searchLocation}</td>
+              </tr> */}
               </tbody>
             </table>
             
-          )}
-          {isMapVisible && (
-            <LocationMap
-            label="모임장소"
-            location={details.meetingLocation}
-            onClose={closeMap}
-            />
           )}
         </div>
         <div className="detailmodal-footer">
           <button type="button" className="btn btn-primary" onClick={onClose}>
             닫기
           </button>
-          <button type="button" className="btn btn-primary" onClick={handleCancel}>
-            신청 취소
-          </button>
+          {details.recruitmentd && details.recruitmentd >= today && (
+            <button type="button" className="btn btn-primary" onClick={handleCancel}>
+              신청 취소
+            </button>
+          )}
         </div>
       </div>
     </div>

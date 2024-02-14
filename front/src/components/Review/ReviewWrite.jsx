@@ -35,6 +35,10 @@ const ReviewWrite = ({ showModal, toggleModalClose }) => {
     console.log("Review Score:", reviewScore);
     console.log("id  : ", selectedMeetinguserId)
     try {
+      if(selectedMeetingTitle === ""){
+        alert("모임을 선택해주세요")
+        return
+      }
       const response = await axios.post("/api/sendReview", {
         leaderId: selectedMeetingId,
         meetingTitle: selectedMeetingTitle,

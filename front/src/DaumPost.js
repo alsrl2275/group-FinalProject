@@ -9,6 +9,7 @@ function DaumPost({ setAddressObj, setMapCenter }) {
   const open = useDaumPostcodePopup("https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
 
   const handleComplete = async (data) => {
+    const kakaoApiKey = process.env.REACT_APP_KAKAO_API_KEY
     console.log('주소 검색 결과', data);
     let fullAddress = data.address;
     let extraAddress = '';
@@ -32,7 +33,7 @@ function DaumPost({ setAddressObj, setMapCenter }) {
           try {
       const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(data.roadAddress)}`, {
         headers: {
-          Authorization: 'KakaoAK 5d1d37549e35d188f883b6f3b378dd76',
+          Authorization: `KakaoAK ${kakaoApiKey}`,
         },
       });
       const coordinates = response.data.documents[0].address; //  첫번째 문서에서 주소 정보에 해당하는 부분을 나타낸다. 좌표 정보를 담고 있는 변수인 coordinates로 할당된다
