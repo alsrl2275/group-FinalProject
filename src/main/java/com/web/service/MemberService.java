@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.web.dto.MemberDTO;
 import com.web.persistence.MemberRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -30,11 +34,12 @@ public class MemberService {
 
 	@Autowired
 	private final MemberRepository rep;
-
+	
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
     public MemberService(MemberRepository rep,BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.rep = rep;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+  
     }
 
     public MemberDTO saveMember(MemberDTO member) {
@@ -142,6 +147,26 @@ public class MemberService {
         MemberDTO updatedMember = rep.save(memberDTO);
         return updatedMember;
     }
+	
+	public MemberDTO findPwd(MemberDTO dto) {
+		System.out.println("여기는 들어왔찌?");
+		MemberDTO user = rep.findById(dto.getId());
+		System.out.println("여기는 들어왔찌?2");
+		System.out.println("확인하자");
+		System.out.println(user);
+		if(user != null) {
+			String Email = user.getEmail() + "@" + user.getDomain();
+			if(user.getName().equals(dto.getName())&&Email.equals(dto.getEmail())) {
+				return user;
+				
+			}
+		}
+		
+		return null;
+	}
+	
+
+	
 	
 }
 
