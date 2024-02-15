@@ -19,6 +19,7 @@ import UserUpdate from "./pages/UserUpdate";
 import PortwonPayment from "./components/GroupJoin/PortwonPayment";
 import Review from "./pages/review";
 import Finduser from "./pages/Finduser";
+import Chat from "./pages/Chat2";
 
 export default function App() {
   const { userInfo } = useContext(LoginContext);
@@ -47,6 +48,7 @@ export default function App() {
       )}
 
       <Route path="/Login" element={<Login />} />
+      <Route path="/Chat" element={<Chat />} />
       <Route path="/KakaoMap" element={<KakaoMap />} />
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/findUser" element={<Finduser/>}/>
