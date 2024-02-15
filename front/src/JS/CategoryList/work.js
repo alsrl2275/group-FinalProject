@@ -65,16 +65,16 @@ const SportGroup = ({ print, searchValue }) => {
       console.log(response)
 
 
-      if(response.data === "기간"){
+      if (response.data === "이미") {
+        alert("신청한 그룹입니다");
+      } else if (response.data === "기간") {
         alert("모집기간이 지났습니다");
-      }else if(response.data === "인원"){
-        alert("모집인원이 다 찼습니다")
-      }else if(response.data === "신청"){
+      } else if (response.data === "인원") {
+        alert("모집인원이 다 찼습니다");
+      } else if (response.data === "신청") {
         navigate("/payment", { state: { selectedData: selectedData } });
       }
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   }
 }
   const getImageByCategory = (category) => {

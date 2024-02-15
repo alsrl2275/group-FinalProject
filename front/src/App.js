@@ -57,7 +57,7 @@ export default function App() {
       <Route path="/GroupJoin/:category" element={<GroupJoin />} />
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
       <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
-       {/* <Route path="/payment:selectedData"  element={<PortwonPayment />}/> */}
+       
       {!userInfo || (userInfo && userInfo.role !== "ROLE_ADMIN") ? (
         <Route path="/admin" element={<Navigate to="/" replace />} />
       ) : (

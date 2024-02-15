@@ -59,7 +59,7 @@ const Chat = () => {
         };
     }, []);
 
-    const GlobalStyle = createGlobalStyle`
+  const GlobalStyle = createGlobalStyle`
         ${reset}
     `;
 

@@ -89,7 +89,10 @@ public class GroupListController {
 		if (dao.getJoinPeople() == dao.getPeopleNum()) {
 			return "인원";
 		}
-//		InfoService.updateGroup(dao, id);
+		if(dao.getMeetingType().equals("무료")) {
+			
+			InfoService.updateGroup(dao, id);
+		}
 		return "신청";
 	}
 	
