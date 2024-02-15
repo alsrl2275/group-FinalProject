@@ -37,13 +37,15 @@ const SportGroup = ({ print, searchValue }) => {
       }} );
       console.log(response)
 
-
-      if(response.data === "기간"){
+      if (response.data === "이미") {
+        alert("신청한 그룹입니다");
+      } else if (response.data === "기간") {
         alert("모집기간이 지났습니다");
-      }else if(response.data === "인원"){
-        alert("모집인원이 다 찼습니다")
-      }else if(response.data === "신청"){
-        alert("신청완료")
+      } else if (response.data === "인원") {
+        alert("모집인원이 다 찼습니다");
+      } else if (response.data === "신청") {
+        alert("신청완료");
+        navigate("/schedule")
       }
       
     } catch (error) {
@@ -62,13 +64,14 @@ const SportGroup = ({ print, searchValue }) => {
       }} );
       console.log(response)
 
+      
 
       if(response.data === "기간"){
         alert("모집기간이 지났습니다");
       }else if(response.data === "인원"){
         alert("모집인원이 다 찼습니다")
       }else if(response.data === "신청"){
-        window.location.assign('/payment');
+        navigate("/payment", { state: { selectedData: selectedData } });
       }
     } catch (error) {
     

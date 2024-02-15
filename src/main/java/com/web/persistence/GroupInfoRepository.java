@@ -13,7 +13,13 @@ public interface GroupInfoRepository extends JpaRepository<GroupInfo, Long> {
 
 	void save(GroupInfoDAO dao);
 
-	GroupInfo findAllByMeetingTitle(String meetingTitle);
+	
+	List<GroupInfo> findAllByMeetingTitle(String meetingTitle);
+
+	void deleteByMeetingTitle(String meetingTitle);
+
+	GroupInfo findByMeetingTitle(String meetingTitle);
+
 
 	
 	

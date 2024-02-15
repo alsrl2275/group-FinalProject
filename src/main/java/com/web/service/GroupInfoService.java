@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.web.dto.GroupInfo;
 import com.web.dto.GroupInfoDAO;
@@ -71,22 +72,47 @@ public class GroupInfoService {
        return groupViewRepo.findByMembersIdAndRecruitmentdLessThan(id, currentDateStr);
    }
     
-	public void outGroup(Long seq, String meetingTitle) {
-		GroupInfo dao = groupRepo.findAllByMeetingTitle(meetingTitle);
-		dao.setJoinPeople(dao.getJoinPeople()-1);
-		groupRepo.save(dao);
-		
-		List<GroupInfoView> list = new ArrayList<>();
-		list = groupViewRepo.findAllByMeetingTitle(dao.getMeetingTitle());
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setJoinPeople(dao.getJoinPeople());
-			groupViewRepo.save(list.get(i));
+    @Transactional
+	public void outGroup(Long seq, String meetingTitle, String userId, String membersId) {
+    	
+
+
+		if(userId.equals(membersId)) {
+			
+	    	List<GroupInfoView> gri = groupViewRepo.findAllByMeetingTitle(meetingTitle);
+	    	groupViewRepo.deleteAllInBatch(gri);
+	    	
+	    	List<GroupInfo> gr = groupRepo.findAllByMeetingTitle(meetingTitle);
+	    	groupRepo.deleteAllInBatch(gr);
+	    	
+	    	
+			
+			
+//			groupRepo.deleteByMeetingTitle(meetingTitle);
+//			groupViewRepo.deleteAllByMeetingTitle(meetingTitle);
+			System.out.println("됫냐 ?");
+		} else {
+			GroupInfo dao = groupRepo.findByMeetingTitle(meetingTitle);
+			dao.setJoinPeople(dao.getJoinPeople()-1);
+			if(dao.getMeetingType().equals("유료")) {
+				dao.setMeetingCost(dao.getMeetingCost()-5000);
+			}
+			
+			groupRepo.save(dao);
+			
+			List<GroupInfoView> list = new ArrayList<>();
+			list = groupViewRepo.findAllByMeetingTitle(dao.getMeetingTitle());
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).setJoinPeople(dao.getJoinPeople());
+				groupViewRepo.save(list.get(i));
+			}
+			
+	        GroupInfoView groupView = groupViewRepo.findById(seq) 
+	                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 존재하지 않습니다.")); // 조회된 일정이 없을경우 예외 발생
+	        
+	        groupViewRepo.delete(groupView);
 		}
-		
-        GroupInfoView groupView = groupViewRepo.findById(seq) 
-                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 존재하지 않습니다.")); // 조회된 일정이 없을경우 예외 발생
-        
-        groupViewRepo.delete(groupView);
+
 	}
 			
 	
@@ -99,6 +125,11 @@ public class GroupInfoService {
 		String[] addr = dao.getMeetingLocation().split("/");
 		System.out.println(addr[0]);
 		GroupInfoView group = new GroupInfoView();
+		if(dao.getMeetingType().equals("유료")) {
+			group.setMeetingCost(5000);
+		} else if(dao.getMeetingType().equals("무료")) {
+			group.setMeetingCost(0);
+		}
 		group.setUserId(dao.getUserId());
 		group.setMeetingTitle(dao.getMeetingTitle());
 		group.setCategory(dao.getCategory());
@@ -107,7 +138,6 @@ public class GroupInfoService {
 		group.setMeetingType(dao.getMeetingType());
 		group.setPeopleNum(dao.getPeopleNum());
 		group.setJoinPeople(dao.getJoinPeople());
-		group.setMeetingCost(dao.getMeetingCost());
 		group.setRecruitments(dao.getRecruitments());
 		group.setRecruitmentd(dao.getRecruitmentd());
 		group.setMeetingDateStart(dao.getMeetingDateStart());
@@ -115,6 +145,7 @@ public class GroupInfoService {
 		group.setMeetingLocation(dao.getMeetingLocation());
 		group.setMembersId(id);
 		group.setSearchLocation(addr[0]);
+		
 		
 		groupViewRepo.save(group);
 		List<GroupInfoView> list = new ArrayList<>();
