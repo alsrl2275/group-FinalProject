@@ -9,11 +9,11 @@
 }
 
 /* input 기본 스타일 초기화 */
-input {
+/*input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-}
+}*/
 
 /* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
 input::-ms-clear {

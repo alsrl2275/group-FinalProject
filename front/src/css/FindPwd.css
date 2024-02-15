@@ -1,4 +1,4 @@
-.findId-container {
+.findPwd-container {
   margin-top: 20px;
   padding: 20px;
   border: 1px solid #ccc;
@@ -8,7 +8,7 @@
   max-width: 100%;
 }
 
-.findId-container input {
+.findPwd-container input {
   display: block;
   width: 100%;
   padding: 10px;
@@ -17,7 +17,7 @@
   border-radius: 5px;
 }
 
-.findId-container input[type="submit"] {
+.findPwd-container input[type="submit"] {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -25,14 +25,6 @@
   cursor: pointer;
 }
 
-.findId-container input[type="submit"]:hover {
+.findPwd-container input[type="submit"]:hover {
   background-color: #0056b3;
-}
-
-.findId-result {
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f0f0f0;
 }

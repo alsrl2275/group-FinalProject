@@ -75,9 +75,7 @@ const SportGroup = ({ print, searchValue }) => {
       } else if (response.data === "신청") {
         navigate("/payment", { state: { selectedData: selectedData } });
       }
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   }
 }
   const getImageByCategory = (category) => {

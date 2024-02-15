@@ -31,7 +31,7 @@ const Header = () => {
       {isMobile ? (
         <>
           <NavLink className="home-link" to="/">
-            <image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJzPmj5mWavFuACY5Mfn1wE2iRrtTOmqPtRg&usqp=CAU" />
+            <image src="/logo.png" />
           </NavLink>
           <div className="dropdown-container">
             <Dropdown>
@@ -39,12 +39,38 @@ const Header = () => {
                 더보기
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/Login">
-                  로그인
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/SignUp">
-                  회원가입
-                </Dropdown.Item>
+                {!isLogin ? (
+                  <>
+                    <Dropdown.Item as={Link} to="/Login">
+                      로그인
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/SignUp">
+                      회원가입
+                    </Dropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    {userInfo.role === "ROLE_ADMIN" ? (
+                      <>
+                        <Dropdown.Item as={Link} to="/admin">
+                          관리자 페이지
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Button} onClick={() => logout()}>
+                          로그아웃
+                        </Dropdown.Item>
+                      </>
+                    ) : (
+                      <>
+                        <Dropdown.Item as={Link} to="/userdata">
+                          내정보
+                        </Dropdown.Item>
+                        <Dropdown.Item as={Button} onClick={() => logout()}>
+                          로그아웃
+                        </Dropdown.Item>
+                      </>
+                    )}
+                  </>
+                )}
 
                 <Dropdown.Item as={NavLink} to="/insert">
                   그룹 개설
@@ -65,11 +91,7 @@ const Header = () => {
       ) : (
         <>
           <Link className="home-link" to="/">
-            <img
-              className="home-link-img"
-              src="/Image/T1.png"
-              alt="Chanel Logo"
-            />
+            <img className="home-link-img" src="/logo2.png" alt="Chanel Logo" />
           </Link>
           <div className="nav-links-container">
             <Link className="nav-link" to="/insert">

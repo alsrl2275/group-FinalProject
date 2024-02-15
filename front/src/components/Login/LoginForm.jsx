@@ -3,35 +3,32 @@ import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { LoginContext } from "../../contexts/LoginContextProvider";
 
+
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { isLogin, setLogin } = useContext(LoginContext);
 
   const loginHandle = async () => {
-    
     try {
       // axios.post의 두 번째 인자로 data 객체 전달
-      const response = await axios.post(`/login`, {username, password});
+      const response = await axios.post(`/login`, { username, password });
       const token = response.headers.authorization.split(" ")[1];
 
-         // 추가적으로 서버로부터의 응답을 처리하거나 상태를 업데이트할 수 있음
-         if (response) {
-          // 토큰을 로컬 스토리지에 저장
-          localStorage.setItem('accessToken', token);          
-          // 토큰으로 username, role 가져오기
-   
-              alert('로그인'); 
-              window.location.href ="/";
-         }
+      // 추가적으로 서버로부터의 응답을 처리하거나 상태를 업데이트할 수 있음
+      if (response) {
+        // 토큰을 로컬 스토리지에 저장
+        localStorage.setItem("accessToken", token);
+        // 토큰으로 username, role 가져오기
 
-      
+        alert("로그인");
+        window.location.href = "/";
+      }
     } catch (error) {
       // 로그인 실패 시 처리
       console.error("Login failed:", error);
-      alert("아이디 비밀번호 확인바랍니다")
+      alert("아이디 비밀번호 확인바랍니다");
     }
-    
   };
 
   return (

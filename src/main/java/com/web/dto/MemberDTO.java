@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "member")
 public class MemberDTO {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long seq;
@@ -48,7 +49,9 @@ public class MemberDTO {
 	private int point;
 	@Column(name = "role")
 	private String role;
-	 @Column(name = "evp", nullable = true)
-	    private Integer evp; // int가 아니라 Integer로 선언하여 null 값을 허용하도록 함
-	
+	@Column(name = "evp", nullable = true)
+	private Integer evp; // int가 아니라 Integer로 선언하여 null 값을 허용하도록 함
+
+
+
 }
