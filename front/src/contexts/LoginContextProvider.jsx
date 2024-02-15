@@ -19,9 +19,11 @@ const LoginContextProvider = ({ children }) => {
     return expirationDate < currentTimestamp;
   };
 
-  // 토큰을 체크하고 만료되었을 경우 로그아웃
 
+
+  // 토큰을 체크하고 만료되었을 경우 로그아웃
   useEffect(() => {
+
     const checkTokenExpiration = async () => {
       const token = localStorage.getItem("accessToken");
       if (isTokenExpired(token)) {
