@@ -16,7 +16,7 @@ import AdminPage from "./pages/admin";
 
 import UserUpdate from "./pages/UserUpdate";
 
-import PaymentComponent from "./components/GroupJoin/PaymentComponent";
+import PortwonPayment from "./components/GroupJoin/PortwonPayment";
 import Review from "./pages/review";
 import Finduser from "./pages/Finduser";
 
@@ -41,7 +41,7 @@ export default function App() {
           <Route path="/insert" element={<InsertForm />} />
           <Route path="/userdata" element={<Userdata />} />
           <Route path="/schedule" element={<Calendar />} />
-          <Route path="/payment" element={<PaymentComponent />} />
+          <Route path="/payment" element={<PortwonPayment />} />
           <Route path="/review" element={<Review />} />
         </>
       )}
@@ -55,7 +55,7 @@ export default function App() {
       <Route path="/GroupJoin/:category" element={<GroupJoin />} />
       <Route path="/GroupJoin//:hselected" element={<GroupJoin />} />
       <Route path="/GroupJoin/:hsearch/:hselected" element={<GroupJoin />} />
-
+       {/* <Route path="/payment:selectedData"  element={<PortwonPayment />}/> */}
       {!userInfo || (userInfo && userInfo.role !== "ROLE_ADMIN") ? (
         <Route path="/admin" element={<Navigate to="/" replace />} />
       ) : (

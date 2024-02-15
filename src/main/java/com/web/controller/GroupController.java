@@ -76,11 +76,15 @@ public class GroupController {
 	}
 	
 	@DeleteMapping("/outGroup/{seq}")
-	public ResponseEntity<String> deleteCalnedar(@PathVariable Long seq, @RequestParam String meetingTitle) {
+	public ResponseEntity<String> deleteCalnedar(@PathVariable Long seq, @RequestParam String meetingTitle,
+																		 @RequestParam String userId,
+																		 @RequestParam String membersId) {
 		System.out.println(seq);
 		System.out.println(meetingTitle);
+		System.out.println(userId);
+		System.out.println(membersId);
 		try {
-			groupService.outGroup(seq, meetingTitle);
+			groupService.outGroup(seq, meetingTitle, userId, membersId);
 			return new ResponseEntity<>("OK", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
