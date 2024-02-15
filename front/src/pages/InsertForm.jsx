@@ -148,7 +148,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
 
     const updatedFormData = {
       ...formData,
-      meetingLocation: `${formData.meetingLocation} ${formData.meetingLocation2}`,
+      meetingLocation: `${formData.meetingLocation}/${formData.meetingLocation2}`,
       program: formData.program === 'other' ? formData.customProgram : formData.program, // 추가된 부분
       meetingType: formData.meetingType,
     };
@@ -210,7 +210,11 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       handleDaumPostClick();
     } else {
       try {
-        const response = await axios.post('/groupInsert',updatedFormData);
+        const response = await axios.post('/groupInsert',updatedFormData, {
+          params: {
+            searchLocation: formData.meetingLocation,
+          }
+        });
         console.log(response.data);
         // setFormData(response.data)
         console.log('Updated meetingLocation:', updatedFormData.meetingLocation);

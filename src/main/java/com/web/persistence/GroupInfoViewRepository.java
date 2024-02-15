@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.web.dto.GroupInfo;
 import com.web.dto.GroupInfoView;
 
 public interface GroupInfoViewRepository extends JpaRepository<GroupInfoView, Long> {
@@ -16,5 +17,10 @@ public interface GroupInfoViewRepository extends JpaRepository<GroupInfoView, Lo
 	List<GroupInfoView> findByMembersIdAndRecruitmentdGreaterThanEqual(String id, String currentDate);
 	
 	List<GroupInfoView> findByMembersIdAndRecruitmentdLessThan(String id, String currentDate);
+
+	GroupInfoView findByMeetingTitle(String meetingTitle);
+	
+
+	void deleteAllByMeetingTitle(String meetingTitle);
 
 }
