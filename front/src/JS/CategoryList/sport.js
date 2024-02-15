@@ -6,6 +6,7 @@ import Site from "../../components/GroupJoin/Site";
 import { LoginContext } from "../../contexts/LoginContextProvider";
 import { useNavigate } from "react-router-dom";
 
+
 const SportGroup = ({ print, searchValue }) => {
   const { userInfo } = useContext(LoginContext);
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const SportGroup = ({ print, searchValue }) => {
           alert("모집인원이 다 찼습니다");
         } else if (response.data === "신청") {
           alert("신청완료");
+          navigate("/schedule")
         }
       } catch (error) {}
       setSelectedData(null);
@@ -52,6 +54,7 @@ const SportGroup = ({ print, searchValue }) => {
        window.location.reload();
     } else if (data.meetingType === "유료") {
       console.log("여기도 들어왔지?");
+      console.log(selectedData)
       try {
         const response = await axios.post("/api/content", selectedData, {
           params: {
@@ -67,7 +70,7 @@ const SportGroup = ({ print, searchValue }) => {
         } else if (response.data === "인원") {
           alert("모집인원이 다 찼습니다");
         } else if (response.data === "신청") {
-          window.location.assign("/payment");
+          navigate("/payment", { state: { selectedData: selectedData } });
         }
       } catch (error) {}
     }

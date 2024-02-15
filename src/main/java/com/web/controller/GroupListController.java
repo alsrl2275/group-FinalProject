@@ -89,8 +89,16 @@ public class GroupListController {
 		if (dao.getJoinPeople() == dao.getPeopleNum()) {
 			return "인원";
 		}
-		InfoService.updateGroup(dao, id);
+//		InfoService.updateGroup(dao, id);
 		return "신청";
+	}
+	
+	@PostMapping("/api/contentpay")
+	public void testpay(@RequestBody GroupInfo dao, @RequestParam(name="seq") Long seq) {
+		String id = InfoService.findUserById(seq);
+		System.out.println(id);
+
+		InfoService.updateGroup(dao, id);
 	}
 	
 	@PostMapping("/groupjoin/siteCSearch")
