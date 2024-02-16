@@ -66,3 +66,33 @@
   margin-right: 10px;
 }
 
+/* 버튼 스타일링 */
+.payment-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-direction: column; /* 수직으로 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+}
+
+.payment-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+}
+
+.payment-button:hover {
+  background-color: #0056b3;
+}
+
+/* 로고 이미지 스타일링 */
+.logo-image {
+  width: 20px; /* 로고 이미지 너비 조절 */
+  height: 20px; /* 로고 이미지 높이 조절 */
+  margin-right: 5px; /* 로고 이미지와 텍스트 간격 조절 */
+}

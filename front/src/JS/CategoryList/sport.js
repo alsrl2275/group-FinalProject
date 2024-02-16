@@ -73,6 +73,7 @@ const SportGroup = ({ print, searchValue }) => {
           navigate("/payment", { state: { selectedData: selectedData } });
         }
       } catch (error) {}
+      window.location.reload();
     }
   };
   const getImageByCategory = (category) => {
