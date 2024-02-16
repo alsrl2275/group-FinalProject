@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "../../contexts/LoginContextProvider";
+import '../../css/Calendar.css';
 
 
 const Payment = () => {
@@ -26,15 +27,15 @@ const Payment = () => {
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
     const iamport = document.createElement("script");
     iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
-    const tossScript = document.createElement("script");
-    tossScript.src = "https://cdn.iamport.kr/v1/iamport.js";
+    // const tossScript = document.createElement("script");
+    // tossScript.src = "https://cdn.iamport.kr/v1/iamport.js";
     document.head.appendChild(jquery);
     document.head.appendChild(iamport);
-    document.head.appendChild(tossScript);
+    // document.head.appendChild(tossScript);
     return () => {
       document.head.removeChild(jquery);
       document.head.removeChild(iamport);
-      document.head.removeChild(tossScript);
+      // document.head.removeChild(tossScript);
     };
   }, []);
 
@@ -79,7 +80,6 @@ if(props==="카드"){
 } else if(props==="카카오") {
   data = {
     pg: "kakaopay.TC0ONETIME",
-    pay_method: "card", // 생략가
     merchant_uid: `mid_${getRandomString()}_${new Date().getTime()}`, // 상점에서 생성한 고유 주문번호
     name: "주문명:결제테스트",
     amount: 5000,
@@ -92,21 +92,20 @@ if(props==="카드"){
   }
 } else if(props==="토스") {
   data = {
-    pg: "tosspay_v2.tosstest",
-    pay_method: "tosspay", // 'tosspay_card', 'tosspay_money' 도 지원됩니다.
-    merchant_uid: `mid_${getRandomString()}_${new Date().getTime()}`, // 상점에서 관리하는 주문 번호
-    name: "최초인증결제",
-    buyer_email: "test@portone.io",
-    buyer_name: "포트원",
-    buyer_tel: "02-1234-1234",
-    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
+    pg: "uplus.tlgdacomxpay",
+    pay_method: "trans",
+    merchant_uid: `mid_${getRandomString()}_${new Date().getTime()}`, //상점에서 생성한 고유 주문번호
+    name: "주문명:결제테스트",
     amount: 5000,
-    card: {
-      useInstallment: false,
-    }
-
+    buyer_email: "test@portone.io",
+    buyer_name: "구매자이름",
+    buyer_tel: "010-2471-6134",
+    buyer_addr: "서울특별시 강남구 삼성동",
+    buyer_postcode: "123-456",
+    m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
+    appCard: true, // 설정시 신용카드 결제모듈에서 앱카드 결제만 활성화됩니다.
   }
-}
+} 
 
     IMP.request_pay(data, callback);
 
@@ -122,9 +121,9 @@ if(props==="카드"){
       pay_method,
       paid_amount,
       status,
+      resultCode,
     } = response;
-
-    if (success) {
+    if (success || status === 'paid' || resultCode === 'SUCCESS') {
       try {
         const response = await axios.post("/api/contentpay", selectedData, {
           params: {
@@ -135,19 +134,35 @@ if(props==="카드"){
         navigate("/schedule")
       } catch (error) {}
     } else {
-      console.log("결제 실패:" , error_msg)
+      console.log("결제 실패 : ", imp_uid, merchant_uid, status)
       alert(`결제 실패: ${error_msg}`);
-      // navigate("/GroupJoin")
+      navigate("/GroupJoin")
     }
   };
 
   return (
     <>
-      <button onClick={()=>onClickPayment("카드")}>카드</button>
-      <button onClick={()=>onClickPayment("휴대폰")}>휴대폰</button>
-      <button onClick={()=>onClickPayment("카카오")}>카카오</button>
-      <button onClick={()=>onClickPayment("토스")}>토스</button>
-      
+<div className="payment-container">
+  <button className="payment-button" onClick={() => onClickPayment("카드")}>
+    <img className="logo-image" src="kg_inicis.jpg" alt="Card Logo" />
+    카드
+  </button>
+
+  <button className="payment-button" onClick={() => onClickPayment("휴대폰")}>
+    <img className="logo-image" src="kg_inicis.jpg" alt="Phone Logo" />
+    휴대폰
+  </button>
+
+  <button className="payment-button" onClick={() => onClickPayment("카카오")}>
+    <img className="logo-image" src="kakaopay.jpg" alt="Kakao Logo" />
+    카카오
+  </button>
+
+  <button className="payment-button" onClick={() => onClickPayment("토스")}>
+    <img className="logo-image" src="toss.jpg" alt="Toss Logo" />
+    토스
+  </button>
+</div>
 
     </>
   );
