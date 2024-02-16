@@ -55,7 +55,7 @@ const footer = () => {
               </p>
               <p id="ft_info-p">
               <span id="ft_info-p-span">대표 : </span>
-                이지우
+                코리아IT
               </p>
               <p id="ft_info-p">
               <span id="ft_info-p-span">번호 : </span>
