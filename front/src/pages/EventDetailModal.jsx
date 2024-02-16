@@ -18,9 +18,22 @@ const EventDetailModal = ({ details, onClose }) => {
   };
 
   const handleCancel = async () => {
+    let confirmText;
+    let successText;
+  
+    if (details.userId === details.membersId) {
+      // 모임장인 경우
+      confirmText = "모임을 취소하시겠습니까?";
+      successText = "모임이 취소되었습니다.";
+    } else {
+      // 모임원인 경우
+      confirmText = "신청을 취소하시겠습니까?";
+      successText = "신청이 취소되었습니다.";
+    }
+
     const isConfirmed = await Swal.fire({
       icon: "question",
-      title: "신청을 취소 하시겠습니까?",
+      title: confirmText,
       showCancelButton: true,
       confirmButtonText: "확인",
       cancelButtonText: "취소",
@@ -39,7 +52,7 @@ const EventDetailModal = ({ details, onClose }) => {
 
         Swal.fire({
           icon: "success",
-          title: "취소가 완료되었습니다.",
+          title: successText,
           confirmButtonText: "확인",
         });
         onClose();
@@ -136,7 +149,7 @@ const EventDetailModal = ({ details, onClose }) => {
           <button type="button" className="btn btn-primary" onClick={onClose}>
             닫기
           </button>
-          {details.recruitmentd && details.recruitmentd >= today && (
+          {details.recruitmentd && details.recruitmentd >= today && details.userId !== details.membersId && (
             <button
               type="button"
               className="btn btn-primary"
