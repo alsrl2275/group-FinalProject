@@ -153,17 +153,19 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       meetingType: formData.meetingType,
     };
     const currentDate = new Date();
+    const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
     
     if(formData.meetingType.trim() === '') {
       alert("모임타입을 설정해주세요."); // 알림 창 표시
       document.getElementById("free").focus();
-    // } else if(formData.recruitmentd.trim() === '' || new Date(formData.recruitmentd) <= currentDate) {
-    //   alert("올바른 모집 기간 날짜를 입력해주세요.")
-    //   const recruitmentd = document.getElementById("recruitmentd")
-    //   recruitmentd.scrollIntoView({ behavior: 'auto', block: 'center' });
-    //   setTimeout(() => {
-    //     recruitmentd.focus();
-    //   }, 100); 
+    } else if(formData.recruitmentd.trim() === '' || new Date(formData.recruitmentd) < currentDateWithoutTime) {
+      alert("올바른 모집 기간 날짜를 입력해주세요.")
+      const recruitmentd = document.getElementById("recruitmentd")
+      recruitmentd.scrollIntoView({ behavior: 'auto', block: 'center' });
+      setTimeout(() => {
+        recruitmentd.focus();
+      }, 100); 
     } else if (formData.userId.trim() === '') {
       alert("아이디를 입력하세요."); // 알림 창 표시
       const userId = document.getElementById("userId")
@@ -195,13 +197,13 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
       setTimeout(() => {
         peopleNum.focus();
       }, 100); 
-    } else if (formData.meetingDateStart.trim() === '' || new Date(formData.meetingDateStart) <= currentDate) {
+    } else if (formData.meetingDateStart.trim() === '' || new Date(formData.meetingDateStart) <= new Date(formData.recruitmentd)) {
       alert("올바른 모임 시작 날짜를 입력하세요."); // 알림 창 표시
       document.getElementById("meetingDateStart").focus();
     } else if (formData.meetingDateEnd.trim() === '' || new Date(formData.meetingDateEnd) <= currentDate ) {
       alert("올바른 모임 종료 날짜를 입력하세요."); // 알림 창 표시
       document.getElementById("meetingDateEnd").focus();
-    } else if (new Date(formData.meetingDateEnd) <= new Date(formData.meetingDateStart)) {
+    } else if (new Date(formData.meetingDateEnd) < new Date(formData.meetingDateStart)) {
       alert("올바른 모임 종료 날짜를 입력하세요."); // 알림 창 표시
       document.getElementById("meetingDateEnd").focus();
     } else if (formData.meetingLocation.trim() === '') {
@@ -299,6 +301,7 @@ function InsertForm() { // 현재 날짜 추출('YYYY-MM-DD')
             id="recruitments"
             value={formData.recruitments}
             onChange={handleChange}
+            disabled
           
           /> &nbsp;-&nbsp;&nbsp;
             <input className='inputDate'
