@@ -84,7 +84,6 @@
 			<version>2.7.17</version> <!-- 프로젝트에 맞는 버전으로 변경 -->
 			<optional>true</optional>
 		</dependency>
-
 		<!--websock-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
