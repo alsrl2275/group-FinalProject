@@ -49,6 +49,7 @@ export default function App() {
 
       <Route path="/Login" element={<Login />} />
       <Route path="/Chat" element={<Chat />} />
+      <Route path="/Chat/:details.seq/:details.meetingTitle" element={<Chat />} />
       <Route path="/KakaoMap" element={<KakaoMap />} />
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/findUser" element={<Finduser/>}/>

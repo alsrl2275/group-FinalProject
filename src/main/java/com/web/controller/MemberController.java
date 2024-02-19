@@ -83,12 +83,9 @@ public class MemberController {
     // 회원정보
     @PostMapping("/userdata")
     public MemberDTO getEvents(@RequestBody MemberDTO member) {
-    	
-		System.out.println(member.getSeq());
-		System.out.println(member.getSeq().getClass().getTypeName());
-		System.out.println("안녕");
+
 		MemberDTO member2 = msv.getUserDataById(member.getSeq());
-		System.out.println(member2.getId());
+
 //		String id = groupService.findUserById(member.getSeq());
 		return member2;
 		
