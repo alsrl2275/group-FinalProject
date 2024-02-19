@@ -176,12 +176,6 @@ input[type='number']::-webkit-outer-spin-button {
   text-overflow: ellipsis; /* 넘친 내용에 대해 생략 부호 (...) 표시 */
 }
 
-.send-button {
-  /* 여기에 스타일 추가 */
-  border: 2px solid black;
-  border-radius: 20, 20, 0, 0;
-}
-
 .tx-small {
   white-space: nowrap;
 }

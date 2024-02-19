@@ -91,6 +91,8 @@ public class WebSecurityConfig {
 						.antMatchers("/userUpdate/**").permitAll()
                         .antMatchers("/admin/**").permitAll()
                         .antMatchers("/chatt/**").permitAll()
+                        .antMatchers("/chatMessages/**").permitAll()
+                        .antMatchers("/sendChatMessage/**").permitAll()
                         .antMatchers("/groupjoin/**").permitAll()
                         .anyRequest().authenticated());
 
