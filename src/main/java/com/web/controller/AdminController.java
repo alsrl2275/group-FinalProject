@@ -101,13 +101,10 @@ public class AdminController {
 		if (!file.isEmpty()) {
 			try {
 				// 파일 저장 경로 설정 (원하는 경로로 수정 필요)
-				String uploadPath = "E:/upload/";
-
-				// 파일 이름을 유니크하게 만들어줌
-				String fileName = file.getOriginalFilename();
+				String uploadPath = "C:\\project\\WORK\\group-FinalProject\\front\\public\\Image\\site\\"+ file.getOriginalFilename();
 
 				// 파일을 저장할 경로 설정
-				String filePath = uploadPath + fileName;
+				String filePath = uploadPath;
 
 				as.siteinsert(site);
 				// 파일 저장
