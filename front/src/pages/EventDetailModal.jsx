@@ -4,11 +4,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import LocationMap from "./locationMap";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const EventDetailModal = ({ details, onClose }) => {
   const today = new Date().toISOString().split("T")[0];
   const [isMapVisible, setIsMapVisible] = useState(false);
-
+  const navigate = useNavigate();
   const openMap = () => {
     setIsMapVisible(true);
   };
@@ -61,6 +62,12 @@ const EventDetailModal = ({ details, onClose }) => {
       }
     }
   };
+
+  const handleChatButtonClick = () => {
+    // 채팅방 버튼 클릭 시 Chat 페이지로 이동
+    navigate(`/Chat?groupnum=${details.seq}&title=${details.meetingTitle}`);
+  };
+  
   return (
     <div className="detailcustom-modal">
       <div className="detailmodal-content">
@@ -146,6 +153,9 @@ const EventDetailModal = ({ details, onClose }) => {
           )}
         </div>
         <div className="detailmodal-footer">
+          <button type="button" className="chatopen" onClick={handleChatButtonClick}>
+              채팅방
+          </button>
           <button type="button" className="btn btn-primary" onClick={onClose}>
             닫기
           </button>

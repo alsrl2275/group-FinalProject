@@ -182,45 +182,45 @@ public class GroupInfoService {
 		return list;
 	}
 
-    @Scheduled(cron = "0 0 0 * * *") // 매일 자정마다 실행되도록 설정
-	public void cleanGroup() {
-		List<GroupInfo> list = groupRepo.findAll();
-		List<GroupInfoView> list2 = groupViewRepo.findAll();
-
-		Date currentDate = new Date(); // 현재 날짜를 가져옵니다.
-		Calendar calendar = Calendar.getInstance(); // 캘린더 객체를 생성합니다.
-		calendar.setTime(currentDate); // 현재 날짜를 캘린더 객체에 설정합니다.
-	    calendar.add(Calendar.DATE, -30); // 오늘 날짜로부터 30일 이전의 날짜를 계산합니다.
-	    Date thirtyDaysAgoDate = calendar.getTime(); // 30일 이전의 날짜를 구합니다.
-
-	    // 그룹 정보를 순회하면서 30일 이전의 모임 종료 날짜를 가진 그룹을 삭제합니다.
-	    for (GroupInfo groupInfo : list) { // 그룹 정보를 순회합니다.
-	        try {
-	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 형식을 지정합니다.
-	            Date meetingDateEnd = dateFormat.parse(groupInfo.getMeetingDateEnd()); // 모임 종료 날짜를 Date 객체로 변환합니다.
-
-	            if (meetingDateEnd.before(thirtyDaysAgoDate)) { // 모임 종료 날짜가 30일 이전인지 확인합니다.
-	                groupRepo.delete(groupInfo); // 그룹을 삭제합니다.
-	            }
-	        } catch (ParseException e) { // 날짜 형식이 잘못된 경우에 대한 예외 처리
-	            System.err.println("날짜 형식이 잘못되었습니다: " + e.getMessage());
-	        }
-	    }
-        for (GroupInfoView groupInfoview : list2) {
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date meetingDateEnd = dateFormat.parse(groupInfoview.getMeetingDateEnd());
-
-                if (meetingDateEnd.before(thirtyDaysAgoDate)) {
-                    groupViewRepo.delete(groupInfoview);
-                }
-            } catch (ParseException e) {
-                System.err.println("날짜 형식이 잘못되었습니다: " + e.getMessage());
-            }
-        }
-
-
-	}
+//    @Scheduled(cron = "0 0 0 * * *") // 매일 자정마다 실행되도록 설정
+//	public void cleanGroup() {
+//		List<GroupInfo> list = groupRepo.findAll();
+//		List<GroupInfoView> list2 = groupViewRepo.findAll();
+//
+//		Date currentDate = new Date(); // 현재 날짜를 가져옵니다.
+//		Calendar calendar = Calendar.getInstance(); // 캘린더 객체를 생성합니다.
+//		calendar.setTime(currentDate); // 현재 날짜를 캘린더 객체에 설정합니다.
+//	    calendar.add(Calendar.DATE, -30); // 오늘 날짜로부터 30일 이전의 날짜를 계산합니다.
+//	    Date thirtyDaysAgoDate = calendar.getTime(); // 30일 이전의 날짜를 구합니다.
+//
+//	    // 그룹 정보를 순회하면서 30일 이전의 모임 종료 날짜를 가진 그룹을 삭제합니다.
+//	    for (GroupInfo groupInfo : list) { // 그룹 정보를 순회합니다.
+//	        try {
+//	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 형식을 지정합니다.
+//	            Date meetingDateEnd = dateFormat.parse(groupInfo.getMeetingDateEnd()); // 모임 종료 날짜를 Date 객체로 변환합니다.
+//
+//	            if (meetingDateEnd.before(thirtyDaysAgoDate)) { // 모임 종료 날짜가 30일 이전인지 확인합니다.
+//	                groupRepo.delete(groupInfo); // 그룹을 삭제합니다.
+//	            }
+//	        } catch (ParseException e) { // 날짜 형식이 잘못된 경우에 대한 예외 처리
+//	            System.err.println("날짜 형식이 잘못되었습니다: " + e.getMessage());
+//	        }
+//	    }
+//        for (GroupInfoView groupInfoview : list2) {
+//            try {
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                Date meetingDateEnd = dateFormat.parse(groupInfoview.getMeetingDateEnd());
+//
+//                if (meetingDateEnd.before(thirtyDaysAgoDate)) {
+//                    groupViewRepo.delete(groupInfoview);
+//                }
+//            } catch (ParseException e) {
+//                System.err.println("날짜 형식이 잘못되었습니다: " + e.getMessage());
+//            }
+//        }
+//
+//
+//	}
 
 }
 
