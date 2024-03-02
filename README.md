@@ -1,17 +1,16 @@
-# 📜 SemiProject_21vipCRM
-> CRM 백화점 사내 프로그램을 바탕으로 한 고객 관리 및 바우처 생성 프로그램<br>개발 기간 : 2023.11.27 ~ 12.21
-> <br>개발 인원 : 4명
+# 📜 3Rill_group-FinalProject
+> 사용자들이 사이트에서 쉽게 모임을 생성하고 다양한 사람들과 소통과 교류를 촉진하여 새로운 친구나 활동 파트너를 제공하는 사이트<br>개발 기간 : 2024.01.22 ~ 02.20
+> <br>개발 인원 : 3명
 <br>
 
 ## :books: 기술 스택
 ### 프론트엔드
- <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">  <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white">
-    <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
-      <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+
 ### 백엔드  
-- Java 11
-- SpringBoot
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white"> 
+
 - Spring Data JPA
 - Querydsl
 - Spring Security
